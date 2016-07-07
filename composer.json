@@ -1,0 +1,20 @@
+{
+    "name": "54cbw/blog",
+    "description": "Personal blog system",
+    "type": "project",
+    "keywords": [
+        "blog",
+        "thinkphp"
+    ],
+    "homepage": "http://54cbw.com/",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "cbwfree",
+            "email": "cbwfree@54cbw.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0"
+    }
+}
