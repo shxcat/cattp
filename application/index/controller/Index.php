@@ -1,21 +1,27 @@
 <?php
 /**
- * 文件描述
+ * 首页
  * Created by PhpStorm.
- * @package app\home\controller
- * @version 16/7/7 下午2:54
+ * @package app\index\controller
+ * @version 16/7/21 下午5:12
  * @author  cbwfree
  */
-namespace app\home\controller;
-
-use think\Controller;
+namespace app\index\controller;
 
 /**
- * 文件描述
+ * 首页
  * Class Index
- * @package app\home\controller
+ * @package app\index\controller
  */
-class Index extends Controller
+class Index extends Base
 {
 
+    /**
+     * 首页
+     * @return string
+     */
+    public function index()
+    {
+        return '系统建设中 ...';
+    }
 }

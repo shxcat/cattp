@@ -7,9 +7,16 @@
  * @version 16/3/16 下午5:13
  * @author cbwfree
  */
+// 定义环境版本
+define("PHP_ENV_VER", "7.0.0");
 
-// 定义项目路径
-define('APP_PATH', __DIR__ . '/application/');
+// 检测PHP环境
+if (version_compare(PHP_VERSION, PHP_ENV_VER, '<')) {
+    die('require PHP > '.PHP_ENV_VER.' !');
+}
+
+define('APP_PATH',          __DIR__ . '/../command/');                  // 定义应用目录
+define('RUNTIME_PATH',      __DIR__ . '/../command/runtime/');          // 定义运行时目录
 
 // 加载框架引导文件
 require __DIR__ . '/framework/console.php';
