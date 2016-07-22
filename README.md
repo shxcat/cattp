@@ -1,8 +1,9 @@
 # 通用管理系统框架
 
 > 本系统基于 ThinkPHP 5.0 RC4 进行开发
-> 本系统由于使用了PHP新特性, 因此仅支持 PHP 7.0 以上版本
-> 系统必须安装 `composer`
+> 由于使用了PHP新特性, 因此仅支持 PHP 7.0 以上版本
+> 前端框架使用淘宝的`SUI`, 参考: [http://sui.taobao.org/sui/docs/gallery.html](http://sui.taobao.org/sui/docs/gallery.html)
+> 请使用 `composer install` 初始化项目
 
 ## 目录结构
 
@@ -29,18 +30,12 @@ www  WEB部署目录（或者子目录）
 │  ├─command.php        CLI命令配置文件
 │  └─config.php         CLI配置文件
 │
-├─common                公共文件目录
-│  ├─common.php         全局公共文件
-│  └─...                其他公共文件
-│
 ├─config                配置文件目录
 │  ├─admin              Admin 模块配置
 │  │  ├─config.php      Admin 模块配置文件
-│  │  ├─route.php       Admin 模块路由配置文件
 │  │  └─tags.php        Admin 模块行为配置文件
 │  ├─index              Index 模块配置
 │  │  ├─config.php      Index 模块配置文件
-│  │  ├─route.php       Admin 模块路由配置文件
 │  │  └─tags.php        Index 模块行为配置文件
 │  ├─config.php         全局配置文件
 │  ├─database.php       全局数据库配置文件
@@ -60,11 +55,3 @@ www  WEB部署目录（或者子目录）
 ├─README.md             README 文件
 ├─think                 命令行入口文件
 ~~~
-
-## 系统安装
-
-执行如下命令, 安装第三方类库:
-
-```
-composer install
-```
