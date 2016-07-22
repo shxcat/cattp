@@ -1,6 +1,6 @@
 <?php
 /**
- * Index 模块行为配置
+ * Index 模块 行为配置
  * Created by PhpStorm.
  * @author  cbwfree
  */

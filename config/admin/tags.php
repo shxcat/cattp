@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin 模块行为配置
+ * Admin 模块 行为配置
  * Created by PhpStorm.
  * @author  cbwfree
  */
