@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+body { font-size: 12px; overflow: hidden; min-width: 1000px; }
+input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfield-cancel-button !important; cursor: pointer; }
+
+/* 后台主页布局 */
+#layout-north { position: relative; z-index: 2; top: 0; left: 0; width: 100%; height: 46px; }
+#layout-west { position: fixed; z-index: 1; top: 0; left: 0; width: 200px; height: 100%; padding: 46px 0 0; }
+#layout-center { position: fixed; z-index: 0; top: 0; left: 0; width: 100%; height: 100%; padding: 46px 0 0 200px; }
+#layout-menus { width: 100%; height: 100%; overflow-y: auto; }
+#layout-main { position: relative; width: 100%; height: 100%; min-width: 800px; overflow-y: auto; }
+/* 布局颜色 */
+#layout-north { border-bottom: 1px solid #cccccc; background: #363636; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 1px 5px rgba(0, 0, 0, .2); }
+#layout-west { border-right: 1px solid #cecece; box-shadow: inset 1px 0 0 rgba(255, 255, 255, .3), 0 1px 5px rgba(0, 0, 0, .2); }
+#layout-menus { background: #f3f3f3; }
+
+#layout-logo { float: left; height: 40px; padding: 3px 20px; min-width: 200px; text-align: center; }
+#layout-logo a { display: block; height: 40px; line-height: 40px; font-size: 1.5em; color: #FFF; }
+#layout-tools { float: right; height: 40px; }
+#layout-nav { float: left; height: 40px; }
+#layout-north .nav-tools { height: 43px; margin: 1px 5px; }
+#layout-north .nav-tools > li > a { font-size: 14px; line-height: 43px; padding: 0 10px; color: #FFF; }
+#layout-north .nav-tools > li > a:hover,
+#layout-north .nav-tools > li > a:active,
+#layout-north .nav-tools > li > a:focus,
+#layout-north .nav-tools > li.am-active > a { background-color:rgba(0, 0, 0, 0.3); }
+#layout-north .nav-tools > li > a.safe-exit { color: #F37B1D; }
+
+#layout-menus ul { margin: 0; }
+#layout-menus li > a { padding: 8px 10px; }
+#layout-menus .sub-menus { box-shadow: 0 16px 8px -15px #e2e2e2 inset; background: #ececec; padding-left: 12px; }

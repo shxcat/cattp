@@ -22,6 +22,6 @@ class Index extends Base
      */
     public function index()
     {
-        return '系统建设中 ...';
+        return '系统建设中 ... <a href="'.url('admin/index/index').'">进入后台</a>';
     }
 }

@@ -22,7 +22,6 @@ class Index extends Auth
      */
     public function index()
     {
-
-        return 'hello';
+        return $this->fetch();
     }
 }

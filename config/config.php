@@ -24,7 +24,6 @@ return [
     // 扩展函数文件
     'extra_file_list'        => [
         THINK_PATH . 'helper' . EXT,                // TP帮助函数
-        ROOT_PATH . 'common/common' . EXT,          // 全局公共文件
     ],
 
     // +----------------------------------------------------------------------
@@ -50,7 +49,11 @@ return [
 
     // 视图输出字符串内容替换
     'view_replace_str'       => [
-
+        '__assets__'        => '/assets',
+        '__uploads__'       => '/uploads',
+        '__style__'         => '/assets/css',
+        '__script__'        => '/assets/js',
+        '__libs__'          => '/assets/libs'
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',

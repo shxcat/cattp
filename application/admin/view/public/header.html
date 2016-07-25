@@ -1,0 +1,94 @@
+{if (! $Request.isPjax)}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title> - 管理后台</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <!--<link rel="shortcut icon" href="/favicon.ico">-->
+{/* 载入框架&插件CSS */}
+    {load href="__libs__/amaze/css/amazeui.min.css"/}
+    {load href="__libs__/tree/amazeui.tree.min.css"/}
+    {load href="__libs__/datetimepicker/amazeui.datetimepicker-se.min.css"/}
+{/* 载入框架&插件JS */}
+    {load href="__libs__/notify.js"/}
+    {load href="__libs__/jquery/jquery.min.js"/}
+    {load href="__libs__/jquery/jquery.pjax.js"/}
+    {load href="__libs__/amaze/js/amazeui.min.js"/}
+    {load href="__libs__/amaze/plugin/amazeui.dialog.min.js"/}
+    {load href="__libs__/tree/amazeui.tree.min.js"/}
+    {load href="__libs__/moment/moment.min.js"/}
+    {load href="__libs__/moment/moment-locale-cn.js"/}
+    {load href="__libs__/datetimepicker/amazeui.datetimepicker-se.min.js"/}
+{/* 载入项目 CSS & JS */}
+    {load href="__style__/admin/common.css"/}
+    {load href="__script__/admin/common.js"/}
+</head>
+<body>
+{assign name="menus_cfg" value=":build_menus()"/}
+<div id="layout-north">
+    <div id="layout-logo">
+        <a href="{:url('admin/index/index')}" data-pjax> - 后台管理系统</a>
+    </div>
+    <div id="layout-nav">
+        <ul class="nav-tools am-nav am-nav-pills" data-am-tabs>
+            <li><a href="{:url('admin/index/index')}" data-pjax><i class="am-icon-home"></i> 首页</a></li>
+            {foreach name="menus_cfg['group']" item="group" key="key"}
+            <li class="admin-menus-group {if $group['active']}am-active{/if}">
+                <a href="javascript:;" data-toggle-menu="menu-group-{$key}"><i class="{$group.icon}"></i> {$group.label}</a>
+            </li>
+            {/foreach}
+        </ul>
+    </div>
+    <div id="layout-tools">
+        <ul class="nav-tools am-nav am-nav-pills">
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle="" href="javascript:;">
+                    <i class="am-icon-users"></i> 管理员 <i class="am-icon-caret-down"></i>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="{:url('admin/profile/info')}" data-pjax><i class="am-icon-user"></i> 个人资料</a></li>
+                    <li><a href="{:url('admin/profile/login')}" data-pjax><i class="am-icon-tasks"></i> 登录日志</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="{:url('admin/login/logout')}" class="safe-exit" data-confirm="您确认要退出吗?">
+                    <i class="am-icon-power-off"></i> 安全退出
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="layout-west">
+    <div id="layout-menus">
+        {foreach name="menus_cfg['group']" item="group" key="g"}
+        <ul id="menu-group-{$g}" class="admin-menus-lists am-list {if (! $group['active'])}am-hide{/if}">
+            {if isset($menus_cfg['menus-'.$g])}
+            {foreach name="menus_cfg['menus-'.$g]" item="menus" key="m"}
+            {if isset($menus['items'])}
+            <li>
+                <a href="javascript:;" class="am-cf" data-am-collapse="{target: '#menus-sub-{$g}-{$m}'}">
+                    <i class="{$menus.icon}"></i> {$menus.label}<i class="am-icon-angle-right am-fr am-margin-right"></i>
+                </a>
+                <ul class="sub-menus am-list am-collapse" id="menus-sub-{$g}-{$m}">
+                    {foreach name="menus['items']" item="item" key="k"}
+                    <li><a href="{$item.link|url=###}" data-pjax><i class="am-icon-chevron-right"></i> {$item.label}</a></li>
+                    {/foreach}
+                </ul>
+            </li>
+            {else/}
+            <li><a href="{$menus.link|url=###}" data-pjax><i class="{$menus.icon}"></i> {$menus.label}</a></li>
+            {/if}
+            {/foreach}
+            {else/}
+            <li><a href="javascript:;" class="am-disabled">无相关菜单项</a></li>
+            {/if}
+        </ul>
+        {/foreach}
+    </div>
+</div>
+<div id="layout-center">
+    <div id="layout-main">
+{/if}

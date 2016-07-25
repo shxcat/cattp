@@ -2,7 +2,7 @@
 
 > 本系统基于 ThinkPHP 5.0 RC4 进行开发
 > 由于使用了PHP新特性, 因此仅支持 PHP 7.0 以上版本
-> 前端框架使用淘宝的`SUI`, 参考: [http://sui.taobao.org/sui/docs/gallery.html](http://sui.taobao.org/sui/docs/gallery.html)
+> 前端框架使用 `AmazeUI 2.7.1`, 参考: [http://amazeui.org/](http://amazeui.org/)
 > 请使用 `composer install` 初始化项目
 
 ## 目录结构

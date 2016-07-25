@@ -23,7 +23,7 @@ class Base extends Controller
     /**
      * TP控制器初始化
      */
-    public function _initialize()
+    protected function _initialize()
     {
         // 二级控制器初始化
         if (method_exists($this, '_init')) {
@@ -35,7 +35,25 @@ class Base extends Controller
             $this->_exec();
         }
 
+    }
 
+    /**
+     * 404 错误页面
+     * @return string
+     */
+    public function _empty()
+    {
+        return '4040 Not Found!!!';
+    }
+
+    /**
+     * 检查是否登录
+     * @return bool
+     */
+    protected function _isLogin()
+    {
+
+        return true;
     }
 
 }

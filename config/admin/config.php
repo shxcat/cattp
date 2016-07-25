@@ -5,6 +5,11 @@
  * @author  cbwfree
  */
 
-return [
+$config = [
 
 ];
+
+// 后台菜单配置
+$config['admin_menus'] = include __DIR__ . '/menus.php';
+
+return $config;
