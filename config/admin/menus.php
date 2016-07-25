@@ -30,7 +30,7 @@ return [
         'dashboard'     => [
             'label' => '仪表盘',
             'icon'  => 'am-icon-dashboard',
-            'link'  => 'index/dashboard'
+            'link'  => 'admin/index/dashboard'
         ]
     ],
 
@@ -40,24 +40,24 @@ return [
             'label'     => '管理员管理',
             'icon'      => 'am-icon-user',
             'items'     => [
-                ['label' => '管理员列表', 'link' => 'users/lists'],
-                ['label' => '新增管理员', 'link' => 'users/add'],
+                ['label' => '管理员列表', 'link' => 'admin/users/lists'],
+                ['label' => '新增管理员', 'link' => 'admin/users/add'],
             ]
         ],
         'access'     => [
             'label'     => '权限管理',
             'icon'      => 'am-icon-key',
             'items'     => [
-                ['label' => '授权列表', 'link' => 'access/lists'],
-                ['label' => '权限分组', 'link' => 'access/group'],
-                ['label' => '权限节点', 'link' => 'access/nodes'],
+                ['label' => '授权列表', 'link' => 'admin/access/lists'],
+                ['label' => '权限分组', 'link' => 'admin/access/group'],
+                ['label' => '权限节点', 'link' => 'admin/access/nodes'],
             ]
         ],
         'setting'     => [
             'label'     => '系统管理',
             'icon'      => 'am-icon-cog',
             'items'     => [
-                ['label' => '站点设置', 'link' => 'setting/site'],
+                ['label' => '站点设置', 'link' => 'admin/setting/site'],
             ]
         ],
     ],

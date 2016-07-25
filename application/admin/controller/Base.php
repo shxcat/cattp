@@ -9,6 +9,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
+use think\Response;
 use traits\controller\Jump;
 
 /**
@@ -43,7 +44,7 @@ class Base extends Controller
      */
     public function _empty()
     {
-        return '4040 Not Found!!!';
+        return '404 Not Found!!!';
     }
 
     /**

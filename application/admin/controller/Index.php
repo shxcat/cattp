@@ -22,4 +22,10 @@ class Index extends Auth
     {
         return $this->fetch();
     }
+
+    public function dashboard()
+    {
+
+        $this->success("hello");
+    }
 }
