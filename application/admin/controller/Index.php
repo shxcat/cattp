@@ -8,8 +8,6 @@
  */
 namespace app\admin\controller;
 
-use think\Controller;
-
 /**
  * Admin 模块首页
  * Class Index
