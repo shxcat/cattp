@@ -23,6 +23,8 @@ class File extends SplFileObject
     private $error = '';
     // 当前完整文件名
     protected $filename;
+    // 上传文件名
+    protected $saveName;
     // 文件上传命名规则
     protected $rule = 'date';
     // 文件上传验证规则
@@ -68,6 +70,26 @@ class File extends SplFileObject
     public function getInfo($name = '')
     {
         return isset($this->info[$name]) ? $this->info[$name] : $this->info;
+    }
+
+    /**
+     * 获取上传文件的文件名
+     * @return string
+     */
+    public function getSaveName()
+    {
+        return $this->saveName;
+    }
+
+    /**
+     * 设置上传文件的保存文件名
+     * @param  string   $saveName
+     * @return $this
+     */
+    public function setSaveName($saveName)
+    {
+        $this->saveName = $saveName;
+        return $this;
     }
 
     /**
@@ -183,7 +205,6 @@ class File extends SplFileObject
         if (!in_array($extension, $ext)) {
             return false;
         }
-
         return true;
     }
 
@@ -262,28 +283,31 @@ class File extends SplFileObject
         }
         $path = rtrim($path, DS) . DS;
         // 文件保存命名规则
-        $savename = $this->getSaveName($savename);
+        $saveName = $this->buildSaveName($savename);
+        $filename = $path . $saveName;
 
         // 检测目录
-        if (false === $this->checkPath(dirname($path . $savename))) {
+        if (false === $this->checkPath(dirname($filename))) {
             return false;
         }
 
         /* 不覆盖同名文件 */
-        if (!$replace && is_file($path . $savename)) {
-            $this->error = '存在同名文件' . $path . $savename;
+        if (!$replace && is_file($filename)) {
+            $this->error = '存在同名文件' . $filename;
             return false;
         }
 
         /* 移动文件 */
         if ($this->isTest) {
-            rename($this->filename, $path . $savename);
-        } elseif (!move_uploaded_file($this->filename, $path . $savename)) {
+            rename($this->filename, $filename);
+        } elseif (!move_uploaded_file($this->filename, $filename)) {
             $this->error = '文件上传保存错误！';
             return false;
         }
-
-        return new SplFileInfo($path . $savename);
+        // 返回 File对象实例
+        $file = new self($filename);
+        $file->setSaveName($saveName);
+        return $file;
     }
 
     /**
@@ -291,7 +315,7 @@ class File extends SplFileObject
      * @param  string|bool   $savename    保存的文件名 默认自动生成
      * @return string
      */
-    protected function getSaveName($savename)
+    protected function buildSaveName($savename)
     {
         if (true === $savename) {
             // 自动生成文件名

@@ -472,7 +472,7 @@ class Route
                     $val[1] = str_replace(':id', ':' . $option['var'][$rule], $val[1]);
                 }
                 $item = ltrim($rule . $val[1], '/');
-                self::rule($item ? $item . '$' : '', $route . '/' . $val[2], $val[0], $option, $pattern);
+                self::rule($item . '$', $route . '/' . $val[2], $val[0], $option, $pattern);
             }
         }
     }
@@ -734,6 +734,9 @@ class Route
         foreach ($rules as $key => $item) {
             if (true === $item) {
                 $item = self::$rules['*'][$key];
+            }
+            if (!isset($item['rule'])) {
+                continue;
             }
             $rule    = $item['rule'];
             $route   = $item['route'];
