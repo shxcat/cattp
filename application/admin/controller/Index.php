@@ -20,7 +20,8 @@ class Index extends Auth
      */
     public function index()
     {
-        return $this->fetch();
+
+        return $this->response();
     }
 
     public function dashboard()

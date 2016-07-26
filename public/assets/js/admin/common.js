@@ -13,27 +13,20 @@ $(function(){
         }
     });
 
-    //F5刷新当前Tab & 操作快捷键
-    $(document).keydown(function(e){
-        var key = e.keyCode || e.which;
-        if( key == 116 ){
-
-        }else{
-            return true;
-        }
-        return false;
-    });
-
-    // 历史记录变化监听
-    History.Adapter.bind(window, 'statechange', function(){
-        var state = History.getState();
-        if( state.data && state.data['state'] ){
-            // 销毁扩展插件
-            destroy_extend("#container");
-            // 显示历史页面内容
-            display_container(state.data.state, state.url);
-            // 初始化插件
-            apply_extend("#container");
+    // 监听Pjax请求
+    $.AMUI.pjax.listen({
+        bind: '[data-pjax]',
+        display: function(html, url) {
+            var $container = $("#layout-main");
+            if( $container.length ){
+                $container.empty().html(html);
+            }
+        },
+        before: function(){
+            destroy_extend('#layout-main');
+        },
+        complete: function(){
+            apply_extend('#layout-main');
         }
     });
 
@@ -47,35 +40,7 @@ $(function(){
         $this.parent().addClass('am-active');
         return false;
     });
-
-    // 核心事件
-    $("body")
-        // PJAX请求
-        .on("pjax:send", function(){
-            $.AMUI.progress.start();
-        })
-        .on("pjax:complete", function(){
-            $.AMUI.progress.done();
-        })
-        .on("pjax:success", function(xhr, data){
-            console.log(data);
-            console.log(typeof data);
-        })
-        .on("click", '[data-pjax]', function(event){
-            $.pjax.click(event, '#layout-main');
-        });
 });
-
-/**
- * Pjax请求
- * @param url
- * @param container
- */
-function pjax_request(url, container){
-
-}
-
-
 
 
 /**
