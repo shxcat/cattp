@@ -23,7 +23,7 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #layout-north .nav-tools > li.am-active > a { background-color: rgba(120, 120,120, 0.1); }
 #layout-north .nav-tools > li > a.safe-exit { color: #F37B1D; }
 
-#layout-menus-info { width: 160px; margin: 20px 10px; }
+#layout-menus-info { width: 160px; margin: 20px 0 20px 9px; }
 #layout-menus-info > a { position: relative; display: block; padding: 5px; }
 #layout-menus-info .avatar { width: 50px; height: 50px; }
 #layout-menus-info .profile,
