@@ -11,6 +11,7 @@
 
     pjax.defaults = {
         bind: '[data-pjax]',
+        success: function(response){},
         display: function(html, url){},
         before: function(){},
         complete: function(){}
@@ -53,13 +54,7 @@
                 UI.progress.done();
             },
             success: function(response) {
-                if (response.code == 1) {
-                    pjax.display(parse_html(response.data), url, replace);
-                } else if (response.code == 100) {
-                    UI.dialog.alert({title: '登录失效', content: ''});
-                } else {
-
-                }
+                pjax.defaults.success(response, url, replace);
             }
         });
     };

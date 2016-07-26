@@ -16,6 +16,15 @@ $(function(){
     // 监听Pjax请求
     $.AMUI.pjax.listen({
         bind: '[data-pjax]',
+        success: function(response, url, replace) {
+            if (response.code == 1) {
+                $.AMUI.pjax.display(parse_html(response.data), url, replace);
+            } else if (response.code == 100) {
+
+            } else {
+
+            }
+        },
         display: function(html, url) {
             var $container = $("#layout-main");
             if( $container.length ){
@@ -30,15 +39,14 @@ $(function(){
         }
     });
 
-    // 分组菜单切换
-    $('.admin-menus-group').on('click', '[data-toggle-menu]', function(){
-        var $this = $(this);
-        var toggle = $this.data('toggle-menu');
-        $('.admin-menus-group').removeClass('am-active');
-        $(".admin-menus-lists").addClass("am-hide");
-        $("#"+toggle).removeClass("am-hide");
-        $this.parent().addClass('am-active');
-        return false;
+    // 菜单切换
+    $('#layout-menus-lists').find('> li > a').on("click", function(){
+        $('#layout-menus-lists').find('> li').removeClass("am-active");
+        $(this).parent().addClass("am-active");
+    });
+    $('#layout-menus-lists').find('.sub-menus > li > a').on("click", function(){
+        $('#layout-menus-lists').find('.sub-menus > li').removeClass("am-active");
+        $(this).parent().addClass("am-active");
     });
 });
 

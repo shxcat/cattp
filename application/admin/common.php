@@ -4,26 +4,6 @@
  * Created by PhpStorm.
  * @author  cbwfree
  */
-// 定义行为
-\think\Hook::add('app_end', function(&$data) {
-    if (\think\Request::instance()->isPjax()) {
-        if ($data instanceof \think\Response) {
-            $data = $data->getData();
-        }
-
-        if (!isset($data['code'])) {
-            $data = [
-                'code' => 1,
-                'msg'  => '',
-                'time' => $_SERVER['REQUEST_TIME'],
-                'data' => $data,
-            ];
-        }
-
-        $data = \think\Response::create($data, 'json');
-    }
-});
-
 
 /**
  * 构建后台管理菜单

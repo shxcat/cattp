@@ -24,9 +24,13 @@ class Index extends Auth
         return $this->response();
     }
 
+    /**
+     * 仪表盘
+     * @return \think\Response
+     */
     public function dashboard()
     {
 
-        $this->success("hello");
+        return $this->response();
     }
 }
