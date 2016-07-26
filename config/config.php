@@ -51,6 +51,7 @@ return [
     'view_replace_str'       => [
         '__assets__'        => '/assets',
         '__uploads__'       => '/uploads',
+        '__image__'         => '/assets/images',
         '__style__'         => '/assets/css',
         '__script__'        => '/assets/js',
         '__libs__'          => '/assets/libs'

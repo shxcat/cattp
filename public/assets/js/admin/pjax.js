@@ -11,10 +11,10 @@
 
     pjax.defaults = {
         bind: '[data-pjax]',
-        success: function(response){},
-        display: function(html, url){},
-        before: function(){},
-        complete: function(){}
+        container: '#container',
+        success: function(response, url, replace){},
+        before: function(state){},
+        complete: function(state){}
     };
 
     pjax.listen = function(options){
@@ -23,7 +23,14 @@
             var state = H.getState();
             if( state.data && state.url ){
                 pjax.defaults.before(state);
-                pjax.defaults.display(state.data.state, state.url);
+                $(pjax.defaults.container)
+                    .fadeOut(100, function(){
+                        $(this)
+                            .empty()
+                            .data('pjax-url', state.url)
+                            .html(state.data.state)
+                            .fadeIn(100);
+                    });
                 pjax.defaults.complete(state);
             }
         });

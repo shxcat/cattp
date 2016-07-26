@@ -48,30 +48,6 @@ class Base extends Controller
     }
 
     /**
-     * Pjax响应输出
-     * @param string $template
-     * @param array $vars
-     * @param array $replace
-     * @param array $config
-     * @return Response
-     */
-    protected function response(string $template = '', array $vars = [], array $replace = [], array $config = []): Response
-    {
-        $data = $this->fetch($template, $vars, $replace, $config);
-        if ($this->request->isPjax()) {
-            $result = [
-                'code' => 1,
-                'msg'  => 'success',
-                'time' => $_SERVER['REQUEST_TIME'],
-                'data' => $data,
-            ];
-            return Response::create($result, 'json');
-        } else {
-            return Response::create($data, 'html');
-        }
-    }
-
-        /**
      * 检查是否登录
      * @return bool
      */

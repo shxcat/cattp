@@ -21,7 +21,7 @@ class Index extends Auth
     public function index()
     {
 
-        return $this->response();
+        return $this->fetch();
     }
 
     /**
@@ -31,6 +31,6 @@ class Index extends Auth
     public function dashboard()
     {
 
-        return $this->response();
+        return $this->fetch();
     }
 }

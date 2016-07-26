@@ -9,11 +9,6 @@
 
 return [
 
-    'dashboard'     => [
-        'label' => '仪表盘',
-        'icon'  => 'am-icon-dashboard',
-        'link'  => 'admin/index/index'
-    ],
     'users'     => [
         'label'     => '管理员管理',
         'icon'      => 'am-icon-user',

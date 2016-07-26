@@ -5,6 +5,27 @@
  * @author  cbwfree
  */
 
+// 处理Pjax请求
+\think\Hook::add('app_end', function(&$data) {
+    if (\think\Request::instance()->isPjax()) {
+        if ($data instanceof \think\Response) {
+            $data = $data->getData();
+        }
+
+        if (is_string($data) or ! isset($data['code'])) {
+            $data = [
+                'code' => 1,
+                'msg'  => 'success',
+                'time' => $_SERVER['REQUEST_TIME'],
+                'data' => $data,
+            ];
+        }
+
+        $data = \think\Response::create($data, 'json');
+    }
+});
+
+
 /**
  * 构建后台管理菜单
  * @return mixed
