@@ -8,7 +8,7 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #layout-west { position: fixed; z-index: 9; top: 0; left: 0; width: 180px; height: 100%; padding: 0 0; }
 #layout-center { position: fixed; z-index: 0; top: 0; left: 0; width: 100%; height: 100%; padding: 46px 0 0 180px; }
 #layout-menus { width: 100%; height: 100%; overflow-y: auto; }
-#layout-main { width: 100%; height: 100%; min-width: 800px; overflow-y: auto; background: #F3F3F4; }
+#layout-main { position: relative; width: 100%; height: 100%; min-width: 800px; padding-top: 26px; }
 /* 布局颜色 */
 #layout-north { border-bottom: 1px solid #cccccc; background: #f3f3f4; }
 #layout-west { border-right: 1px solid #cecece; box-shadow: inset 1px 0 0 rgba(255, 255, 255, .3), 0 1px 5px rgba(0, 0, 0, .2); }
@@ -44,10 +44,18 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #layout-menus-lists .sub-menus > li.am-active a { color: #FFF; }
 /* 内页部分 */
 .location {
-    position: absolute; top: 46px; left: 0; z-index: 1; width: 100%; padding: 6px 10px 6px 190px; margin: 0;
+    position: absolute; top: 0; left: 0; z-index: 1; width: 100%; margin: 0; padding: 4px 10px;
     background: #fff; border-bottom: 1px solid #eeeeee; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 1px 3px rgba(0, 0, 0, .2);
 }
 .location > li + li:before { padding: 0 4px; }
 .location li,.location li a { color: inherit; }
 .location li.am-active { font-weight: 700; }
-.container { position: relative; margin: 40px 10px 10px; }
+.container { position: relative; overflow-y: auto; height: 100%; padding: 10px 15px; }
+
+.error-404 { width: 500px; margin: 20px auto; }
+
+/* Layer Skin Class */
+.layer-message .layui-layer-content { padding: 0 !important; }
+.layer-message .layui-layer-content .am-alert { position: relative; min-width: 240px; padding: 8px 40px 8px 35px; margin: 0; font-weight: 600; }
+.layer-message .layui-layer-content .am-alert > [class^=am-icon-] { position: absolute; top: 5px; left: 8px; font-size: 30px; }
+.layer-message .layui-layer-content .am-alert .close { position: absolute; right: 12px; }

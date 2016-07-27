@@ -83,6 +83,10 @@
         }
     };
 
+    pjax.location = function() {
+        return History.getState().url;
+    };
+
     module.exports = UI.pjax = pjax;
 
 }).call(this, typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})

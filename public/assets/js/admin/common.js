@@ -44,6 +44,7 @@ $(function(){
         $(this).parent().addClass("am-active");
     });
 
+
     // 选中菜单
     select_menus();
 });

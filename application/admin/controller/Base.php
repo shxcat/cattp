@@ -44,7 +44,7 @@ class Base extends Controller
      */
     public function _empty()
     {
-        return '404 Not Found!!!';
+        return $this->fetch('public/error');
     }
 
     /**
