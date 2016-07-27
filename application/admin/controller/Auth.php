@@ -8,8 +8,6 @@
  */
 namespace app\admin\controller;
 
-use think\exception\HttpResponseException;
-
 /**
  * Admin 模块 权限认证控制器
  * Class Auth
@@ -28,8 +26,7 @@ class Auth extends Base
         if (! $this->_isLogin()) {
             // 如果为 Ajax (包含Pjax) 请求则返回JSON消息
             if ($this->request->isAjax()) {
-                $response = $this->result('', 100, '您的登录已失效, 请重新登录 ...', 'json');
-                throw new HttpResponseException($response);
+                $this->result(url('admin/login/index'), 100, '您的登录已失效, 请重新登录 ...');
             } else {
                 // 否则直接跳转登录页面
                 $this->redirect(url('admin/login/index'));

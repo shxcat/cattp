@@ -20,17 +20,6 @@ class Index extends Auth
      */
     public function index()
     {
-
-        return $this->fetch();
-    }
-
-    /**
-     * 仪表盘
-     * @return \think\Response
-     */
-    public function dashboard()
-    {
-
         return $this->fetch();
     }
 }

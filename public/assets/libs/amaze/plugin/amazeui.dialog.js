@@ -16,8 +16,8 @@ dialog.alert = function(options) {
   options = options || {};
   options.title = options.title || '提示';
   options.content = options.content || '提示内容';
-  options.onConfirm = options.onConfirm || function() {
-    };
+  options.onConfirm = options.onConfirm || function() {};
+
   var html = [];
   html.push('<div class="am-modal am-modal-alert" tabindex="-1">');
   html.push('<div class="am-modal-dialog">');
@@ -40,10 +40,8 @@ dialog.confirm = function(options) {
   options = options || {};
   options.title = options.title || '提示';
   options.content = options.content || '提示内容';
-  options.onConfirm = options.onConfirm || function() {
-    };
-  options.onCancel = options.onCancel || function() {
-    };
+  options.onConfirm = options.onConfirm || function() {};
+  options.onCancel = options.onCancel || function() {};
 
   var html = [];
   html.push('<div class="am-modal am-modal-confirm" tabindex="-1">');

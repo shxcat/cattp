@@ -25,14 +25,81 @@
         html.push('<a href="javascript:;" class="close">×</a>');
         html.push('</div>');
         return ly.msg(html.join(""), {
-            skin: 'layer-message',
+            skin: 'layer-message-tips',
             offset: 50,
-            time: 0,
+            time: timeout || 3000,
             success: function($dom, index) {
                 $dom.find(".close").one("click", function(){
                     ly.close(index);
                 });
             }
+        });
+    };
+
+    message.alert = function (content, title, onConfirm) {
+        var options = {};
+        options.shift = 0;
+        options.title = '<span class="am-text-primary"><i class="am-icon-info-circle"></i> ' + (title || '温馨提示') + '</span>';
+        content = '<div class="am-text-primary">'+content+'</div>';
+        onConfirm = onConfirm || function(){};
+        return ly.alert(content, options, function(index){
+            onConfirm();
+            ly.close(index);
+        });
+    };
+
+    message.warning = function (content, title, onConfirm) {
+        var options = {};
+        options.icon = 0;
+        options.skin = 'layer-message-alert';
+        options.title = '<span class="am-text-warning"><i class="am-icon-exclamation-circle"></i> ' + (title || 'Waring') + '</span>';
+        onConfirm = onConfirm || function(){};
+        content = '<div class="am-text-warning">' + content + '</div>';
+        return ly.alert(content, options, function(index){
+            onConfirm();
+            ly.close(index);
+        });
+    };
+
+    message.success = function (content, title, onConfirm) {
+        var options = {};
+        options.icon = 1;
+        options.skin = 'layer-message-alert';
+        options.title = '<span class="am-text-success"><i class="am-icon-check-circle"></i> ' + (title || 'Success') + '</span>';
+        onConfirm = onConfirm || function(){};
+        content = '<div class="am-text-success">' + content + '</div>';
+        return ly.alert(content, options, function(index){
+            onConfirm();
+            ly.close(index);
+        });
+    };
+
+    message.error = function (content, title, onConfirm) {
+        var options = {};
+        options.icon = 2;
+        options.skin = 'layer-message-alert';
+        options.title = '<span class="am-text-danger"><i class="am-icon-times-circle"></i> ' + (title || 'Error') + '</span>';
+        onConfirm = onConfirm || function(){};
+        content = '<div class="am-text-danger">' + content + '</div>';
+        return ly.alert(content, options, function(index){
+            onConfirm();
+            ly.close(index);
+        });
+    };
+
+    message.confirm = function (content, title, onConfirm) {
+        var options = {};
+        options.icon = 3;
+        options.skin = 'layer-message-alert';
+        options.title = '<span class="am-text-warning"><i class="am-icon-question-circle"></i> ' + (title || '您想整咋样?') + '</span>';
+        content = '<div class="am-text-warning">'+content+'</div>';
+        onConfirm = onConfirm || function(){};
+        return ly.confirm(content, options, function(index){
+            onConfirm(1);
+            ly.close(index);
+        }, function(index){
+            onConfirm(0);
+            ly.close(index);
         });
     };
 

@@ -9,9 +9,22 @@ $(function(){
     $.ajaxSetup({
         timeout: 45000,
         dataType:'json',
-        error: function(xhr) {
+        error: function(xhr, type) {
+            var msg = [];
+            msg.push('[Error Code: '+xhr.status+']');
+            msg.push(xhr.statusText);
+            $.AMUI.message.error(msg.join('&nbsp;'), '访问出错', function(){
+                if (type == 'error') {
+                    var errorWin = window.open('');
+                    errorWin.document.write(xhr.responseText);
+                }
+            });
+
         }
     });
+
+    // 弹出层初始化
+    layer.config({ scrollbar: false, shift: 1, moveType: 1, closeBtn: false, maxWidth: 540 });
 
     // 监听Pjax请求
     $.AMUI.pjax.listen({
@@ -21,9 +34,11 @@ $(function(){
             if (response.code == 1) {
                 $.AMUI.pjax.display(parse_html(response.data), url, replace);
             } else if (response.code == 100) {
-
+                $.AMUI.message.warning(response.msg, '登录失效', function(){
+                    location.href = response.data;
+                });
             } else {
-
+                $.AMUI.message.error(response.msg);
             }
         },
         before: function(){
