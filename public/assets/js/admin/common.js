@@ -19,7 +19,6 @@ $(function(){
                     errorWin.document.write(xhr.responseText);
                 }
             });
-
         }
     });
 
@@ -50,15 +49,11 @@ $(function(){
     });
 
     // 菜单切换
-    $('#layout-menus-lists').find('> li > a').on("click", function(){
+    $('#layout-menus-lists').on("click", 'a', function(){
         $('#layout-menus-lists').find('li').removeClass("am-active");
-        $(this).parent().addClass("am-active");
+        $(this).closest('.menu-group').addClass("am-active");
+        $(this).closest('.menu-item').addClass("am-active");
     });
-    $('#layout-menus-lists').find('.sub-menus > li > a').on("click", function(){
-        $('#layout-menus-lists').find('.sub-menus > li').removeClass("am-active");
-        $(this).parent().addClass("am-active");
-    });
-
 
     // 选中菜单
     select_menus();

@@ -67,19 +67,27 @@
             </ul>
         </div>
         <ul id="layout-menus-lists" class="am-list">
-            <li class="am-active"><a href="{:url('admin/index/index')}" data-pjax><i class="menus-icon am-icon-home"></i> 首页</a></li>
+            <li class="menu-item am-active">
+                <a href="{:url('admin/index/index')}" data-pjax>
+                    <i class="menus-icon am-icon-home"></i> 首页
+                </a>
+            </li>
             {foreach $menus as $m => $menus}
             {if ! isset($menus['items'])}
-            <li><a href="{$menus.link|url=###}" data-pjax><i class="menus-icon {$menus.icon}"></i> {$menus.label}</a></li>
+            <li class="menu-item">
+                <a href="{$menus.link|url=###}" data-pjax>
+                    <i class="menus-icon {$menus.icon}"></i> {$menus.label}
+                </a>
+            </li>
             {else/}
-            <li class="am-panel">
-                <a href="javascript:;" class="am-cf" data-am-collapse="{parent: '#layout-menus-lists', target: '#menus-sub-{$m}'}">
+            <li class="menu-group am-panel">
+                <a href="javascript:;" data-am-collapse="{parent: '#layout-menus-lists', target: '#menus-sub-{$m}'}">
                     <i class="menus-icon {$menus.icon}"></i> {$menus.label}
                     <i class="am-icon-angle-left am-fr"></i>
                 </a>
                 <ul class="sub-menus am-list am-collapse" id="menus-sub-{$m}">
                     {foreach name="menus['items']" item="item" key="k"}
-                    <li><a href="{$item.link|url=###}" data-pjax><i class="am-icon-chevron-right"></i> {$item.label}</a></li>
+                    <li class="menu-item"><a href="{$item.link|url=###}" data-pjax><i class="am-icon-chevron-right"></i> {$item.label}</a></li>
                     {/foreach}
                 </ul>
             </li>
