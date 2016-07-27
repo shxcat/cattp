@@ -87,7 +87,11 @@
                 </a>
                 <ul class="sub-menus am-list am-collapse" id="menus-sub-{$m}">
                     {foreach name="menus['items']" item="item" key="k"}
-                    <li class="menu-item"><a href="{$item.link|url=###}" data-pjax><i class="am-icon-chevron-right"></i> {$item.label}</a></li>
+                    <li class="menu-item">
+                        <a href="{$item.link|url=###}" data-pjax>
+                            <i class="am-icon-chevron-right"></i> {$item.label}
+                        </a>
+                    </li>
                     {/foreach}
                 </ul>
             </li>
