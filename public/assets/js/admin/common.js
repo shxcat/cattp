@@ -80,6 +80,7 @@ function select_menus() {
     if( $dom.length ){
         $menus.find('li').removeClass("am-active");
         if ($dom.parent().parent().is(".sub-menus")) {
+            $dom.closest('.sub-menus').collapse('open');
             $dom.closest('.am-panel').addClass('am-active');
             $dom.parent().addClass('am-active');
         } else {
