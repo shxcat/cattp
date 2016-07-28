@@ -35,7 +35,7 @@ class Login extends Base
 
     /**
      * 登录检查
-     * @return array|void
+     * @throws \think\Exception
      */
     public function check()
     {
@@ -78,6 +78,15 @@ class Login extends Base
         // 记录登录信息
         session('admin_login_info', $user);
 
-        return $this->success('登录成功', url('admin/index/index'));
+        $this->success('登录成功', url('admin/index/index'));
+    }
+
+    /**
+     * 安全退出
+     */
+    public function logout()
+    {
+        session('admin_login_info', null);
+        $this->redirect(url('admin/login/index'));
     }
 }

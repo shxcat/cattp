@@ -55,6 +55,27 @@ $(function(){
         $(this).closest('.menu-item').addClass("am-active");
     });
 
+    // 核心事件
+    $("body")
+        .on("click", ".safe-exit", function(){
+            var _this = this;
+            $.AMUI.message.confirm("您确认要退出登录吗?", "安全退出", function(ok){
+                if (ok) {
+                    location.href = _this.href;
+                }
+            });
+            return false;
+        })
+        .on("click", "[data-confirm]", function(){
+            var confirm = $(this).data('confirm') || '您确认要执行此操作吗?';
+            $.AMUI.message.confirm(confirm, "提示", function(ok){
+                if (ok) {
+
+                }
+            });
+            return false;
+        });
+
     // 选中菜单
     select_menus();
 });
@@ -86,15 +107,11 @@ function select_menus() {
         return false;
     }
     var $menus = $("#layout-menus-lists");
-    var $dom = $menus.find("a").filter("[href='"+pathinfo+"']");
+    var $dom = $menus.find("a").filter("[href='"+pathinfo+"']:first");
     if( $dom.length ){
         $menus.find('li').removeClass("am-active");
-        if ($dom.parent().parent().is(".sub-menus")) {
-            $dom.closest('.sub-menus').collapse('open');
-            $dom.closest('.am-panel').addClass('am-active');
-            $dom.parent().addClass('am-active');
-        } else {
-            $dom.parent().addClass('am-active');
-        }
+        $dom.closest('.sub-menus').addClass('am-in');
+        $dom.closest('.menu-group').addClass("am-active");
+        $dom.closest('.menu-item').addClass("am-active");
     }
 }
