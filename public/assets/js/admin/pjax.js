@@ -18,29 +18,18 @@
             'am-animation-slide-bottom',    // 底部划入
             'am-animation-slide-top'        // 顶部划入
         ],
+        error: function(xhr){},
         success: function(response, url, replace){},
-        before: function(state){},
-        complete: function(state){}
+        before: function(html){},
+        complete: function(){}
     };
 
     pjax.listen = function(options){
         pjax.defaults = $.extend({}, pjax.defaults, options);
         H.Adapter.bind(window, 'statechange', function(){
             var state = H.getState();
-            if( state.data && state.url ){
-                var $render = $(pjax.defaults.render);
-                pjax.defaults.before(state);
-                $render.empty().data('pjax-url', state.url).html(state.data.state);
-                if (pjax.defaults.animation) {
-                    var $container = $("#container");
-                    var animation = pjax.defaults.animation[Math.floor((Math.random() * pjax.defaults.animation.length))];
-                    $container
-                        .addClass(animation)
-                        .one(UI.support.animation.end, function() {
-                            $container.removeClass(animation);
-                        });
-                }
-                pjax.defaults.complete(state);
+            if( state.data ){
+                pjax.render(state.data.state);
             }
         });
         $("body").on("click", pjax.defaults.bind, function(){
@@ -69,6 +58,9 @@
             complete: function(){
                 UI.progress.done();
             },
+            error: function(xhr, type){
+                pjax.defaults.error(type, xhr, url);
+            },
             success: function(response) {
                 pjax.defaults.success(response, url, replace);
             }
@@ -82,6 +74,22 @@
             return true;
         }
         return false;
+    };
+
+    pjax.render = function(html){
+        var $render = $(pjax.defaults.render);
+        pjax.defaults.before(html);
+        $render.empty().html(html);
+        if (pjax.defaults.animation) {
+            var $container = $("#container");
+            var animation = pjax.defaults.animation[Math.floor((Math.random() * pjax.defaults.animation.length))];
+            $container
+                .addClass(animation)
+                .one(UI.support.animation.end, function() {
+                    $container.removeClass(animation);
+                });
+        }
+        pjax.defaults.complete();
     };
 
     pjax.display = function(html, url, replace){

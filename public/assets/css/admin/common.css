@@ -53,6 +53,8 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #layout-menus-lists > ul > li.am-active { border-left: 4px solid #19aa8d; background: #293846; }
 #layout-menus-lists > ul > li.am-active > a { color: #FFF; }
 #layout-menus-lists > ul > li .sub-menus li { background: #293846; }
+#layout-menus-lists > ul > li a .am-icon-:before { content: "\f104"; }
+#layout-menus-lists > ul > li.am-active a .am-icon-:before { content: "\f107"; }
 #layout-menus-lists .sub-menus {  margin: 0; background: #ececec; }
 #layout-menus-lists .sub-menus > li > a { padding-left: 24px; }
 #layout-menus-lists .sub-menus > li.am-active a { color: #FFF; }

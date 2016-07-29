@@ -28,6 +28,11 @@ return [
 
     // 主菜单列表
     'menus-main'    => [
+
+    ],
+
+    // 系统管理
+    'menus-system'  =>[
         'users'     => [
             'label'     => '管理员管理',
             'icon'      => 'am-icon-user',
@@ -45,10 +50,6 @@ return [
                 ['label' => '权限节点', 'link' => 'admin/access/nodes'],
             ]
         ],
-
-    ],
-
-    'menus-system'  =>[
         'setting'     => [
             'label'     => '系统管理',
             'icon'      => 'am-icon-cog',

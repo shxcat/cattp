@@ -18,6 +18,26 @@ use think\Response;
  */
 class Base extends Controller
 {
+    const SAVE_INSERT = 'insert';
+    const SAVE_UPDATE = 'update';
+
+    /**
+     * 用户ID
+     * @access protected
+     * @var int
+     */
+    protected $aid = 0;
+
+    /**
+     * @var null|array  用户信息
+     */
+    protected $user = null;
+
+    /**
+     * @var string 跳转地址
+     */
+    protected $goto = '';
+
     /**
      * TP控制器初始化
      */
@@ -33,6 +53,12 @@ class Base extends Controller
             $this->_exec();
         }
 
+        if ($this->request->isPost()) {
+
+        }
+
+        $this->goto = $this->request->get('goto', '');
+        $this->assign('goto', urlencode($this->goto));
     }
 
     /**
@@ -52,6 +78,11 @@ class Base extends Controller
     {
 
         return true;
+    }
+
+    protected function _save($type)
+    {
+
     }
 
 }

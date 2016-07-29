@@ -13,12 +13,7 @@ $(function(){
             var msg = [];
             msg.push('[Error Code: '+xhr.status+']');
             msg.push(xhr.statusText);
-            $.AMUI.message.error(msg.join('&nbsp;'), '访问出错', function(){
-                if (type == 'error') {
-                    var errorWin = window.open('');
-                    errorWin.document.write(xhr.responseText);
-                }
-            });
+            $.AMUI.message.error(msg.join('&nbsp;'), '请求出错');
         }
     });
 
@@ -38,6 +33,16 @@ $(function(){
                 $.AMUI.message.error(response.msg);
             }
         },
+        error: function(type, xhr, url) {
+            var html = [];
+            html.push('<ol id="location" class="am-breadcrumb am-breadcrumb-slash">');
+            html.push('<li><a href="/admin/index.html" class="am-icon-home" data-pjax>首页</a></li>');
+            html.push('<li class="am-active">Internal Server Error 500</li>');
+            html.push('</ol>');
+            html.push('<iframe id="container" name="container" style="padding:0;width:100%;"></iframe>');
+            $.AMUI.pjax.display(html.join(''), url, false);
+            container.document.write(xhr.responseText);
+        },
         before: function(){
             destroy_extend('#layout-main');
         },
@@ -51,8 +56,8 @@ $(function(){
         var $this = $(this);
         var $group = $($(this).data('groupMenus'));
         $('#layout-menus-lists').find("> ul").addClass("am-hide");
-        $group.removeClass("am-hide").addClass("am-animation-slide-left").one($.AMUI.support.animation.end, function(){
-            $group.removeClass("am-animation-slide-left");
+        $group.removeClass("am-hide").addClass("am-animation-slide-right").one($.AMUI.support.animation.end, function(){
+            $group.removeClass("am-animation-slide-right");
         });
         $("#layout-nav").find("li").removeClass("am-active");
         $this.parent().addClass("am-active");
