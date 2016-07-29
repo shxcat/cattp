@@ -61,3 +61,7 @@ www  WEB部署目录（或者子目录）
 ├─README.md             README 文件
 ├─think                 命令行入口文件
 ~~~
+
+## 界面
+
+![后台首页](http://git.oschina.net/uploads/images/2016/0729/120555_a68d661f_5981.png)
