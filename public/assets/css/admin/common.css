@@ -43,19 +43,25 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #layout-menus-lists .sub-menus > li > a { padding-left: 24px; }
 #layout-menus-lists .sub-menus > li.am-active a { color: #FFF; }
 /* 内页部分 */
-.location {
+#location {
     position: absolute; top: 0; left: 0; z-index: 1; width: 100%; margin: 0; padding: 4px 10px;
-    background: #fff; border-bottom: 1px solid #eeeeee; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 1px 3px rgba(0, 0, 0, .2);
+    background: #fff; border-bottom: 1px solid #eeeeee;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 1px 3px rgba(0, 0, 0, .2);
 }
-.location > li + li:before { padding: 0 4px; }
-.location li,.location li a { color: inherit; }
-.location li.am-active { font-weight: 700; }
-.container { position: relative; overflow-y: auto; height: 100%; padding: 10px 15px; }
+#location > li + li:before { padding: 0 4px; }
+#location li,#location li a { color: inherit; }
+#location li.am-active { font-weight: 700; }
+#location li.am-fr { margin-left: 10px; }
+#location li.am-fr:before { content: ''; }
+#container { position: relative; overflow-y: auto; height: 100%; padding: 10px 15px; }
+/* 布局内容结束 */
+
 .error-404 { width: 500px; margin: 50px auto; }
 .panel-container li { padding: 10px 5px; }
 .panel-container li .am-panel { margin: 0; }
 
-    /* Layer Skin Class */
+
+/* Layer Skin Class */
 .layer-message-tips .layui-layer-content { padding: 0 !important; }
 .layer-message-tips .layui-layer-content .am-alert { position: relative; min-width: 240px; padding: 8px 40px 8px 35px; margin: 0; font-weight: 600; }
 .layer-message-tips .layui-layer-content .am-alert > [class^=am-icon-] { position: absolute; top: 5px; left: 8px; font-size: 30px; }

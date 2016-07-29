@@ -11,7 +11,13 @@
 
     pjax.defaults = {
         bind: '[data-pjax]',
-        container: '#container',
+        render: '#layout-main',             // 渲染输出容器
+        container: '#container',            // 动画容器
+        animation: [
+            'am-animation-slide-right',     // 右侧划入
+            'am-animation-slide-bottom',    // 底部划入
+            'am-animation-slide-top'        // 顶部划入
+        ],
         success: function(response, url, replace){},
         before: function(state){},
         complete: function(state){}
@@ -22,15 +28,25 @@
         H.Adapter.bind(window, 'statechange', function(){
             var state = H.getState();
             if( state.data && state.url ){
+                var $render = $(pjax.defaults.render);
                 pjax.defaults.before(state);
-                $(pjax.defaults.container)
-                    .fadeOut(100, function(){
-                        $(this)
-                            .empty()
-                            .data('pjax-url', state.url)
-                            .html(state.data.state)
-                            .fadeIn(100);
-                    });
+                $render.empty().data('pjax-url', state.url).html(state.data.state);
+                if (pjax.defaults.animation) {
+                    var $container = $("#container");
+                    var lastAnimation = $container.data('animation');
+                    var animationArray = pjax.defaults.animation;
+                    if (lastAnimation) {
+                        animationArray.splice(jQuery.inArray(lastAnimation, animationArray), 1);
+                    }
+                    var animation = animationArray[Math.floor((Math.random() * animationArray.length))];
+                    console.log(animation);
+                    $container
+                        .data('animation', animation)
+                        .addClass(animation)
+                        .one(UI.support.animation.end, function() {
+                            $container.removeClass(animation);
+                        });
+                }
                 pjax.defaults.complete(state);
             }
         });

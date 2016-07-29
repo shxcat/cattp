@@ -14,7 +14,7 @@
 function location(array $path = [], bool $tools = true): string
 {
     $location = [
-        '<ol class="location am-breadcrumb am-breadcrumb-slash">',
+        '<ol id="location" class="am-breadcrumb am-breadcrumb-slash">',
         '<li><a href="'.url('admin/index/index').'" class="am-icon-home" data-pjax>首页</a></li>'
     ];
     foreach($path as $key => $val){
@@ -26,8 +26,8 @@ function location(array $path = [], bool $tools = true): string
     }
 
     if ($tools) {
-        $location[] = '<li class="am-fr"><a href="javascript:;" onclick="$.AMUI.pjax.reload();" title="刷新"><i class="am-icon-refresh"></i> 刷新</a></li>';
-        $location[] = '<li class="am-fr"><a href="javascript:;" onclick="window.open($.AMUI.pjax.location());" title="新窗口打开"><i class="am-icon-external-link"></i> 新窗口打开</a></li>';
+        $location[] = '<li class="am-fr"><a href="javascript:;" onclick="$.AMUI.pjax.reload();" title="刷新"><i class="am-icon-refresh"></i>刷新(F5)</a></li>';
+        $location[] = '<li class="am-fr"><a href="javascript:;" onclick="window.open($.AMUI.pjax.location());" title="新窗口打开"><i class="am-icon-external-link"></i>新窗口打开</a></li>';
     }
 
     $location[] = '</ol>';

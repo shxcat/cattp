@@ -27,8 +27,6 @@ $(function(){
 
     // 监听Pjax请求
     $.AMUI.pjax.listen({
-        bind: '[data-pjax]',
-        container: '#layout-main',
         success: function(response, url, replace) {
             if (response.code == 1) {
                 $.AMUI.pjax.display(parse_html(response.data), url, replace);
