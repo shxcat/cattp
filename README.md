@@ -5,6 +5,11 @@
 > 前端框架使用 `AmazeUI 2.7.1`, 参考: [http://amazeui.org/](http://amazeui.org/)
 > 请使用 `composer install` 初始化项目
 
+## Demo
+
+请访问: [https://demo.54cbw.com](https://demo.54cbw.com)
+个人网站: [https://54cbw.com](https://54cbw.com) 正在努力建设中... :)
+
 ## 目录结构
 
 本系统目录结构如下：
