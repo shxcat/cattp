@@ -7,8 +7,8 @@
 
 ## Demo
 
-请访问: [https://demo.54cbw.com](https://demo.54cbw.com)
-个人网站: [https://54cbw.com](https://54cbw.com) 正在努力建设中... :)
+本项目Demo地址: [https://demo.54cbw.com](https://demo.54cbw.com){:target="_blank"}
+个人网站: [https://54cbw.com](https://54cbw.com){:target="_blank"} 正在努力建设中... :)
 
 ## 目录结构
 
