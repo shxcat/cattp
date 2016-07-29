@@ -4,24 +4,37 @@ body { font-size: 12px; overflow: hidden; min-width: 1000px; }
 input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfield-cancel-button !important; cursor: pointer; }
 
 /* 后台主页布局 */
-#layout-north { position: relative; z-index: 2; top: 0; left: 0; width: 100%; height: 46px; padding-left: 180px; }
-#layout-west { position: fixed; z-index: 9; top: 0; left: 0; width: 180px; height: 100%; padding: 0 0; }
+#layout-north { position: relative; z-index: 2; top: 0; left: 0; width: 100%; height: 46px; padding-left: 180px; border-bottom: 1px solid #cccccc; background: #f3f3f4; }
+#layout-west { position: fixed; z-index: 9; top: 0; left: 0; width: 180px; height: 100%; padding: 0 0; border-right: 1px solid #cecece; box-shadow: inset 1px 0 0 rgba(255, 255, 255, .3), 0 1px 5px rgba(0, 0, 0, .2); }
 #layout-center { position: fixed; z-index: 0; top: 0; left: 0; width: 100%; height: 100%; padding: 46px 0 0 180px; }
-#layout-menus { width: 100%; height: 100%; overflow-y: auto; }
+#layout-menus { width: 100%; height: 100%; overflow-y: auto; background: #2F4050; }
 #layout-main { position: relative; width: 100%; height: 100%; min-width: 800px; padding-top: 26px; }
-/* 布局颜色 */
-#layout-north { border-bottom: 1px solid #cccccc; background: #f3f3f4; }
-#layout-west { border-right: 1px solid #cecece; box-shadow: inset 1px 0 0 rgba(255, 255, 255, .3), 0 1px 5px rgba(0, 0, 0, .2); }
-#layout-menus { background: #2F4050; }
 /* 顶部导航 */
-#layout-logo { float: left; height: 40px; padding: 3px 20px; text-align: center; }
-#layout-logo a { display: block; height: 40px; line-height: 40px; font-size: 1.5em; font-weight: 600; color: #999c9e; }
-#layout-tools { float: right; height: 40px; }
-#layout-nav { float: left; height: 40px; }
-#layout-north .nav-tools { height: 31px; margin: 1px 5px; padding: 5px 0; }
-#layout-north .nav-tools > li > a { font-size: 14px; line-height: 31px; padding: 0 10px; color: #999c9e; font-weight: 600; }
-#layout-north .nav-tools > li.am-active > a { background-color: rgba(120, 120,120, 0.1); }
-#layout-north .nav-tools > li > a.safe-exit { color: #F37B1D; }
+#layout-logo { float: left; display: block; height: 40px; margin: 3px 0 0 20px; font-weight: 600; color: #999c9e; line-height: 40px; font-size: 1.5em; }
+#layout-tools { float: right; height: 30px; margin: 8px 10px 0; }
+#layout-nav { float: left; height: 45px; margin: 0 20px; }
+#layout-nav > li > a { line-height: 45px; padding: 0 14px; color: #666666; font-weight: 600; }
+#layout-nav > li.am-active > a { background: rgba(0,0,0, 0.5); color: #FFFFFF; }
+#layout-nav > li.am-active > a:after {
+    position: absolute;
+    left: 50%;
+    margin-left: -7px;
+    bottom: -1px;
+    content: "";
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-bottom: 7px solid #f8f8f8;
+    border-right: 7px solid transparent;
+    border-left: 7px solid transparent;
+    border-top: 0 dotted;
+    opacity: 1;
+    border-bottom-color: #e3e3e3;
+}
+#layout-tools > li > a { line-height: 30px; padding: 0 10px; color: #999c9e; font-weight: 600; }
+#layout-tools > li.am-active > a { background-color: rgba(120, 120,120, 0.1); }
+#layout-tools > li > a.safe-exit { color: #F37B1D; }
 /* 菜单部分 */
 #layout-menus-info { width: 160px; margin: 20px 0 20px 9px; }
 #layout-menus-info > a { position: relative; display: block; padding: 5px; }
@@ -36,9 +49,10 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #layout-menus-lists a .sub-menus-angle { margin-right: 10px; }
 #layout-menus-lists a .menus-icon { margin-right: 5px; }
 #layout-menus-lists li { background: #2F4050; border: 0; }
-#layout-menus-lists > li.am-active { border-left: 4px solid #19aa8d; background: #293846; }
-#layout-menus-lists > li.am-active > a { color: #FFF; }
-#layout-menus-lists > li .sub-menus li { background: #293846; }
+#layout-menus-lists > ul { margin-top: 0; }
+#layout-menus-lists > ul > li.am-active { border-left: 4px solid #19aa8d; background: #293846; }
+#layout-menus-lists > ul > li.am-active > a { color: #FFF; }
+#layout-menus-lists > ul > li .sub-menus li { background: #293846; }
 #layout-menus-lists .sub-menus {  margin: 0; background: #ececec; }
 #layout-menus-lists .sub-menus > li > a { padding-left: 24px; }
 #layout-menus-lists .sub-menus > li.am-active a { color: #FFF; }

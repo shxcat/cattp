@@ -10,7 +10,6 @@ namespace app\admin\controller;
 
 use think\Controller;
 use think\Response;
-use traits\controller\Jump;
 
 /**
  * Admin 模块 基础控制器
@@ -19,8 +18,6 @@ use traits\controller\Jump;
  */
 class Base extends Controller
 {
-    use Jump;
-
     /**
      * TP控制器初始化
      */

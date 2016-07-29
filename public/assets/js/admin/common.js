@@ -47,6 +47,16 @@ $(function(){
     });
 
     // 菜单切换
+    $("#layout-nav").on("click", "a", function(){
+        var $this = $(this);
+        var $group = $($(this).data('groupMenus'));
+        $('#layout-menus-lists').find("> ul").addClass("am-hide");
+        $group.removeClass("am-hide").addClass("am-animation-slide-left").one($.AMUI.support.animation.end, function(){
+            $group.removeClass("am-animation-slide-left");
+        });
+        $("#layout-nav").find("li").removeClass("am-active");
+        $this.parent().addClass("am-active");
+    });
     $('#layout-menus-lists').on("click", 'a', function(){
         $('#layout-menus-lists').find('li').removeClass("am-active");
         $(this).closest('.menu-group').addClass("am-active");
@@ -104,12 +114,18 @@ function select_menus() {
     if( ! pathinfo || pathinfo == "/" ){
         return false;
     }
+    var $nav = $("#layout-nav");
     var $menus = $("#layout-menus-lists");
     var $dom = $menus.find("a").filter("[href='"+pathinfo+"']:first");
     if( $dom.length ){
+        var $group = $dom.closest('.group-menus');
+        $nav.find("li").removeClass('am-active');
+        $menus.find("> ul").addClass("am-hide");
         $menus.find('li').removeClass("am-active");
         $dom.closest('.sub-menus').addClass('am-in');
         $dom.closest('.menu-group').addClass("am-active");
         $dom.closest('.menu-item').addClass("am-active");
+        $group.removeClass("am-hide");
+        $nav.find("[data-group-menus='#"+$group.attr("id")+"']").parent().addClass("am-active");
     }
 }

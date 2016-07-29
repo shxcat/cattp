@@ -34,18 +34,25 @@
 <body>
 {assign name="menus" value=":build_menus()"/}
 <div id="layout-north">
-    <div id="layout-logo">
-        <a href="{:url('admin/index/index')}" data-pjax> - 后台管理系统</a>
-    </div>
-    <div id="layout-tools">
-        <ul class="nav-tools am-nav am-nav-pills">
-            <li>
-                <a href="{:url('admin/login/logout')}" class="safe-exit">
-                    <i class="am-icon-power-off"></i> 安全退出
-                </a>
-            </li>
-        </ul>
-    </div>
+    <a id="layout-logo" href="{:url('admin/index/index')}" data-pjax>后台管理系统</a>
+    {if $menus['group_switch']}
+    <ul id="layout-nav" class="am-nav am-nav-pills">
+        {foreach $menus['group'] as $gn => $gv}
+        <li class="{if $gn=='main'}am-active{/if}">
+            <a href="javascript:;" data-group-menus="#group-{$gv.group}">
+                <i class="{$gv.icon}"></i> {$gv.label}
+            </a>
+        </li>
+        {/foreach}
+    </ul>
+    {/if}
+    <ul id="layout-tools" class="am-nav am-nav-pills">
+        <li>
+            <a href="{:url('admin/login/logout')}" class="safe-exit">
+                <i class="am-icon-power-off"></i> 安全退出
+            </a>
+        </li>
+    </ul>
 </div>
 <div id="layout-west">
     <div id="layout-menus">
@@ -66,38 +73,57 @@
                 </li>
             </ul>
         </div>
-        <ul id="layout-menus-lists" class="am-list">
-            <li class="menu-item am-active">
-                <a href="{:url('admin/index/index')}" data-pjax>
-                    <i class="menus-icon am-icon-home"></i> 首页
-                </a>
-            </li>
-            {foreach $menus as $m => $menus}
-            {if ! isset($menus['items'])}
-            <li class="menu-item">
-                <a href="{$menus.link|url=###}" data-pjax>
-                    <i class="menus-icon {$menus.icon}"></i> {$menus.label}
-                </a>
-            </li>
-            {else/}
-            <li class="menu-group am-panel">
-                <a href="javascript:;" data-am-collapse="{parent: '#layout-menus-lists', target: '#menus-sub-{$m}'}">
-                    <i class="menus-icon {$menus.icon}"></i> {$menus.label}
-                    <i class="am-icon-angle-left am-fr"></i>
-                </a>
-                <ul class="sub-menus am-list am-collapse" id="menus-sub-{$m}">
-                    {foreach name="menus['items']" item="item" key="k"}
-                    <li class="menu-item">
-                        <a href="{$item.link|url=###}" data-pjax>
-                            <i class="am-icon-chevron-right"></i> {$item.label}
-                        </a>
-                    </li>
-                    {/foreach}
-                </ul>
-            </li>
-            {/if}
+        <div id="layout-menus-lists">
+            {/* 创建菜单生成闭包 */}
+            {function name="func_build_menus" vars="$menus,$gn,$gv"}
+                {if $gn == "main"}
+                <li class="menu-item">
+                    <a href="{:url('admin/index/index')}" data-pjax>
+                        <i class="menus-icon am-icon-home"></i> 首页
+                    </a>
+                </li>
+                {/if}
+                {foreach $menus[$gv['group']] as $m => $mv}
+                {if ! isset($mv['items'])}
+                <li class="menu-item">
+                    <a href="{$mv.link|url=###}" data-pjax>
+                        <i class="menus-icon {$mv.icon}"></i> {$mv.label}
+                    </a>
+                </li>
+                {else/}
+                <li class="menu-group am-panel">
+                    <a href="javascript:;" data-am-collapse="{parent: '#group-{$gv.group}', target: '#{$gv.group}-{$m}'}">
+                        <i class="menus-icon {$mv.icon}"></i> {$mv.label}
+                        <i class="am-icon-angle-left am-fr"></i>
+                    </a>
+                    <ul class="sub-menus am-list am-collapse" id="{$gv.group}-{$m}">
+                        {foreach $mv['items'] as $item}
+                        <li class="menu-item">
+                            <a href="{$item.link|url=###}" data-pjax>
+                                <i class="am-icon-chevron-right"></i> {$item.label}
+                            </a>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </li>
+                {/if}
+                {/foreach}
+            {/function}
+            {/* 构建菜单列表 */}
+            {if $menus['group_switch']}
+            {foreach $menus['group'] as $gn => $gv}
+            <ul id="group-{$gv.group}" class="group-menus am-list {if $gn!='main'}am-hide{/if}">
+                {:$func_build_menus($menus, $gn, $gv)}
+            </ul>
             {/foreach}
-        </ul>
+            {else/}
+            <ul id="group-main" class="group-menus am-list">
+            {foreach $menus['group'] as $gn => $gv}
+                {:$func_build_menus($menus, $gn, $gv)}
+            {/foreach}
+            </ul>
+            {/if}
+        </div>
     </div>
 </div>
 <div id="layout-center">
