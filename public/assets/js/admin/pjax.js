@@ -33,15 +33,8 @@
                 $render.empty().data('pjax-url', state.url).html(state.data.state);
                 if (pjax.defaults.animation) {
                     var $container = $("#container");
-                    var lastAnimation = $container.data('animation');
-                    var animationArray = pjax.defaults.animation;
-                    if (lastAnimation) {
-                        animationArray.splice(jQuery.inArray(lastAnimation, animationArray), 1);
-                    }
-                    var animation = animationArray[Math.floor((Math.random() * animationArray.length))];
-                    console.log(animation);
+                    var animation = pjax.defaults.animation[Math.floor((Math.random() * pjax.defaults.animation.length))];
                     $container
-                        .data('animation', animation)
                         .addClass(animation)
                         .one(UI.support.animation.end, function() {
                             $container.removeClass(animation);
