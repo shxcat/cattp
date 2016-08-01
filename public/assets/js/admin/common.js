@@ -34,16 +34,16 @@ $(function(){
             }
         },
         error: function(type, xhr, url) {
-            layer.open({
-                type: 2,
-                move: false,
-                skin: 'layer-message-alert',
-                title: '[Error Code: '+xhr.status+'] ' + xhr.statusText,
-                content: url,
-                area: ['100%', '100%'],
-                btn: '朕已阅',
-                closeBtn: 1
-            });
+            var html = [];
+            html.push('<ol id="location" class="am-breadcrumb am-breadcrumb-slash">');
+            html.push('<li><i class="am-icon-home"></i> 首页</li>');
+            html.push('<li class="am-active">'+ xhr.statusText + ' ' + xhr.status + '</li>');
+            html.push('<li class="am-fr"><a href="javascript:;" onclick="$.AMUI.pjax.reload();" title="刷新"><i class="am-icon-refresh"></i>刷新(F5)</a></li>');
+            html.push('<li class="am-fr"><a href="javascript:;" onclick="window.open($.AMUI.pjax.location());" title="新窗口打开"><i class="am-icon-external-link"></i>新窗口打开</a></li>');
+            html.push('</ol>');
+            html.push('<iframe id="container" name="container" style="padding:0;width:100%;"></iframe>');
+            $.AMUI.pjax.display(html.join(''), url, false);
+            container.document.write(xhr.responseText);
         },
         before: function(){
             destroy_extend('#layout-main');
