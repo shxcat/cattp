@@ -3,7 +3,6 @@
 > 本系统基于 ThinkPHP 5.0 RC4 进行开发
 > 由于使用了PHP新特性, 因此仅支持 PHP 7.0 以上版本
 > 前端框架使用 `AmazeUI 2.7.1`, 参考: [http://amazeui.org/](http://amazeui.org/)
-> 请使用 `composer install` 初始化项目
 
 ## Demo
 
@@ -61,6 +60,18 @@ www  WEB部署目录（或者子目录）
 ├─README.md             README 文件
 ├─think                 命令行入口文件
 ~~~
+
+## 安装
+
+1. 服务器需要开启 `pathinfo` 和 `rewrite`
+2. 使用 `composer install` 初始化项目
+3. 创建数据库 `think_admin_sys`
+```
+CREATE DATABASE `think_admin_sys` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;  
+```
+4. 导入数据库脚本, 文件路径: `install/think_admin_sys.sql`
+5. 修改数据库配置文件: `config/database.php`
+
 
 ## 界面
 
