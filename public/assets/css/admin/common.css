@@ -69,12 +69,18 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #location li.am-active { font-weight: 700; }
 #location li.am-fr { margin-left: 10px; }
 #location li.am-fr:before { content: ''; }
-#container { position: relative; overflow-y: auto; height: 100%; padding: 10px 15px; }
+#container { position: relative; overflow-y: auto; height: 100%; padding: 10px; }
 /* 布局内容结束 */
 
 .error-404 { width: 500px; margin: 50px auto; }
 .panel-container li { padding: 10px 5px; }
 .panel-container li .am-panel { margin: 0; }
+#page-header { padding-bottom: 5px; }
+#page-header .title { float: left; margin: 0; }
+#page-header .button { float: right; margin: 0; }
+#page-search { margin: 5px 0; }
+#page-paging { margin: 5px 0; }
+#page-paging li a { margin: 0; }
 
 
 /* Layer Skin Class */

@@ -10,10 +10,10 @@ namespace app\admin\controller;
 
 /**
  * 管理员管理控制器
- * Class Users
+ * Class Admins
  * @package app\admin\controller
  */
-class Users extends Auth
+class Admins extends Auth
 {
 
     /**

@@ -1,0 +1,66 @@
+{include file="public/header"/}
+{:location(['admin/admins/lists' => '管理员管理', '管理员列表'])}
+<div id="container">
+    <div id="page-header" class="am-cf">
+        <h1 class="title">管理员列表</h1>
+        <div class="button">
+            <a href="" class="am-btn am-btn-xs am-btn-primary" data-pjax><i class="am-icon-plus"></i> 添加管理员</a>
+        </div>
+    </div>
+    <div id="page-search">
+
+    </div>
+    <table id="page-lists" class="am-table am-table-bordered am-table-striped am-table-hover am-table-compact am-text-nowrap">
+        <thead>
+        <tr>
+            <th>网站名称</th>
+            <th>网址</th>
+            <th>创建时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Amaze UI</td>
+            <td>http://amazeui.org</td>
+            <td>2012-10-01</td>
+        </tr>
+        <tr>
+            <td>Amaze UI</td>
+            <td>http://amazeui.org</td>
+            <td>2012-10-01</td>
+        </tr>
+        <tr class="am-active">
+            <td>Amaze UI(Active)</td>
+            <td>http://amazeui.org</td>
+            <td>2012-10-01</td>
+        </tr>
+        <tr>
+            <td>Amaze UI</td>
+            <td>http://amazeui.org</td>
+            <td>2012-10-01</td>
+        </tr>
+        <tr>
+            <td>Amaze UI</td>
+            <td>http://amazeui.org</td>
+            <td>2012-10-01</td>
+        </tr>
+        </tbody>
+    </table>
+    <ul id="page-paging" class="am-pagination am-cf">
+        <li class="am-disabled"><a href="#">&laquo;</a></li>
+        <li class="am-active"><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">&raquo;</a></li>
+        <li class="skip">
+            <input type="text">
+            <button class="am-btn am-btn-default" type="button">Go!</button>
+        </li>
+        <li class="am-fr">
+            显示 1 / 355 页，共 7085 条记录
+        </li>
+    </ul>
+</div>
+{include file="public/footer"/}

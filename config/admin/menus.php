@@ -37,8 +37,8 @@ return [
             'label'     => '管理员管理',
             'icon'      => 'am-icon-user',
             'items'     => [
-                ['label' => '管理员列表', 'link' => 'admin/users/lists'],
-                ['label' => '新增管理员', 'link' => 'admin/users/add'],
+                ['label' => '管理员列表', 'link' => 'admin/admins/lists'],
+                ['label' => '新增管理员', 'link' => 'admin/admins/add'],
             ]
         ],
         'access'     => [
