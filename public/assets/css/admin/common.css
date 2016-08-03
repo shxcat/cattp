@@ -15,23 +15,7 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #layout-nav { float: left; height: 45px; margin: 0 20px; }
 #layout-nav > li > a { line-height: 45px; padding: 0 14px; color: #666666; font-weight: 600; }
 #layout-nav > li.am-active > a { background: rgba(0,0,0, 0.5); color: #FFFFFF; }
-#layout-nav > li.am-active > a:after {
-    position: absolute;
-    left: 50%;
-    margin-left: -7px;
-    bottom: -1px;
-    content: "";
-    display: inline-block;
-    width: 0;
-    height: 0;
-    vertical-align: middle;
-    border-bottom: 7px solid #f8f8f8;
-    border-right: 7px solid transparent;
-    border-left: 7px solid transparent;
-    border-top: 0 dotted;
-    opacity: 1;
-    border-bottom-color: #e3e3e3;
-}
+#layout-nav > li.am-active > a:after { position: absolute; left: 50%; margin-left: -7px; bottom: -1px; content: ""; display: inline-block; width: 0; height: 0; vertical-align: middle; border-bottom: 7px solid #f8f8f8; border-right: 7px solid transparent; border-left: 7px solid transparent; border-top: 0 dotted; opacity: 1; border-bottom-color: #e3e3e3; }
 #layout-tools > li > a { line-height: 30px; padding: 0 10px; color: #999c9e; font-weight: 600; }
 #layout-tools > li.am-active > a { background-color: rgba(120, 120,120, 0.1); }
 #layout-tools > li > a.safe-exit { color: #F37B1D; }
@@ -59,11 +43,7 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #layout-menus-lists .sub-menus > li > a { padding-left: 24px; }
 #layout-menus-lists .sub-menus > li.am-active a { color: #FFF; }
 /* 内页部分 */
-#location {
-    position: absolute; top: 0; left: 0; z-index: 1; width: 100%; margin: 0; padding: 4px 10px;
-    background: #fff; border-bottom: 1px solid #eeeeee;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 1px 3px rgba(0, 0, 0, .2);
-}
+#location { position: absolute; top: 0; left: 0; z-index: 1; width: 100%; margin: 0; padding: 4px 10px; background: #fff; border-bottom: 1px solid #eeeeee; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 1px 3px rgba(0, 0, 0, .2); }
 #location > li + li:before { padding: 0 4px; }
 #location li,#location li a { color: inherit; }
 #location li.am-active { font-weight: 700; }
@@ -78,9 +58,21 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #page-header { padding-bottom: 5px; }
 #page-header .title { float: left; margin: 0; }
 #page-header .button { float: right; margin: 0; }
-#page-search { margin: 5px 0; }
-#page-paging { margin: 5px 0; }
-#page-paging li a { margin: 0; }
+#page-search { margin-bottom: 5px; }
+
+/* 数据表格 */
+.page-table tr th { background: linear-gradient(to bottom, #fafafa 0%, #eeeeee 60%) repeat-x; }
+
+/* 分页样式 */
+#page-paging { margin: 10px 0 0; }
+#page-paging li { float: left; margin: 0; }
+#page-paging li.size { width: 55px; margin-right: 5px; }
+#page-paging li.size select { display: block; width: 100%; height: 28px; color: #222; vertical-align: middle; background-color: #fff; border: 1px solid #ccc; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); }
+#page-paging li.total { float: right; margin-right: 0; padding: .5em 1em; line-height: 1.2; border: 1px solid #ccc; background: #eee; color: #333; }
+#page-paging li.skip input { height: 28px; line-height: 28px; text-align: center; width: 60px; }
+#page-paging li.skip button { border: 1px solid #ccc; border-left: 0; }
+#page-paging li.page > a,
+#page-paging li.page > span { margin: 0; border-right: 0; }
 
 
 /* Layer Skin Class */
@@ -94,3 +86,26 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 .layer-message-alert .layui-layer-content { min-height: 90px; }
 .layer-message-alert .layui-layer-btn { text-align: center; padding: 5px; }
 .layer-message-alert .layui-layer-btn a { display: table-cell; width: 1%; float: none; text-align: center; }
+
+/* Amazeui Extend CSS */
+.am-input-xs { font-size: 1.2rem !important; }
+.am-form-group-xs .am-checkbox,
+.am-form-group-xs .am-radio,
+.am-form-group-xs .am-form-label,
+.am-form-group-xs .am-form-field {
+    font-size: 1.2rem !important;
+}
+.am-form-xs .am-checkbox,
+.am-form-xs .am-radio,
+.am-form-xs .am-form-label,
+.am-form-xs .am-form-field,
+.am-form-xs .am-btn {
+    font-size: 1.2rem !important;
+}
+.am-form-sm .am-checkbox,
+.am-form-sm .am-radio,
+.am-form-sm .am-form-label,
+.am-form-sm .am-form-field,
+.am-form-sm .am-btn {
+    font-size: 1.3rem !important;
+}

@@ -4,13 +4,24 @@
     <div id="page-header" class="am-cf">
         <h1 class="title">管理员列表</h1>
         <div class="button">
-            <a href="" class="am-btn am-btn-xs am-btn-primary" data-pjax><i class="am-icon-plus"></i> 添加管理员</a>
+            <a href="{:url('admin/admins/add')}" class="am-btn am-btn-xs am-btn-primary" data-pjax><i class="am-icon-plus"></i> 添加管理员</a>
         </div>
     </div>
-    <div id="page-search">
-
-    </div>
-    <table id="page-lists" class="am-table am-table-bordered am-table-striped am-table-hover am-table-compact am-text-nowrap">
+    <form id="page-search" class="am-form am-form-inline am-form-xs" onsubmit="return page_search();">
+        <div class="am-form-group am-form-icon">
+            <i class="am-icon-calendar"></i>
+            <input type="text" class="am-form-field" placeholder="日期">
+        </div>
+        <div class="am-form-group am-form-icon">
+            <i class="am-icon-clock-o"></i>
+            <input type="text" class="am-form-field" placeholder="时间">
+        </div>
+        <div class="am-btn-group am-fr">
+            <button type="submit" class="am-btn am-btn-success"><i class="am-icon-search"></i> 搜索</button>
+            <button type="submit" class="am-btn am-btn-warning"><i class="am-icon-reply"></i> 撤销</button>
+        </div>
+    </form>
+    <table class="page-table am-table am-table-bordered am-table-striped am-table-hover am-table-compact am-text-nowrap am-margin-bottom-xs">
         <thead>
         <tr>
             <th>网站名称</th>
@@ -47,18 +58,30 @@
         </tbody>
     </table>
     <ul id="page-paging" class="am-pagination am-cf">
-        <li class="am-disabled"><a href="#">&laquo;</a></li>
-        <li class="am-active"><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">&raquo;</a></li>
-        <li class="skip">
-            <input type="text">
-            <button class="am-btn am-btn-default" type="button">Go!</button>
+        <li class="size">
+            <select name="size" title="" onchange="paging_redirect();">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="500">500</option>
+            </select>
         </li>
-        <li class="am-fr">
+        <li class="page am-disabled"><a><i class="am-icon-step-backward"></i></a></li>
+        <li class="page am-disabled"><span><i class="am-icon-backward"></i></span></li>
+        <li class="page am-active"><a href="#">1</a></li>
+        <li class="page"><a href="#">2</a></li>
+        <li class="page"><a href="#">3</a></li>
+        <li class="page"><a href="#">4</a></li>
+        <li class="page"><a href="#">5</a></li>
+        <li class="page am-disabled"><span><i class="am-icon-forward"></i></span></li>
+        <li class="page am-disabled"><span><i class="am-icon-step-forward"></i></span></li>
+        <li class="skip">
+            <input type="number" class="am-fl" name="page" title="" onkeyup="if(event['keyCode'] == 13 || event['which'] == 13){ paging_redirect(); }">
+            <button type="submit" class="am-btn am-btn-xs am-btn-default am-fl" onclick="paging_redirect();">Go!</button>
+        </li>
+        <li class="total">
             显示 1 / 355 页，共 7085 条记录
         </li>
     </ul>
