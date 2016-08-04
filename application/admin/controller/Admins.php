@@ -8,6 +8,9 @@
  */
 namespace app\admin\controller;
 
+use app\admin\extend\Paging;
+use app\admin\extend\Search;
+
 /**
  * 管理员管理控制器
  * Class Admins
@@ -22,7 +25,12 @@ class Admins extends Auth
      */
     public function lists()
     {
+        Search::instance();
+        $paging = Paging::instance();
 
+        $paging->limit(1000);
+
+        $this->assign("paging", $paging->show());
         return $this->fetch();
     }
 

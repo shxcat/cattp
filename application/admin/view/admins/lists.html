@@ -9,8 +9,28 @@
     </div>
     <form id="page-search" class="am-form am-form-inline am-form-xs" onsubmit="return page_search();">
         <div class="am-form-group am-form-icon">
-            <i class="am-icon-calendar"></i>
-            <input type="text" class="am-form-field" placeholder="日期">
+            <i class="am-icon-clock-o">ABC</i>
+            <input type="text" class="am-form-field" placeholder="时间">
+        </div>
+        <div class="am-form-group am-form-icon">
+            <i class="am-icon-clock-o"></i>
+            <input type="text" class="am-form-field" placeholder="时间">
+        </div>
+        <div class="am-form-group am-form-icon">
+            <i class="am-icon-clock-o"></i>
+            <input type="text" class="am-form-field" placeholder="时间">
+        </div>
+        <div class="am-form-group am-form-icon">
+            <i class="am-icon-clock-o"></i>
+            <input type="text" class="am-form-field" placeholder="时间">
+        </div>
+        <div class="am-form-group am-form-icon">
+            <i class="am-icon-clock-o"></i>
+            <input type="text" class="am-form-field" placeholder="时间">
+        </div>
+        <div class="am-form-group am-form-icon">
+            <i class="am-icon-clock-o"></i>
+            <input type="text" class="am-form-field" placeholder="时间">
         </div>
         <div class="am-form-group am-form-icon">
             <i class="am-icon-clock-o"></i>
@@ -57,33 +77,6 @@
         </tr>
         </tbody>
     </table>
-    <ul id="page-paging" class="am-pagination am-cf">
-        <li class="size">
-            <select name="size" title="" onchange="paging_redirect();">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="500">500</option>
-            </select>
-        </li>
-        <li class="page am-disabled"><a><i class="am-icon-step-backward"></i></a></li>
-        <li class="page am-disabled"><span><i class="am-icon-backward"></i></span></li>
-        <li class="page am-active"><a href="#">1</a></li>
-        <li class="page"><a href="#">2</a></li>
-        <li class="page"><a href="#">3</a></li>
-        <li class="page"><a href="#">4</a></li>
-        <li class="page"><a href="#">5</a></li>
-        <li class="page am-disabled"><span><i class="am-icon-forward"></i></span></li>
-        <li class="page am-disabled"><span><i class="am-icon-step-forward"></i></span></li>
-        <li class="skip">
-            <input type="number" class="am-fl" name="page" title="" onkeyup="if(event['keyCode'] == 13 || event['which'] == 13){ paging_redirect(); }">
-            <button type="submit" class="am-btn am-btn-xs am-btn-default am-fl" onclick="paging_redirect();">Go!</button>
-        </li>
-        <li class="total">
-            显示 1 / 355 页，共 7085 条记录
-        </li>
-    </ul>
+    {$paging}
 </div>
 {include file="public/footer"/}

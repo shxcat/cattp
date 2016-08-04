@@ -55,10 +55,10 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 .error-404 { width: 500px; margin: 50px auto; }
 .panel-container li { padding: 10px 5px; }
 .panel-container li .am-panel { margin: 0; }
-#page-header { padding-bottom: 5px; }
+#page-header { padding-bottom: 5px; margin-bottom: 5px; }
 #page-header .title { float: left; margin: 0; }
 #page-header .button { float: right; margin: 0; }
-#page-search { margin-bottom: 5px; }
+#page-search { margin-bottom: 10px; }
 
 /* 数据表格 */
 .page-table tr th { background: linear-gradient(to bottom, #fafafa 0%, #eeeeee 60%) repeat-x; }
@@ -68,11 +68,13 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #page-paging li { float: left; margin: 0; }
 #page-paging li.size { width: 55px; margin-right: 5px; }
 #page-paging li.size select { display: block; width: 100%; height: 28px; color: #222; vertical-align: middle; background-color: #fff; border: 1px solid #ccc; box-shadow: inset 0 1px 1px rgba(0,0,0,.075); }
-#page-paging li.total { float: right; margin-right: 0; padding: .5em 1em; line-height: 1.2; border: 1px solid #ccc; background: #eee; color: #333; }
-#page-paging li.skip input { height: 28px; line-height: 28px; text-align: center; width: 60px; }
-#page-paging li.skip button { border: 1px solid #ccc; border-left: 0; }
 #page-paging li.page > a,
 #page-paging li.page > span { margin: 0; border-right: 0; }
+#page-paging li.total { float: right; margin-right: 0; }
+#page-paging li.total span { color: #333; }
+#page-paging li.jump input { height: 28px; line-height: 28px; text-align: center; width: 60px; }
+#page-paging li.jump input:focus { color: #333; }
+#page-paging li.jump button { border: 1px solid #ccc; border-left: 0; }
 
 
 /* Layer Skin Class */

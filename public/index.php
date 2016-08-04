@@ -7,7 +7,7 @@
  * @author cbwfree
  */
 // 定义环境版本
-define("PHP_ENV_VER", "7.0.0");
+define("PHP_ENV_VER", "5.5.0");
 
 // 检测PHP环境
 if (version_compare(PHP_VERSION, PHP_ENV_VER, '<')) {

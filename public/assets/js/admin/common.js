@@ -139,8 +139,9 @@ function select_menus() {
 
 /**
  * 分页跳转
+ * @returns {boolean}
  */
-function paging_redirect(){
+function page_redirect(){
     var $page = $("#page-paging");
     var uriObj = parse_url(location.href);
     uriObj.params.page = $page.find("input[name=page]").val();
@@ -149,6 +150,10 @@ function paging_redirect(){
     return false;
 }
 
+/**
+ * 页面搜索
+ * @returns {boolean}
+ */
 function page_search(){
     console.log(1111);
     return false;

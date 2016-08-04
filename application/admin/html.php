@@ -11,7 +11,7 @@
  * @param bool  $tools      导航条工具按钮
  * @return string
  */
-function location(array $path = [], bool $tools = true): string
+function location(array $path = [], $tools = true)
 {
     $location = [
         '<ol id="location" class="am-breadcrumb am-breadcrumb-slash">',

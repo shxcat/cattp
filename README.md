@@ -1,7 +1,6 @@
 # 通用管理系统框架
 
 > 本系统基于 ThinkPHP 5.0 RC4 进行开发
-> 由于使用了PHP新特性, 因此仅支持 PHP 7.0 以上版本
 > 前端框架使用 `AmazeUI 2.7.1`, 参考: [http://amazeui.org/](http://amazeui.org/)
 
 ## Demo
