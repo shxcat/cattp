@@ -65,6 +65,7 @@ class App
     protected static $routeMust;
 
     protected static $dispatch;
+    protected static $file = [];
 
     /**
      * 执行应用程序
@@ -280,7 +281,10 @@ class App
             if ($bind) {
                 // 绑定模块
                 list($bindModule) = explode('/', $bind);
-                if ($module == $bindModule) {
+                if (empty($result[0])) {
+                    $module    = $bindModule;
+                    $available = true;
+                } elseif ($module == $bindModule) {
                     $available = true;
                 }
             } elseif (!in_array($module, $config['deny_module_list']) && is_dir(APP_PATH . $module)) {
@@ -363,7 +367,7 @@ class App
             self::$debug = Config::get('app_debug');
             if (!self::$debug) {
                 ini_set('display_errors', 'Off');
-            } else {
+            } elseif (!IS_CLI) {
                 //重新申请一块比较大的buffer
                 if (ob_get_level() > 0) {
                     $output = ob_get_clean();
@@ -385,8 +389,9 @@ class App
             if (!empty($config['extra_file_list'])) {
                 foreach ($config['extra_file_list'] as $file) {
                     $file = strpos($file, '.') ? $file : APP_PATH . $file . EXT;
-                    if (is_file($file)) {
-                        include_once $file;
+                    if (is_file($file) && !isset(self::$file[$file])) {
+                        include $file;
+                        self::$file[$file] = true;
                     }
                 }
             }
@@ -476,9 +481,12 @@ class App
         $check = !is_null(self::$routeCheck) ? self::$routeCheck : $config['url_route_on'];
         if ($check) {
             // 开启路由
-            if (!empty($config['route'])) {
+            if (is_file(RUNTIME_PATH . 'route.php')) {
+                // 读取路由缓存
+                Route::rules(include RUNTIME_PATH . 'route.php' ?: []);
+            } elseif (is_file(CONF_PATH . 'route' . CONF_EXT)) {
                 // 导入路由配置
-                Route::import($config['route']);
+                Route::import(include CONF_PATH . 'route' . CONF_EXT ?: []);
             }
             // 路由检测（根据路由定义返回不同的URL调度）
             $result = Route::check($request, $path, $depr, $config['url_domain_deploy']);
