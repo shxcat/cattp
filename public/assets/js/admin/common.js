@@ -89,7 +89,7 @@ $(function(){
                 }
             });
             return false;
-        })
+        });
 
     // 选中菜单
     select_menus();
@@ -143,10 +143,10 @@ function select_menus() {
  */
 function page_redirect(){
     var $page = $("#page-paging");
-    var uriObj = parse_url(location.href);
-    uriObj.params.page = $page.find("input[name=page]").val();
-    uriObj.params.size = $page.find("select[name=size]").val();
-    $.AMUI.pjax.request(uriObj.path + '?' + $.param(uriObj.params));
+    $.AMUI.pjax.request(build_url(location.href, {
+        page: $page.find("input[name=page]").val(),
+        size: $page.find("select[name=size]").val()
+    }));
     return false;
 }
 
@@ -155,6 +155,6 @@ function page_redirect(){
  * @returns {boolean}
  */
 function page_search(){
-    console.log(1111);
+    $.AMUI.pjax.request(build_url(location.href, $("#page-search").serialize()));
     return false;
 }

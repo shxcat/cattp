@@ -63,19 +63,10 @@ function parse_url_params(query){
  */
 function build_url(url, vars){
     var parse = parse_url(url),
-        query = parse.params || {},
-        params = [];
-    if( typeof vars == "string" ){
-        if( vars.substr(0,1) != "?" ){
-            vars = "?" + vars;
-        }
-        vars = parse_url_params(vars);
-    }
+        query = parse.params || {};
+    (typeof vars == "string") ? vars = parse_url_params(vars) : '';
     $.each(vars, function(k, v){
-        query[k] = v;
+        query[k] = encodeURIComponent(v);
     });
-    $.each(query, function(k, v){
-        params.push(k+"="+v);
-    });
-    return parse.path + "?" + params.join("&");
+    return parse.path + "?" + $.param(query);
 }

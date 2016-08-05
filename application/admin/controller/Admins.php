@@ -25,12 +25,20 @@ class Admins extends Auth
      */
     public function lists()
     {
-        Search::instance();
+        $search = Search::instance();
+        $search->setFields([
+            'username'  => '用户名',
+            'realname'  => '真实姓名',
+        ]);
+        $search->control('username', Search::TYPE_SEARCH, '用户名', ['icon' => 'am-icon-user']);
+        $search->control('time', Search::TYPE_DATETIME, '注册时间', ['range' => true]);
+
         $paging = Paging::instance();
 
         $paging->limit(1000);
 
-        $this->assign("paging", $paging->show());
+        $this->assign("paging", $paging->html());
+        $this->assign("search", $search->html());
         return $this->fetch();
     }
 

@@ -7,40 +7,7 @@
             <a href="{:url('admin/admins/add')}" class="am-btn am-btn-xs am-btn-primary" data-pjax><i class="am-icon-plus"></i> 添加管理员</a>
         </div>
     </div>
-    <form id="page-search" class="am-form am-form-inline am-form-xs" onsubmit="return page_search();">
-        <div class="am-form-group am-form-icon">
-            <i class="am-icon-clock-o">ABC</i>
-            <input type="text" class="am-form-field" placeholder="时间">
-        </div>
-        <div class="am-form-group am-form-icon">
-            <i class="am-icon-clock-o"></i>
-            <input type="text" class="am-form-field" placeholder="时间">
-        </div>
-        <div class="am-form-group am-form-icon">
-            <i class="am-icon-clock-o"></i>
-            <input type="text" class="am-form-field" placeholder="时间">
-        </div>
-        <div class="am-form-group am-form-icon">
-            <i class="am-icon-clock-o"></i>
-            <input type="text" class="am-form-field" placeholder="时间">
-        </div>
-        <div class="am-form-group am-form-icon">
-            <i class="am-icon-clock-o"></i>
-            <input type="text" class="am-form-field" placeholder="时间">
-        </div>
-        <div class="am-form-group am-form-icon">
-            <i class="am-icon-clock-o"></i>
-            <input type="text" class="am-form-field" placeholder="时间">
-        </div>
-        <div class="am-form-group am-form-icon">
-            <i class="am-icon-clock-o"></i>
-            <input type="text" class="am-form-field" placeholder="时间">
-        </div>
-        <div class="am-btn-group am-fr">
-            <button type="submit" class="am-btn am-btn-success"><i class="am-icon-search"></i> 搜索</button>
-            <button type="submit" class="am-btn am-btn-warning"><i class="am-icon-reply"></i> 撤销</button>
-        </div>
-    </form>
+    {$search}
     <table class="page-table am-table am-table-bordered am-table-striped am-table-hover am-table-compact am-text-nowrap am-margin-bottom-xs">
         <thead>
         <tr>
