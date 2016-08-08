@@ -26,6 +26,7 @@ class Search
     const TYPE_HIDDEN   = 'Hidden';      // 隐藏域
     const TYPE_SEARCH   = 'Search';      // 单项搜索框
     const TYPE_SELECT   = 'Select';      // 下拉列表
+    const TYPE_SELECT2  = 'Select2';     // Select2下拉列表
     const TYPE_DATETIME = 'Datetime';    // 日期时间选择框
 
     /**
@@ -120,7 +121,15 @@ class Search
 
                     if ($type == self::TYPE_HIDDEN) {
                         $form.= '<input type="hidden" name="' . $control['name'] . '" value="' . $value . '">';
-                    } else if (method_exists($this, 'buildForm' . $type)) {
+                        continue;
+                    }
+
+                    if ($type == self::TYPE_SELECT2) {
+                        $type = self::TYPE_SELECT;
+                        $control['params']['select2'] = true;
+                    }
+
+                    if (method_exists($this, 'buildForm' . $type)) {
                         $form.= call_user_func_array([$this, 'buildForm' . $type], [
                             $control['name'],
                             $value,
@@ -156,7 +165,7 @@ class Search
 
     /**
      * 获取请求参数值
-     * @param string $name      参数名称
+     * @param string $name      字段
      * @param string $default   默认值
      * @return string
      */
@@ -167,11 +176,11 @@ class Search
 
     /**
      * 获取搜索值
-     * @param string $name      参数名称
+     * @param string $name      控件字段
      * @param array $params     控件属性
      * @return array|string
      */
-    protected function getSearchValue($name, $params = [])
+    protected function getSearchValue($name, array $params = [])
     {
         if (isset($params['range']) && $params['range']) {
             $value = [$this->value($name.'_start'), $this->value($name.'_stop')];
@@ -210,6 +219,8 @@ class Search
      * @param string|array $value   控件value
      * @param string $label         控件label
      * @param array $params         控件参数
+     *      width:      string          控件宽度
+     *      icon:       string          控件图标 (默认无图标)
      * @return string
      */
     protected function buildFormSearch($name, $value, $label, array $params = [])
@@ -234,61 +245,69 @@ class Search
      * @param string|array $value   控件value
      * @param string $label         控件label
      * @param array $params         控件参数
+     *      options:    array           选项数组
+     *      fields:     array|string    选项数组的字段信息 [value, label]
+     *      change:     string          onChange事件名称
+     *      space:      string          Tree选择列表缩进字符
+     *      group:      bool            分组模式 (Tree选项父级不可选)
+     *      multiple:   bool            是否启用多选
+     *      width:      string          select控件宽度
+     *      select2:    bool            使用Select2扩展原始Select控件
+     *      icon:       string          控件图标 (仅普通Select有效)
      * @return string
      */
     protected function buildFormSelect($name, $value, $label, array $params = [])
     {
         // 参数检查
+        $options    = isset($params['options']) ? $params['options'] : [];
         $fields     = isset($params['fields']) ? (is_string($params['fields']) ? explode(",", $params['fields']) : $params['fields']) : false;
         $change     = isset($params['change']) ? " onchange='{$params['change']}'" : '';
         $space      = isset($params['space']) ? $params['space'] : '&emsp;&emsp;';
         $group      = isset($params['group']) ? $params['group'] : false;
         $multiple   = isset($params['multiple']) ? ' multiple' : '';
-        $icon       = isset($params['icon']) ? $params['icon'] : '';
         $width      = isset($params['width']) ? "width:{$params['width']};" : '';
+        $select2    = isset($params['select2']) ? ' data-select' : '';
+        $icon       = isset($params['icon']) && ! $select2 ? $params['icon'] : '';
 
         // 创建HTML
         $html = '<div class="am-form-group'.($icon ? ' am-form-icon' : '').'">';
         if ($icon) {
             $html.= '<i class="'.$icon.'"></i>';
         }
-        $html.= '<select name="'.$name.'" class="am-form-field" style="'.$width.'"'.$change.$multiple.'>';
+        $html.= '<select name="'.$name.'" class="am-form-field" style="'.$width.'"'.$change.$multiple.$select2.'>';
 
         if ( $label ) {
-            $html.= '<option value="">'.$label.'</option>';
+            $html.= '<option value="">- '.$label.' -</option>';
         }
 
-        if (isset($params['options'])) {
-            // 匿名函数返回选择列表
-            if ($params['options'] instanceof \Closure) {
-                $params['options'] = call_user_func_array($params['options'], [$value, $this->values]);
-            }
+        // 匿名函数返回选择列表
+        if ($options instanceof \Closure) {
+            $options = call_user_func_array($options, [$value, $this->values]);
+        }
 
-            // 创建树状列表
-            if ($fields) {
-                // 闭包创建树状列表
-                $get_tree_option = function($options, $level = 0, $space = '&emsp;&emsp;') use ($fields, $group, $value, &$get_tree_option){
-                    $opt_str = "";
-                    foreach($options as $val){
-                        $child_opt = '';
-                        if (isset($val['_child']) && ! empty($val['_child']) && is_array($val['_child'])) {
-                            $child_opt = $get_tree_option($val['_child'], $level + 1, $space);
-                        }
-
-                        if ($level === 0 && $group) {
-                            $opt_str.= '<optgroup label="'.$val[$fields[1]].'">'.$child_opt.'</optgroup>';
-                        } else {
-                            $opt_str.= '<option value="'.$val[$fields[0]].'"'.check_selected($val[$fields[0]], $value).'>'.tree_indent($level, $space).$val[$fields[1]].'</option>';
-                            $opt_str.= $child_opt;
-                        }
+        if ($fields) {
+            // 使用指定字段模式创建选项列表 (支持Tree和分组模式)
+            $get_tree_option = function($options, $level = 0, $space = '&emsp;&emsp;') use ($fields, $group, $value, &$get_tree_option){
+                $opt_str = "";
+                foreach($options as $val){
+                    $child_opt = '';
+                    if (isset($val['_child']) && ! empty($val['_child']) && is_array($val['_child'])) {
+                        $child_opt = $get_tree_option($val['_child'], $level + 1, $space);
                     }
-                    return $opt_str;
-                };
-                $html.= $get_tree_option($params['options'], 0, $space);
-            } else {
-                foreach($params['options'] as $key => $val){
-                    $html.= '<option value="'.$key.'"'.check_selected($key, $value).'>'.$val.'</option>';
+
+                    if ($level === 0 && $group) {
+                        $opt_str.= '<optgroup label="'.$val[$fields[1]].'">'.$child_opt.'</optgroup>';
+                    } else {
+                        $opt_str.= '<option value="'.$val[$fields[0]].'"'.check_selected($val[$fields[0]], $value).'>'.tree_indent($level, $space).$val[$fields[1]].'</option>';
+                        $opt_str.= $child_opt;
+                    }
                 }
+                return $opt_str;
+            };
+            $html.= $get_tree_option($options, 0, $space);
+        } else {
+            foreach($options as $key => $val){
+                $html.= '<option value="'.$key.'"'.check_selected($key, $value).'>'.$val.'</option>';
             }
         }
 
@@ -302,32 +321,38 @@ class Search
      * @param string|array $value   控件value
      * @param string $label         控件label
      * @param array $params         控件参数
+     *      format:     string          日期类型(预定义格式: date, time, datetime, 可自定义), 默认 datetime
+     *      width:      string          控件宽度(自定义 format 有效)
+     *      icon:       string          控件图标(自定义 format 有效)
+     *      range:      bool            是否范围选择, 默认 false
+     *      scope:      array|string    时间的可选范围 (range = false 有效)
+     *      start:      array|string    开始时间的可选范围 (range = true 有效)
+     *      stop:       array|string    结束时间的可选范围 (range = true 有效)
      * @return string
      */
     protected function buildFormDatetime($name, $value, $label, array $params = [])
     {
         // 日期格式
-        if (isset($params['format'])) {
-            $format = $params['format'];
-            $width  = isset($params['width']) ? "width:{$params['width']};" : '';
-            $icon   = isset($params['icon']) ? $params['icon'] : 'am-icon-calendar';
-        } else {
-            switch (isset($params['type']) ? $params['type'] : 'datetime') {
-                case 'date':
-                    $format = "YYYY-MM-DD";
-                    $width  = "width:116px;";
-                    $icon   = "am-icon-calendar-o";
-                    break;
-                case 'time':
-                    $format = "HH:mm:ss";
-                    $width  = "width:94px;";
-                    $icon   = "am-icon-clock-o";
-                    break;
-                default:
-                    $format = 'YYYY-MM-DD HH:mm:ss';
-                    $width  = "width:174px;";
-                    $icon   = "am-icon-calendar";
-            }
+        $format = isset($params['format']) ? $params['format'] : 'datetime';
+        switch ($format) {
+            case 'datetime':
+                $format = 'YYYY-MM-DD HH:mm:ss';
+                $width  = "width:174px;";
+                $icon   = "am-icon-calendar";
+                break;
+            case 'date':
+                $format = "YYYY-MM-DD";
+                $width  = "width:116px;";
+                $icon   = "am-icon-calendar-o";
+                break;
+            case 'time':
+                $format = "HH:mm:ss";
+                $width  = "width:94px;";
+                $icon   = "am-icon-clock-o";
+                break;
+            default:
+                $width  = isset($params['width']) ? "width:{$params['width']};" : '';
+                $icon   = isset($params['icon']) ? $params['icon'] : 'am-icon-calendar';
         }
 
         // 生成HTML
@@ -370,8 +395,13 @@ class Search
             $html.= '<div class="search-range am-form-group"><span class="am-badge"><i class="am-icon-minus"></i></span></div>';
             $html.= $get_datetime_search($name."_stop", $value[1], $label.'结束', $stop_min, $stop_max);
         }else{
-            $min = isset($params['min']) ? $params['min'] : '';
-            $max = isset($params['max']) ? $params['max'] : '';
+            $scope = isset($params['scope']) ? $params['scope'] : '';
+            if (is_array($scope)) {
+                list($min, $max) = $scope;
+            } else {
+                $min = $scope;
+                $max = "";
+            }
             $html = $get_datetime_search($name, $value, $label, $min, $max);
         }
 

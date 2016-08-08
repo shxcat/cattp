@@ -115,3 +115,6 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
     font-size: 1.3rem !important;
 }
 .am-form-xs select,select.am-input-xs { padding-right: 20px; }
+
+/* Select2 CSS Reload */
+.select2-selection { border-radius: 0 !important; border: 1px solid #cccccc !important; }

@@ -121,7 +121,11 @@ function apply_extend(container) {
         });
     });
 
-
+    // 初始化 Select2 下啦框
+    $container.find("[data-select]").each(function(){
+        $(this).select2();
+        console.log(11);
+    });
 }
 
 /**
