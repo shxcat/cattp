@@ -66,7 +66,7 @@ function build_url(url, vars){
         query = parse.params || {};
     (typeof vars == "string") ? vars = parse_url_params(vars) : '';
     $.each(vars, function(k, v){
-        query[k] = encodeURIComponent(v);
+        query[k] = v;
     });
     return parse.path + "?" + $.param(query);
 }

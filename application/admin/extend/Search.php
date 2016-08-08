@@ -63,7 +63,7 @@ class Search
     public function __construct(array $options = [])
     {
         $this->request  = Request::instance();
-        $this->values   = $this->request->get();
+        $this->values   = $this->request->get('', null, ['urldecode']);
         $this->options  = array_merge($this->options, $options);
     }
 
@@ -310,7 +310,7 @@ class Search
         if (isset($params['format'])) {
             $format = $params['format'];
             $width  = isset($params['width']) ? "width:{$params['width']};" : '';
-            $icon   = isset($params['icon']) ? $params['icon'] : '';
+            $icon   = isset($params['icon']) ? $params['icon'] : 'am-icon-calendar';
         } else {
             switch (isset($params['type']) ? $params['type'] : 'datetime') {
                 case 'date':
@@ -340,7 +340,7 @@ class Search
             $min = empty($min) ? ' data-min="'.$min.'"' : '';
             $max = empty($max) ? ' data-max="'.$max.'"' : '';
 
-            $datetime.= '<input type="search" class="am-form-field" name="'.$name.'" value="'.$value.'" style="'.$width.'" placeholder="'.$label.'" data-datetime="'.$format.'"'.$min.$max.'>';
+            $datetime.= '<input type="search" class="am-form-field" name="'.$name.'" value="'.$value.'" style="'.$width.'" placeholder="'.$label.'" data-datetime="'.$format.'"'.$min.$max.'/>';
             $datetime.= '</div>';
             return $datetime;
         };

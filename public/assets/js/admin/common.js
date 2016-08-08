@@ -93,6 +93,8 @@ $(function(){
 
     // 选中菜单
     select_menus();
+    apply_extend('#layout-main');
+
 });
 
 
@@ -101,6 +103,24 @@ $(function(){
  * @param container 容器选择器
  */
 function apply_extend(container) {
+    var $container = $(container);
+
+    // 初始化日期选择
+    $container.find("[data-datetime]").each(function(){
+        var data = $(this).data();
+        $(this).datetimepicker({
+            showClose: true,
+            showClear: true,
+            showTodayButton: true,
+            widgetParent: 'body',
+            format: data['datetime'] || 'YYYY-MM-DD HH:mm:ss',
+            minDate: data['min'] || false,      // 起始日期范围
+            maxDate: data['max'] || false,      // 结束日期范围
+            disabledDates: data['disabled'] || false,   // 不可选择日期
+            enabledDates: data['enabled'] || false      // 仅可选择日期
+        });
+    });
+
 
 }
 
@@ -109,7 +129,15 @@ function apply_extend(container) {
  * @param container 容器选择器
  */
 function destroy_extend(container) {
+    var $container = $(container);
 
+    // 销毁日期组件
+    $container.find("[data-datetime]").each(function(){
+        var DateTimePicker = $(this).data('DateTimePicker');
+        if( DateTimePicker ){
+            DateTimePicker.destroy();
+        }
+    });
 }
 
 /**

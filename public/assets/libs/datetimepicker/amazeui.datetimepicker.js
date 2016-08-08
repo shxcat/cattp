@@ -670,11 +670,14 @@ module.exports = function($, moment) {
           return;
         } else if (options.widgetParent) {
           parent = options.widgetParent.append(widget);
+          console.log(11111, parent);
         } else if (element.is('input')) {
           parent = element.after(widget).parent();
+          console.log(22222, parent);
         } else {
           parent = element;
           element.children().first().after(widget);
+          console.log(33333, parent);
         }
 
         // Top and bottom logic
