@@ -136,7 +136,7 @@ function apply_extend(container) {
                     return {query: params.term};
                 },
                 processResults: function (data) {
-                    return {results: data.data};
+                    return {results: data.data || []};
                 }
             }
         }
