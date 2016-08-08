@@ -121,10 +121,26 @@ function apply_extend(container) {
         });
     });
 
-    // 初始化 Select2 下啦框
+    // 初始化 Select2 下拉框
     $container.find("[data-select]").each(function(){
-        $(this).select2();
-        console.log(11);
+        var $this = $(this);
+        var remote = $this.data("remote");
+        var options = {};
+        if (remote) {
+            options.ajax = {
+                url: remote,
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                data: function (params) {
+                    return {query: params.term};
+                },
+                processResults: function (data) {
+                    return {results: data.data};
+                }
+            }
+        }
+        $(this).select2(options);
     });
 }
 
@@ -141,6 +157,11 @@ function destroy_extend(container) {
         if( DateTimePicker ){
             DateTimePicker.destroy();
         }
+    });
+
+    // 销毁 Select2 下啦框
+    $container.find("[data-select]").each(function(){
+        $(this).select2('destroy');
     });
 }
 

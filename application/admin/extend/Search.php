@@ -254,6 +254,7 @@ class Search
      *      width:      string          select控件宽度
      *      select2:    bool            使用Select2扩展原始Select控件
      *      icon:       string          控件图标 (仅普通Select有效)
+     *      remote:     string          Ajax数据地址 (返回数据格式为 [{id: 1, text: '文字'},...], 使用 $this->result($data)返回数据)
      * @return string
      */
     protected function buildFormSelect($name, $value, $label, array $params = [])
@@ -266,18 +267,33 @@ class Search
         $group      = isset($params['group']) ? $params['group'] : false;
         $multiple   = isset($params['multiple']) ? ' multiple' : '';
         $width      = isset($params['width']) ? "width:{$params['width']};" : '';
-        $select2    = isset($params['select2']) ? ' data-select' : '';
-        $icon       = isset($params['icon']) && ! $select2 ? $params['icon'] : '';
 
         // 创建HTML
-        $html = '<div class="am-form-group'.($icon ? ' am-form-icon' : '').'">';
-        if ($icon) {
-            $html.= '<i class="'.$icon.'"></i>';
-        }
-        $html.= '<select name="'.$name.'" class="am-form-field" style="'.$width.'"'.$change.$multiple.$select2.'>';
+        if (isset($params['select2']) && $params['select2']) {
+            $attr = ' data-select';
 
-        if ( $label ) {
-            $html.= '<option value="">- '.$label.' -</option>';
+            if ($label) {
+                $attr.= ' data-placeholder="'.$label.'" data-allow-clear="true"';
+            }
+
+            if (isset($params['remote'])) {
+                $attr.= ' data-remote="'.$params['remote'].'"';
+            }
+
+            $html = '<div class="am-form-group">';
+            $html.= '<select name="'.$name.'" class="am-form-field" style="'.$width.'"'.$change.$multiple.$attr.'>';
+            $html.= '<option></option>';
+        } else {
+            $icon = isset($params['icon']) ? $params['icon'] : '';
+
+            $html = '<div class="am-form-group'.($icon ? ' am-form-icon' : '').'">';
+            if ($icon) {
+                $html.= '<i class="'.$icon.'"></i>';
+            }
+            $html.= '<select name="'.$name.'" class="am-form-field"  style="'.$width.'"'.$change.$multiple.'>';
+            if ( $label ) {
+                $html.= '<option value="">- '.$label.' -</option>';
+            }
         }
 
         // 匿名函数返回选择列表

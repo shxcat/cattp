@@ -32,10 +32,7 @@ class Admins extends Auth
         ]);
         $search->control('username', Search::TYPE_SEARCH, '用户名', ['icon' => 'am-icon-user']);
         $search->control('time', Search::TYPE_DATETIME, '注册时间', ['range' => true]);
-        $search->control('username', Search::TYPE_SELECT2, '选择', ['options' => [
-            'username'  => '用户名',
-            'realname'  => '真实姓名',
-        ]]);
+        $search->control('username', Search::TYPE_SELECT2, '选择', ['remote' => url('ajax'), 'width' => '100px']);
 
         $paging = Paging::instance();
 
@@ -55,5 +52,4 @@ class Admins extends Auth
 
         return $this->fetch();
     }
-
 }
