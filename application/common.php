@@ -5,6 +5,38 @@
  * @author  cbwfree
  */
 
+/**
+ * 构建查询区间条件
+ * @param int $start    起始数值
+ * @param int $end      结束数值
+ * @return array
+ */
+function build_map_between($start = 0, $end = 0){
+    $map = null;
+    if( $start > 0 && empty($end) ){
+        $map = [">=", $start];
+    }elseif( empty($start) && $end > 0 ){
+        $map = ["<=", $end];
+    }elseif( $start > 0 && $end > 0 ){
+        $map = ["BETWEEN", [$start, $end]];
+    }
+    return $map;
+}
+
+/**
+ * 构建时间范围查询条件
+ * @param string|int $begin_time    开始时间
+ * @param string|int $end_time      结束时间
+ * @return array
+ */
+function build_map_time($begin_time = '', $end_time = '')
+{
+    $begin_time = ! is_numeric($begin_time) ? strtotime($begin_time) : $begin_time;
+    $end_time = ! is_numeric($end_time) ? strtotime($end_time) : $end_time;
+    return build_map_between($begin_time, $end_time);
+}
+
+
 if (! function_exists('get_client_ip')) {
     /**
      * 获取客户端IP地址

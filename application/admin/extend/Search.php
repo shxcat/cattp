@@ -153,14 +153,100 @@ class Search
 
     /**
      * 构建查询条件
-     * @param array $params
+     * @param array $alias      字段别名&查询方式
+     *      [
+     *          _fields   => [],              // 模糊查询字段别名
+     *          查询名     => "",              // 字段名
+     *          查询名     => \Closure,        // 闭包处理
+     *          查询名     => [
+     *              字段名,
+     *              查询方式(仅支持eq, neq, gt, egt, lt, elt, like)
+     *          ]
+     *      ]
      * @return array
      */
-    public function query($params = [])
+    public function query($alias = [])
     {
         $condition = [];
 
+        // 如果开启模糊查询
+        if (! empty($this->fields)) {
+            // 检查是否指定模糊查询字段映射
+            $fields = [];
+            if (isset($alias['_fields'])) {
+                $fields = $alias['_fields'];
+                unset($alias['_fields']);
+            }
+
+            // 检查是否有值
+            if( $this->check($this->options['field']) && $this->check($this->options['query']) ){
+                $field = $this->value($this->options['field']);
+                $query = $this->value($this->options['query']);
+
+                if (isset($fields[$field])) {
+                    $field = $fields[$field];
+                }
+
+                $condition[$field] = array("like", "%{$query}%");
+            }
+        }
+
+        // 其他字段查询
+        foreach($this->controls as $control) {
+            $name   = $control['name'];
+            $value  = $this->getSearchValue($name, $control['params']);
+
+            if (! isset($alias[$name])) {
+                $field  = $name;
+                $exp    = 'eq';
+            } else {
+                if (is_array($alias[$name])) {
+                    list($field, $exp) = $alias[$name];
+                } elseif ($alias[$name] instanceof \Closure) {
+                    call_user_func_array($alias[$name], [&$condition, $value, $this->values]);
+                    continue;
+                } else {
+                    $field  = $alias[$name];
+                    $exp    = 'eq';
+                }
+            }
+
+            if (is_array($value)) {
+                if ($control['type'] == self::TYPE_DATETIME) {
+                    $between = build_map_time($value[0], $value[1]);
+                } else {
+                    $between = build_map_between($value[0], $value[1]);
+                }
+
+                if (! empty($between)) {
+                    $map[$field] = $between;
+                }
+            } else if (! is_null($value) && $value != '') {
+                if ($exp == 'like') {
+                    $map[$field] = ['like', '%'.$value.'%'];
+                } else {
+                    if ($control['type'] == self::TYPE_DATETIME) {
+                        $value = strtotime($value);
+                    }
+
+                    $map[$field] = [$exp, $value];
+                }
+            }
+        }
         return $condition;
+    }
+
+    /**
+     * 检查搜索表单的值
+     * @param string $name     查询字段名称
+     * @return bool
+     */
+    public function check($name)
+    {
+        if (isset($this->values[$name]) && ! is_null($this->values[$name]) && $this->values[$name] != '') {
+            return true;
+        }
+        return false;
     }
 
     /**
