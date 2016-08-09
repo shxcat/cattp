@@ -195,11 +195,7 @@ function select_menus() {
  * @returns {boolean}
  */
 function page_redirect(){
-    var $page = $("#page-paging");
-    $.AMUI.pjax.request(build_url(location.href, {
-        page: $page.find("input[name=page]").val(),
-        size: $page.find("select[name=size]").val()
-    }));
+    $.AMUI.pjax.request(build_url(location.href, $("#page-paging").find("input,select").serialize()));
     return false;
 }
 
