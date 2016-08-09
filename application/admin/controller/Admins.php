@@ -28,7 +28,7 @@ class Admins extends Auth
      */
     public function lists()
     {
-        $search = Search::instance(['tiled' => false]);
+        $search = Search::instance();
         $paging = Paging::instance();
 
         $search->setQueryFields([
@@ -50,6 +50,7 @@ class Admins extends Auth
         $lists = db("admins")->field('password,salt', true)->where($map)->limit($paging->limit($count))->select();
 
         $this->assign("lists", $lists);
+        $this->assign("gender", $this->adminGender);
         $this->assign("paging", $paging->html());
         $this->assign("search", $search->html());
         return $this->fetch();
@@ -61,7 +62,11 @@ class Admins extends Auth
      */
     public function add()
     {
-
+        $this->assign("gender", $this->adminGender);
+        $this->assign("status", $this->adminStatus);
         return $this->fetch();
     }
+
+
+
 }

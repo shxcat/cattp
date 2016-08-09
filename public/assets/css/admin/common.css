@@ -107,6 +107,7 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 .am-form-xs .am-btn {
     font-size: 1.2rem !important;
 }
+.am-form-xs .am-form-label { padding-top: .4em !important; }
 .am-form-sm .am-checkbox,
 .am-form-sm .am-radio,
 .am-form-sm .am-form-label,
@@ -115,6 +116,7 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
     font-size: 1.3rem !important;
 }
 .am-form-xs select,select.am-input-xs { padding-right: 20px; }
+.am-form-xs.am-form-horizontal .am-form-help { margin-top: 4px; margin-bottom: 0; }
 
-/* Select2 CSS Reload */
+    /* Select2 CSS Reload */
 .select2-selection { border-radius: 0 !important; border: 1px solid #cccccc !important; }

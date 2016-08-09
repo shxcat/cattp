@@ -1,5 +1,54 @@
 {include file="public/header"/}
 {:location(['admin/admins/lists' => '管理员管理', (isset($info) ? '编辑' :'新增') . '管理员' ])}
 <div id="container">
+    <form action="{$Request.action|url=###}" class="am-form am-form-horizontal am-form-xs">
+        <fieldset class="am-u-lg-6">
+            <legend>{$info?'编辑':'新增'}管理员</legend>
+            <div class="am-form-group">
+                <label class="am-u-sm-4 am-u-md-3 am-form-label">用户名</label>
+                <div class="am-u-sm-8 am-u-md-4 am-u-end">
+                    <input type="text" name="username" class="am-form-field" placeholder="请输入登录用户名">
+                </div>
+                <div class="am-hide-sm-only am-u-md-5 am-form-help">
+                    * 必填，不可重复
+                </div>
+            </div>
+            <div class="am-form-group">
+                <label class="am-u-sm-4 am-u-md-3 am-form-label">登录密码</label>
+                <div class="am-u-sm-8 am-u-md-4 am-u-end">
+                    <input type="password" name="password" class="am-form-field" placeholder="请输入登录密码">
+                </div>
+                <div class="am-hide-sm-only am-u-md-5 am-form-help">
+                    * 必填，不可重复
+                </div>
+            </div>
+            <div class="am-form-group">
+                <label class="am-u-sm-4 am-u-md-3 am-form-label">确认密码</label>
+                <div class="am-u-sm-8 am-u-md-4 am-u-end">
+                    <input type="password" name="confirm" class="am-form-field" placeholder="重复上面的登录密码">
+                </div>
+                <div class="am-hide-sm-only am-u-md-5 am-form-help">
+                    * 必填，不可重复
+                </div>
+            </div>
+            <div class="am-form-group">
+                <div class="am-u-sm-10 am-u-sm-offset-2">
+                    <button type="submit" class="am-btn am-btn-primary"><i class="am-icon-save"></i> 保存数据</button>
+                    <button type="reset" class="am-btn am-btn-default"><i class="am-icon-repeat"></i> 重置表单</button>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="am-u-lg-6">
+            <div class="am-form-group">
+                <label class="am-u-sm-4 am-u-md-3 am-form-label">用户名</label>
+                <div class="am-u-sm-8 am-u-md-4 am-u-end">
+                    <input type="text" name="username" class="am-form-field" placeholder="请输入登录用户名">
+                </div>
+                <div class="am-hide-sm-only am-u-md-5 am-form-help">
+                    * 必填，不可重复
+                </div>
+            </div>
+        </fieldset>
+    </form>
 </div>
 {include file="public/footer"/}
