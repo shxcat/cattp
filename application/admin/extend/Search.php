@@ -23,6 +23,7 @@ class Search
      */
     use Instance;
 
+    // 控件类型
     const TYPE_HIDDEN   = 'Hidden';      // 隐藏域
     const TYPE_SEARCH   = 'Search';      // 单项搜索框
     const TYPE_SELECT   = 'Select';      // 下拉列表
@@ -50,9 +51,15 @@ class Search
     protected $fields = [];
 
     /**
+     * @var int         对齐方式
+     */
+    protected $align = 1;
+
+    /**
      * @var array       参数
      */
     protected $options = [
+        'tiled'     => true,                // 是否平铺
         'field'     => 'field',             // 组合查询选择框字段
         'query'     => 'query',             // 组合查询输入框字段
     ];
@@ -72,7 +79,7 @@ class Search
      * 设置组合查询字段
      * @param array $fields     字段数组
      */
-    public function setFields(array $fields = [])
+    public function setQueryFields(array $fields = [])
     {
         $this->fields = $fields;
     }
@@ -141,7 +148,7 @@ class Search
             }
 
             // 搜索按钮
-            $form.= '<div class="am-btn-group am-fr">';
+            $form.= '<div class="am-btn-group'.($this->options['tiled'] ? ' am-fr' : '').'">';
             $form.= '<button type="submit" class="am-btn am-btn-success"><i class="am-icon-search"></i> 搜索</button>';
             $form.= '<a href="'.url($this->request->action(), $params).'" class="am-btn am-btn-warning"><i class="am-icon-reply"></i> 撤销</a>';
             $form.= '</div>';
@@ -153,9 +160,8 @@ class Search
 
     /**
      * 构建查询条件
-     * @param array $alias      字段别名&查询方式
+     * @param array $alias      控件字段别名
      *      [
-     *          _fields   => [],              // 模糊查询字段别名
      *          查询名     => "",              // 字段名
      *          查询名     => \Closure,        // 闭包处理
      *          查询名     => [
@@ -163,31 +169,33 @@ class Search
      *              查询方式(仅支持eq, neq, gt, egt, lt, elt, like)
      *          ]
      *      ]
+     * @param array $fields      字段查询别名
      * @return array
      */
-    public function query($alias = [])
+    public function query(array $alias = [], array $fields = [])
     {
         $condition = [];
 
         // 如果开启模糊查询
         if (! empty($this->fields)) {
-            // 检查是否指定模糊查询字段映射
-            $fields = [];
-            if (isset($alias['_fields'])) {
-                $fields = $alias['_fields'];
-                unset($alias['_fields']);
-            }
-
             // 检查是否有值
             if( $this->check($this->options['field']) && $this->check($this->options['query']) ){
+                $exp   = 'like';
                 $field = $this->value($this->options['field']);
                 $query = $this->value($this->options['query']);
 
                 if (isset($fields[$field])) {
                     $field = $fields[$field];
+                    if (is_array($field)) {
+                        list($field, $exp) = $field;
+                    }
                 }
 
-                $condition[$field] = array("like", "%{$query}%");
+                if ($exp == 'like') {
+                    $condition[$field] = ["like", "%{$query}%"];
+                } else {
+                    $condition[$field] = [$exp, $query];
+                }
             }
         }
 
@@ -219,17 +227,17 @@ class Search
                 }
 
                 if (! empty($between)) {
-                    $map[$field] = $between;
+                    $condition[$field] = $between;
                 }
             } else if (! is_null($value) && $value != '') {
                 if ($exp == 'like') {
-                    $map[$field] = ['like', '%'.$value.'%'];
+                    $condition[$field] = ['like', '%'.$value.'%'];
                 } else {
                     if ($control['type'] == self::TYPE_DATETIME) {
                         $value = strtotime($value);
                     }
 
-                    $map[$field] = [$exp, $value];
+                    $condition[$field] = [$exp, $value];
                 }
             }
         }

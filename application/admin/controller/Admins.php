@@ -19,25 +19,37 @@ use app\admin\extend\Search;
 class Admins extends Auth
 {
 
+    protected $adminStatus = [1 => '正常', 0 => '锁定'];
+    protected $adminGender = ['保密', '男', '女'];
+
     /**
      * 管理员列表
      * @return mixed
      */
     public function lists()
     {
-        $search = Search::instance();
-        $search->setFields([
-            'username'  => '用户名',
-            'realname'  => '真实姓名',
-        ]);
-        $search->control('username', Search::TYPE_SEARCH, '用户名', ['icon' => 'am-icon-user']);
-        $search->control('time', Search::TYPE_DATETIME, '注册时间', ['range' => true]);
-        $search->control('username', Search::TYPE_SELECT2, '选择', ['remote' => url('ajax'), 'width' => '100px']);
-
+        $search = Search::instance(['tiled' => false]);
         $paging = Paging::instance();
 
-        $paging->limit(1000);
+        $search->setQueryFields([
+            'username'  => '用户名',
+            'realname'  => '真实姓名',
+            'mobile'    => '手机号码',
+            'email'     => '邮箱地址',
+        ]);
+        $search->control('sex', Search::TYPE_SELECT, '性别', ['options' => $this->adminGender]);
+        $search->control('st', Search::TYPE_SELECT, '状态', ['options' => $this->adminStatus]);
 
+        // 创建查询条件
+        $map = $search->query([
+            'sex'   => 'gender',
+            'st'    => 'status'
+        ]);
+
+        $count = db("admins")->where($map)->count();
+        $lists = db("admins")->field('password,salt', true)->where($map)->limit($paging->limit($count))->select();
+
+        $this->assign("lists", $lists);
         $this->assign("paging", $paging->html());
         $this->assign("search", $search->html());
         return $this->fetch();
