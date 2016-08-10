@@ -159,7 +159,7 @@ class Search
     }
 
     /**
-     * 构建查询条件
+     * 构建查询条件 (不指定别名则使用控件名作为字段)
      * @param array $alias      控件字段别名
      *      [
      *          查询名     => "",              // 字段名
@@ -375,7 +375,7 @@ class Search
             }
 
             $html = '<div class="am-form-group">';
-            $html.= '<select name="'.$name.'" class="am-form-field" style="'.$width.'"'.$change.$multiple.$attr.'>';
+            $html.= '<select name="'.$name.'" class="am-form-field" style="min-width:70px;'.$width.'"'.$change.$multiple.$attr.'>';
             $html.= '<option></option>';
         } else {
             $icon = isset($params['icon']) ? $params['icon'] : '';

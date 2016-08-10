@@ -6,7 +6,9 @@
  */
 
 $config = [
-
+    'template'  => [
+        'taglib_pre_load'   => 'app\\admin\\extend\\Html'
+    ],
 ];
 
 // 后台菜单配置

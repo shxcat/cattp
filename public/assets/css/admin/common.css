@@ -55,10 +55,10 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 .error-404 { width: 500px; margin: 50px auto; }
 .panel-container li { padding: 10px 5px; }
 .panel-container li .am-panel { margin: 0; }
-#page-header { padding-bottom: 5px; margin-bottom: 5px; }
-#page-header .title { float: left; margin: 0; }
+#page-header { padding-bottom: 5px; margin-bottom: 5px; border-bottom: 1px solid #cccccc; }
+#page-header .title { float: left; margin: 0; font-size: 1.3em; color: #666; line-height: 28px; }
 #page-header .button { float: right; margin: 0; }
-#page-search { margin-bottom: 10px; }
+#page-search { margin-bottom: 5px; }
 #page-search .search-icon span { padding: 8px 12px; }
 #page-search .search-query { border-left: 0; }
 #page-search .search-range span { padding: 8px 2px; background: #FFFFFF; color: #666; }
@@ -115,8 +115,10 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 .am-form-sm .am-btn {
     font-size: 1.3rem !important;
 }
-.am-form-xs select,select.am-input-xs { padding-right: 20px; }
+.am-form-xs select,select.am-input-xs { padding-right: 20px; height: 28px; }
 .am-form-xs.am-form-horizontal .am-form-help { margin-top: 4px; margin-bottom: 0; }
+.am-form-label.require:after { content: '*'; position: absolute; color: orangered; right: 8px; top: 6px; }
+.am-form legend { font-size: 1.3em; padding: 5px 10px; }
 
-    /* Select2 CSS Reload */
+/* Select2 CSS Reload */
 .select2-selection { border-radius: 0 !important; border: 1px solid #cccccc !important; }

@@ -2,9 +2,12 @@
 {:location(['admin/admins/lists' => '管理员管理', '管理员列表'])}
 <div id="container">
     <div id="page-header" class="am-cf">
-        <h1 class="title">管理员列表</h1>
+        <h1 class="title">
+            <i class="am-icon-bookmark"></i>
+            管理员列表
+        </h1>
         <div class="button">
-            <a href="{:url('admin/admins/add')}" class="am-btn am-btn-xs am-btn-primary" data-pjax><i class="am-icon-plus"></i> 添加管理员</a>
+            <a href="{:url('add')}" class="am-btn am-btn-xs am-btn-primary" data-pjax><i class="am-icon-plus"></i> 添加管理员</a>
         </div>
     </div>
     {$search}

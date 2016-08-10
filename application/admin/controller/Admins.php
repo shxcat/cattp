@@ -37,17 +37,14 @@ class Admins extends Auth
             'mobile'    => '手机号码',
             'email'     => '邮箱地址',
         ]);
-        $search->control('sex', Search::TYPE_SELECT, '性别', ['options' => $this->adminGender]);
-        $search->control('st', Search::TYPE_SELECT, '状态', ['options' => $this->adminStatus]);
+        $search->control('gender', Search::TYPE_SELECT, '性别', ['options' => $this->adminGender]);
+        $search->control('status', Search::TYPE_SELECT, '状态', ['options' => $this->adminStatus]);
 
         // 创建查询条件
-        $map = $search->query([
-            'sex'   => 'gender',
-            'st'    => 'status'
-        ]);
-
-        $count = db("admins")->where($map)->count();
-        $lists = db("admins")->field('password,salt', true)->where($map)->limit($paging->limit($count))->select();
+        $map    = $search->query();
+        $count  = db("admins")->where($map)->count();
+        $limit  = $paging->limit($count);
+        $lists  = db("admins")->field('password,salt', true)->where($map)->limit($limit)->select();
 
         $this->assign("lists", $lists);
         $this->assign("gender", $this->adminGender);
