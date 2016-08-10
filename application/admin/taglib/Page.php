@@ -23,7 +23,7 @@ class Page extends TagLib
      */
     protected $tags = [
         'location'  => ['attr' => 'tools', 'expression' => true],
-        'pos'       => ['attr' => 'label,link', 'close' => 0],
+        'pos'       => ['attr' => 'label,link', 'close' => 0, 'alias' => 'position'],
         'header'    => ['attr' => 'title,if,else'],
         'paging'    => ['attr' => 'name', 'close' => 0, 'expression' => true],
         'search'    => ['attr' => 'name', 'close' => 0, 'expression' => true],
@@ -36,26 +36,18 @@ class Page extends TagLib
      */
     public function tagLocation($tag, $content)
     {
-//        $location = [
-//            '<ol id="location" class="am-breadcrumb am-breadcrumb-slash">',
-//            '<li><a href="'.url('admin/index/index').'" class="am-icon-home" data-pjax>首页</a></li>'
-//        ];
-//        foreach($path as $key => $val){
-//            if( is_string($key) ){
-//                $location[] = '<li><a href="'.url($key).'" data-pjax>'.$val.'</a></li>';
-//            }else{
-//                $location[] = '<li>'.$val.'</li>';
-//            }
-//        }
-//
-//        if ($tools) {
-//            $location[] = '<li class="am-fr"><a href="javascript:;" onclick="$.AMUI.pjax.reload();" title="刷新"><i class="am-icon-refresh"></i>刷新(F5)</a></li>';
-//            $location[] = '<li class="am-fr"><a href="javascript:;" onclick="window.open($.AMUI.pjax.location());" title="新窗口打开"><i class="am-icon-external-link"></i>新窗口打开</a></li>';
-//        }
-//
-//        $location[] = '</ol>';
-//        return implode("", $location);
-        $parse = '<?php '.$content.' ?>';
+        $tools = isset($tag['tools']) ? true : false;
+
+        $parse = '<ol id="location" class="am-breadcrumb am-breadcrumb-slash">';
+        $parse.= '<li><a href="'.url('admin/index/index').'" class="am-icon-home" data-pjax>首页</a></li>';
+        $parse.= $content;
+
+        if ($tools) {
+            $parse.= '<li class="am-fr"><a href="javascript:;" onclick="$.AMUI.pjax.reload();" title="刷新"><i class="am-icon-refresh"></i>刷新(F5)</a></li>';
+            $parse.= '<li class="am-fr"><a href="javascript:;" onclick="window.open($.AMUI.pjax.location());" title="新窗口打开"><i class="am-icon-external-link"></i>新窗口打开</a></li>';
+        }
+
+        $parse.= '</ol>';
 
         return $parse;
     }
@@ -67,15 +59,24 @@ class Page extends TagLib
      */
     public function tagPos($tag)
     {
-        $name = isset($tag['name']) ? $tag['name'] : '';
+        $label  = $tag['label'];
+        $link   = isset($tag['link']) ? $tag['link'] : '';
 
-        if (strpos($name, "$") === 0) {
+        $parse = '<li>';
+        if (strpos($label, "$") === 0) {
+            $label = '<?php echo '.$this->autoBuildVar($label).'; ?>';
+        } elseif (strpos($label, ":") === 0) {
             $var = '$_' . uniqid();
-            $name = $this->autoBuildVar($name);
-            $parse = '<?php '. $var . ' = ' . $name . '; echo '.$var.'->html(); ?>';
-        } else {
-            $parse = '<?php echo \app\admin\extend\Paging::instance("'.$name.'")->html(); ?>';
+            $label = '<?php ' . $var . '=' . $this->autoBuildVar($label) . '; echo ' . $var . '; ?>';
         }
+
+        if ($link) {
+            $parse.= '<a href="'.url($link).'">'.$label.'</a>';
+        } else {
+            $parse.= $label;
+        }
+
+        $parse.= '</li>';
 
         return $parse;
     }
@@ -131,9 +132,7 @@ class Page extends TagLib
         $name = isset($tag['name']) ? $tag['name'] : '';
 
         if (strpos($name, "$") === 0) {
-            $var = '$_' . uniqid();
-            $name = $this->autoBuildVar($name);
-            $parse = '<?php '. $var . ' = ' . $name . '; echo '.$var.'->html(); ?>';
+            $parse = '<?php echo '.$this->autoBuildVar($name).'->html(); ?>';
         } else {
             $parse = '<?php echo \app\admin\extend\Paging::instance("'.$name.'")->html(); ?>';
         }
@@ -151,9 +150,7 @@ class Page extends TagLib
         $name = isset($tag['name']) ? $tag['name'] : '';
 
         if (strpos($name, "$") === 0) {
-            $var = '$_' . uniqid();
-            $name = $this->autoBuildVar($name);
-            $parse = '<?php '. $var . ' = ' . $name . '; echo '.$var.'->html(); ?>';
+            $parse = '<?php echo '.$this->autoBuildVar($name).'->html(); ?>';
         } else {
             $parse = '<?php echo \app\admin\extend\Search::instance("'.$name.'")->html(); ?>';
         }
