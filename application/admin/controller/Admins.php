@@ -48,8 +48,6 @@ class Admins extends Auth
 
         $this->assign("lists", $lists);
         $this->assign("gender", $this->adminGender);
-        $this->assign("paging", $paging->html());
-        $this->assign("search", $search->html());
         return $this->fetch();
     }
 

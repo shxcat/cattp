@@ -8,7 +8,6 @@
  */
 namespace app\admin\extend;
 
-use traits\think\Instance;
 use think\Request;
 
 /**
@@ -19,9 +18,9 @@ use think\Request;
 class Search
 {
     /**
-     * 使用单例
+     * @var array   单例组
      */
-    use Instance;
+    protected static $instances = [];
 
     // 控件类型
     const TYPE_HIDDEN   = 'Hidden';      // 隐藏域
@@ -63,6 +62,20 @@ class Search
         'field'     => 'field',             // 组合查询选择框字段
         'query'     => 'query',             // 组合查询输入框字段
     ];
+
+    /**
+     * 获取单利对象
+     * @param string $name
+     * @param array $options
+     * @return static
+     */
+    public static function instance($name = '', $options = [])
+    {
+        if (! isset(self::$instances[$name])) {
+            self::$instances[$name] = new self($options);
+        }
+        return self::$instances[$name];
+    }
 
     /**
      * Search constructor.

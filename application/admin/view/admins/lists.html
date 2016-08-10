@@ -1,16 +1,15 @@
 {include file="public/header"/}
 {:location(['admin/admins/lists' => '管理员管理', '管理员列表'])}
+{page:location}
+
+{/page:location}
 <div id="container">
-    <div id="page-header" class="am-cf">
-        <h1 class="title">
-            <i class="am-icon-bookmark"></i>
-            管理员列表
-        </h1>
-        <div class="button">
-            <a href="{:url('add')}" class="am-btn am-btn-xs am-btn-primary" data-pjax><i class="am-icon-plus"></i> 添加管理员</a>
-        </div>
-    </div>
-    {$search}
+    {page:header title="管理员列表"}
+    <a href="{:url('add')}" class="am-btn am-btn-xs am-btn-primary" data-pjax><i class="am-icon-plus"></i> 添加管理员</a>
+    {/page:header}
+
+    {page:search /}
+
     <table class="page-table am-table am-table-bordered am-table-striped am-table-hover am-table-compact am-text-nowrap am-margin-bottom-xs">
         <thead>
         <tr>
@@ -51,6 +50,7 @@
         {/foreach}
         </tbody>
     </table>
-    {$paging}
+
+    {page:paging /}
 </div>
 {include file="public/footer"/}

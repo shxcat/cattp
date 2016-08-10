@@ -9,7 +9,6 @@
 namespace app\admin\extend;
 
 use think\Request;
-use traits\think\Instance;
 
 /**
  * 分页组件
@@ -19,9 +18,9 @@ use traits\think\Instance;
 class Paging
 {
     /**
-     * 单例
+     * @var array   单例组
      */
-    use Instance;
+    protected static $instances = [];
 
     /**
      * @var int     数据总数
@@ -66,6 +65,20 @@ class Paging
         'show_jump' => true,                                            // 是否显示跳转
         'show_size' => true,                                            // 是否可选择每页显示数量
     ];
+
+    /**
+     * 获取单利对象
+     * @param string $name
+     * @param array $options
+     * @return Paging
+     */
+    public static function instance($name = '', $options = [])
+    {
+        if (! isset(self::$instances[$name])) {
+            self::$instances[$name] = new self($options);
+        }
+        return self::$instances[$name];
+    }
 
     /**
      * Paging constructor.
