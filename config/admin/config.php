@@ -7,7 +7,7 @@
 
 $config = [
     'template'  => [
-        'taglib_pre_load'   => 'app\\admin\\extend\\Html'
+        'taglib_pre_load'   => 'app\\admin\\taglib\\Page'
     ],
 ];
 

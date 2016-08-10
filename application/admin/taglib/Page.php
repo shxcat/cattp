@@ -1,21 +1,21 @@
 <?php
 /**
- * 自定义标签库
+ * 页面模版标签库
  * Created by PhpStorm.
- * @package app\admin\extend
+ * @package app\admin\taglib
  * @version 16/8/1 下午5:09
  * @author  cbwfree
  */
-namespace app\admin\extend;
+namespace app\admin\taglib;
 
 use think\template\TagLib;
 
 /**
  * 自定义标签库
- * Class Html
- * @package app\admin\extend
+ * Class Page
+ * @package app\admin\taglib
  */
-class Html extends TagLib
+class Page extends TagLib
 {
     /**
      * @var array   定义标签列表
@@ -23,7 +23,6 @@ class Html extends TagLib
      */
     protected $tags   =  [
         'header'    => ['attr' => 'title,if,else'],
-        'select'    => ['attr' => 'name,options,selected,']
     ];
 
     /**
