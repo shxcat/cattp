@@ -24,7 +24,7 @@ class Page extends TagLib
     protected $tags = [
         'location'  => ['attr' => 'tools', 'expression' => true],
         'pos'       => ['attr' => 'label,link', 'close' => 0, 'alias' => 'position'],
-        'header'    => ['attr' => 'title,if,else'],
+        'header'    => ['attr' => 'title'],
         'paging'    => ['attr' => 'name', 'close' => 0, 'expression' => true],
         'search'    => ['attr' => 'name', 'close' => 0, 'expression' => true],
     ];
