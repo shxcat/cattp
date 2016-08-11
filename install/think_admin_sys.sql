@@ -17,9 +17,9 @@
 # Dump of table tp_admin
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `tp_admin`;
+DROP TABLE IF EXISTS `tp_admins`;
 
-CREATE TABLE `tp_admin` (
+CREATE TABLE `tp_admins` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(80) NOT NULL DEFAULT '' COMMENT '用户名',
   `password` varchar(32) NOT NULL DEFAULT '' COMMENT '密码MD5',
