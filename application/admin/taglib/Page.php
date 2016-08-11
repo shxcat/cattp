@@ -11,7 +11,7 @@ namespace app\admin\taglib;
 use think\template\TagLib;
 
 /**
- * 自定义标签库
+ * 页面模版标签库
  * Class Page
  * @package app\admin\taglib
  */
@@ -99,11 +99,9 @@ class Page extends TagLib
         // 支持用函数传数组
         if (strpos($title, ":") === 0) {
             $var = '$_' . uniqid();
-            $title = $this->autoBuildVar($title);
-            $title = '<?php ' . $var . '=' . $title . '; echo '.$var.'; ?>';
+            $title = '<?php ' . $var . '=' . $this->autoBuildVar($title) . '; echo '.$var.'; ?>';
         } elseif (strpos($title, "$") === 0) {
-            $title = $this->autoBuildVar($title);
-            $title = '<?php echo '.$title.'; ?>';
+            $title = '<?php echo '.$this->autoBuildVar($title).'; ?>';
         }
 
         if ($if) {

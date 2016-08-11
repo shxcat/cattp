@@ -7,58 +7,14 @@
     {page:header title=":(isset($info)?'编辑':'新增').'管理员'"}
     <a href="{:url('lists')}" class="am-btn am-btn-xs am-btn-default" data-pjax><i class="am-icon-backward"></i> 返回列表</a>
     {/page:header}
-    <form action="{$Request.action|url=###}" class="am-form am-form-horizontal am-form-xs am-g-fixed">
-        <fieldset>
-            <legend><i class="am-icon-bars"></i> 登录信息</legend>
-            <div class="am-form-group">
-                <label class="am-u-sm-4 am-u-md-2 am-form-label require">用户名</label>
-                <div class="am-u-sm-8 am-u-md-4">
-                    <input type="text" name="username" class="am-form-field" placeholder="请输入登录用户名">
-                </div>
-                <div class="am-hide-sm-only am-u-md-6 am-form-help">
-                    必填，不可重复
-                </div>
-            </div>
-            <div class="am-form-group">
-                <label class="am-u-sm-4 am-u-md-2 am-form-label">登录密码</label>
-                <div class="am-u-sm-8 am-u-md-5 am-u-end">
-                    <input type="password" name="password" class="am-form-field" placeholder="请输入登录密码">
-                </div>
-            </div>
-            <div class="am-form-group">
-                <label class="am-u-sm-4 am-u-md-2 am-form-label">确认密码</label>
-                <div class="am-u-sm-8 am-u-md-5 am-u-end">
-                    <input type="password" name="confirm" class="am-form-field" placeholder="重复上面的登录密码">
-                </div>
-            </div>
-            <div class="am-form-group">
-                <label class="am-u-sm-4 am-u-md-2 am-form-label">帐号状态</label>
-                <div class="am-u-sm-8 am-u-md-5 am-u-end">
-                    <select name="status" title="" class="am-form-field">
-                        {foreach $status as $key => $val}
-                        <option value="{$key}">{$val}</option>
-                        {/foreach}
-                    </select>
-                </div>
-            </div>
-            <div class="am-form-group">
-                <label class="am-u-sm-4 am-u-md-2 am-form-label">锁定原因</label>
-                <div class="am-u-sm-8 am-u-md-5 am-u-end">
 
-                </div>
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend><i class="am-icon-bars"></i> 帐号信息</legend>
+    {form:form class="am-g-fixed"}
+    {form:fieldset title="登录信息"}
+        {form:input type="text" label="用户名" name="username" value="" tips="请输入登录用户名" help="必填，不可重复"/}
+        {form:input type="password" label="登录密码" name="password" value="" tips="请输入登录密码"/}
+        {form:input type="password" label="重复密码" name="confirm" value="" tips="重复上面的登录密码"/}
 
-
-        </fieldset>
-        <div class="am-form-group">
-            <div class="am-u-sm-8 am-u-md-10 am-u-sm-offset-4 am-u-md-offset-2">
-                <button type="submit" class="am-btn am-btn-primary"><i class="am-icon-save"></i> 保存数据</button>
-                <button type="reset" class="am-btn am-btn-default"><i class="am-icon-repeat"></i> 重置表单</button>
-            </div>
-        </div>
-    </form>
+    {/form:fieldset}
+    {/form:form}
 </div>
 {include file="public/footer"/}
