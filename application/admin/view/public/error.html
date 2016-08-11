@@ -1,6 +1,8 @@
 {/* 已登录的404页面 */}
 {include file="public/header"/}
-{:location(['404 Not Found!'])}
+{page:location}
+{page:pos label="404 Not Found!" /}
+{/page:location}
 <div id="container">
     <article class="error-404 am-article">
         <div class="am-article-hd">
