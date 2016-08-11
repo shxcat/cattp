@@ -357,7 +357,6 @@ class Search
      *      change:     string          onChange事件名称
      *      space:      string          Tree选择列表缩进字符
      *      group:      bool            分组模式 (Tree选项父级不可选)
-     *      multiple:   bool            是否启用多选
      *      width:      string          select控件宽度
      *      select2:    bool            使用Select2扩展原始Select控件
      *      icon:       string          控件图标 (仅普通Select有效)
@@ -372,7 +371,6 @@ class Search
         $change     = isset($params['change']) ? " onchange='{$params['change']}'" : '';
         $space      = isset($params['space']) ? $params['space'] : '&emsp;&emsp;';
         $group      = isset($params['group']) ? $params['group'] : false;
-        $multiple   = isset($params['multiple']) ? ' multiple' : '';
         $width      = isset($params['width']) ? "width:{$params['width']};" : '';
 
         // 创建HTML
@@ -388,7 +386,7 @@ class Search
             }
 
             $html = '<div class="am-form-group">';
-            $html.= '<select name="'.$name.'" class="am-form-field" style="min-width:70px;'.$width.'"'.$change.$multiple.$attr.'>';
+            $html.= '<select name="'.$name.'" class="am-form-field" style="min-width:70px;'.$width.'"'.$change.$attr.'>';
             $html.= '<option></option>';
         } else {
             $icon = isset($params['icon']) ? $params['icon'] : '';
@@ -397,7 +395,7 @@ class Search
             if ($icon) {
                 $html.= '<i class="'.$icon.'"></i>';
             }
-            $html.= '<select name="'.$name.'" class="am-form-field"  style="'.$width.'"'.$change.$multiple.'>';
+            $html.= '<select name="'.$name.'" class="am-form-field"  style="'.$width.'"'.$change.'>';
             if ( $label ) {
                 $html.= '<option value="">- '.$label.' -</option>';
             }

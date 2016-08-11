@@ -13,7 +13,8 @@
         {form:input type="text" label="用户名" name="username" value="" tips="请输入登录用户名" help="必填，不可重复"/}
         {form:input type="password" label="登录密码" name="password" value="" tips="请输入登录密码"/}
         {form:input type="password" label="重复密码" name="confirm" value="" tips="重复上面的登录密码"/}
-
+        {form:select label="状态" name="status" options="$status" value="$info['a']"/}
+        {form:input type="text" label="锁定原因" name="remark" value="" help="锁定帐号时,必须要填写原因"/}
     {/form:fieldset}
     {/form:form}
 </div>
