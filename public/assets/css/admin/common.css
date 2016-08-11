@@ -96,25 +96,32 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 .am-input-xs { font-size: 1.2rem !important; }
 .am-form-group-xs .am-checkbox,
 .am-form-group-xs .am-radio,
+.am-form-group-xs .am-radio-inline,
 .am-form-group-xs .am-form-label,
 .am-form-group-xs .am-form-field {
     font-size: 1.2rem !important;
 }
 .am-form-xs .am-checkbox,
 .am-form-xs .am-radio,
+.am-form-xs .am-radio-inline,
 .am-form-xs .am-form-label,
 .am-form-xs .am-form-field,
 .am-form-xs .am-btn {
     font-size: 1.2rem !important;
 }
-.am-form-xs .am-form-label { padding-top: .4em !important; }
 .am-form-sm .am-checkbox,
 .am-form-sm .am-radio,
+.am-form-sm .am-radio-inline,
 .am-form-sm .am-form-label,
 .am-form-sm .am-form-field,
 .am-form-sm .am-btn {
     font-size: 1.3rem !important;
 }
+.am-form-xs .am-form-group { margin-bottom: 1rem; }
+.am-form-xs .am-form-label { padding-top: .4em !important; }
+.am-form-xs .am-radio-inline { padding-top: .4em !important; }
+.am-form-xs .am-radio-inline input[type=checkbox],
+.am-form-xs .am-radio-inline input[type=radio] { margin-top: 2px !important; }
 .am-form-xs select,select.am-input-xs { padding-right: 20px; height: 28px; }
 .am-form-xs.am-form-horizontal .am-form-help { margin-top: 4px; margin-bottom: 0; }
 .am-form-label.require:after { content: '*'; position: absolute; color: orangered; right: 8px; top: 6px; }
