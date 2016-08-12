@@ -23,14 +23,14 @@ class Form extends TagLib
      *              标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
      */
     protected $tags = [
-        'form'      => ['attr' => 'submit,class', 'expression' => true, 'level' => 0],
+        'form'      => ['attr' => 'submit,class,valid', 'expression' => true, 'level' => 0],
         'fieldset'  => ['attr' => 'class,title', 'expression' => true, 'level' => 0],
-        'label'     => ['attr' => 'label,width,help,require'],
-        'input'     => ['attr' => 'label,width,help,require,default,name,type,value,class,tips,help,attr', 'close' => 0],
-        'select'    => ['attr' => 'label,width,help,require,default,name,options,fields,value,class,first,remote,multi,change,attr', 'close' => 0],
-        'text'      => ['attr' => 'label,width,help,require,default,name,value,class,height,tips,attr', 'close' => 0],
-        'checkbox'  => ['attr' => 'label,width,help,require,default,name,options,value,class,attr', 'close' => 0],
-        'radio'     => ['attr' => 'label,width,help,require,default,name,options,value,class,attr', 'close' => 0],
+        'label'     => ['attr' => 'label,width,help'],
+        'input'     => ['attr' => 'label,width,help,valid,default,name,type,value,class,tips,help,attr', 'close' => 0],
+        'select'    => ['attr' => 'label,width,help,valid,default,name,options,fields,value,class,first,remote,multi,change,attr', 'close' => 0],
+        'text'      => ['attr' => 'label,width,help,valid,default,name,value,class,height,tips,attr', 'close' => 0],
+        'checkbox'  => ['attr' => 'label,width,help,valid,default,name,options,value,class,attr', 'close' => 0],
+        'radio'     => ['attr' => 'label,width,help,valid,default,name,options,value,class,attr', 'close' => 0],
     ];
 
     /**
@@ -43,6 +43,9 @@ class Form extends TagLib
     {
         $submit = isset($tag['submit']) ? $tag['submit'] : '';
         $class  = isset($tag['class']) ? $tag['class'] : '';
+        $method = isset($tag['method']) ? $tag['method'] : 'post';
+        $ajax   = isset($tag['ajax']) ? ' data-submit' : '';
+        $valid  = isset($tag['valid']) ? ' data-validator' : '';
 
 
         if (empty($submit)) {
@@ -55,7 +58,7 @@ class Form extends TagLib
             }
         }
 
-        $parse = '<form action="'.$submit.'" class="am-form am-form-horizontal am-form-xs '.$class.'">';
+        $parse = '<form action="'.$submit.'" method="'.$method.'" class="am-form am-form-horizontal am-form-xs '.$class.'"'.$ajax.$valid.'>';
         $parse.= $content;
         $parse.= '<div class="am-form-group">';
         $parse.= '<div class="am-u-sm-8 am-u-md-10 am-u-sm-offset-4 am-u-md-offset-2">';
@@ -96,10 +99,9 @@ class Form extends TagLib
      */
     public function tagLabel($tag, $content)
     {
-        // label,width,help,require
+        // label,width,help
         $width  = isset($tag['width']) ? intval($tag['width']) : 5;
         $help   = isset($tag['help']) ? $tag['help'] : '';
-        $require= isset($tag['require']) ? ' require' : '';
 
         if ($width <= 0) {
             $width = 5;
@@ -116,7 +118,7 @@ class Form extends TagLib
         $help_width = 10 - $width;
 
         $parse = '<div class="am-form-group">';
-        $parse.= '<label class="am-u-sm-4 am-u-md-2 am-form-label'.$require.'">'.$tag['label'].'</label>';
+        $parse.= '<label class="am-u-sm-4 am-u-md-2 am-form-label">'.$tag['label'].'</label>';
         $parse.= '<div class="am-u-sm-8 am-u-md-'.$width.$end.'">';
         $parse.= $content;
         $parse.= '</div>';
@@ -143,9 +145,9 @@ class Form extends TagLib
         $value  = isset($tag['value']) ? $tag['value'] : '';
         $class  = isset($tag['class']) ? $tag['class'] : '';
         $tips   = isset($tag['tips']) ? $tag['tips'] : '';
-        $require= isset($tag['require']) ? ' require' : '';
         $attr   = isset($tag['attr']) ? ' '.$tag['attr'] : '';
         $default= isset($tag['default']) ? $tag['default'] : '';
+        $valid  = isset($tag['valid']) ? $this->formValid($tag['valid']) : '';
 
         // 支持用函数传数组
         $flag  = substr($value, 0, 1);
@@ -156,7 +158,7 @@ class Form extends TagLib
             $value = '<?php echo isset('.$value.') ? '.$value.': "'.$default.'";?>';
         }
 
-        $content = '<input type="'.$type.'" name="'.$name.'" value="'.$value.'" class="am-form-field '.$class.'" placeholder="'.$tips.'"'.$attr.$require.'>';
+        $content = '<input type="'.$type.'" name="'.$name.'" value="'.$value.'" class="am-form-field '.$class.'" placeholder="'.$tips.'"'.$attr.$valid.'>';
 
         return $this->tagLabel($tag, $content);
     }
@@ -173,10 +175,10 @@ class Form extends TagLib
         $value  = isset($tag['value']) ? $tag['value'] : '';
         $class  = isset($tag['class']) ? $tag['class'] : '';
         $tips   = isset($tag['tips']) ? $tag['tips'] : '';
-        $require= isset($tag['require']) ? ' require' : '';
         $attr   = isset($tag['attr']) ? ' '.$tag['attr'] : '';
         $height = isset($tag['height']) ? 'height:'.$tag['height'].'px;' : '';
         $default= isset($tag['default']) ? $tag['default'] : '';
+        $valid  = isset($tag['valid']) ? $this->formValid($tag['valid']) : '';
 
         // 支持用函数传数组
         $flag  = substr($value, 0, 1);
@@ -187,7 +189,7 @@ class Form extends TagLib
             $value = '<?php echo isset('.$value.') ? '.$value.': "'.$default.'";?>';
         }
 
-        $content = '<textarea name="'.$name.'" class="am-form-field'.$class.'" style="'.$height.'" placeholder="'.$tips.'"'.$attr.$require.'>'.$value.'</textarea>';
+        $content = '<textarea name="'.$name.'" class="am-form-field'.$class.'" style="'.$height.'" placeholder="'.$tips.'"'.$attr.$valid.'>'.$value.'</textarea>';
 
         return $this->tagLabel($tag, $content);
     }
@@ -207,11 +209,12 @@ class Form extends TagLib
         $options= isset($tag['options']) ? $tag['options'] : [];
         $remote = isset($tag['remote']) ? $tag['remote'] : '';
         $attr   = isset($tag['attr']) ? ' '.$tag['attr'] : '';
-        $require= isset($tag['require']) ? ' require' : '';
         $multi  = isset($tag['multi']) ? ' multiple' : '';
         $change = isset($tag['change']) ? ' onchange="'.$tag['change'].'"' : '';
         $fields = isset($tag['fields']) ? explode(',', $tag['fields']) : '';
         $default= isset($tag['default']) ? $tag['default'] : '';
+        $valid  = isset($tag['valid']) ? $this->formValid($tag['valid']) : '';
+
 
         if (strpos($attr, "data-select")) {
             if ($first) {
@@ -226,7 +229,7 @@ class Form extends TagLib
             $first = '<option>'.$first.'</option>';
         }
 
-        $content = '<select name="'.$name.'" class="am-form-field'.$class.'"'.$change.$multi.$attr.$require.'>';
+        $content = '<select name="'.$name.'" class="am-form-field'.$class.'"'.$change.$multi.$attr.$valid.'>';
         $content.= $first;
         $content.= '<?php ';
 
@@ -284,6 +287,7 @@ class Form extends TagLib
         $options= isset($tag['options']) ? $tag['options'] : [];
         $change = isset($tag['change']) ? ' onchange="'.$tag['change'].'"' : '';
         $default= isset($tag['default']) ? $tag['default'] : '';
+        $valid  = isset($tag['valid']) ? $this->formValid($tag['valid']) : '';
 
         $content = '<?php ';
 
@@ -318,12 +322,14 @@ class Form extends TagLib
         }
 
         $content.= 'if(is_array(' . $options . ') || ' . $options . ' instanceof \think\Collection): ';
+        $content.= '$_index = 0;';
         $content.= 'foreach ('. $options .' as $k => $v): ';
+        $content.= '$_valid = $_index == 0 ? "'.$valid.'" : ""; ';
         $content.= '$_checked = (($k == '.$value.' && '.$value.' != "") || (is_array('.$value.') && in_array($k, '.$value.'))) ? " checked" : ""; ?>';
         $content.= '<label class="am-checkbox-inline'.$class.'">';
-        $content.= '<input type="checkbox" name="'.$name.'" value="<?php echo $k; ?>"'.$change.'<?php echo $_checked;?>> <?php echo $v; ?>';
+        $content.= '<input type="checkbox" name="'.$name.'" value="<?php echo $k; ?>"<?php echo $_valid; ?>'.$change.'<?php echo $_checked;?>> <?php echo $v; ?>';
         $content.= '</label>';
-        $content.= '<?php endforeach; endif; ?>';
+        $content.= '<?php $_index++; endforeach; endif; ?>';
 
         return $this->tagLabel($tag, $content);
     }
@@ -342,6 +348,7 @@ class Form extends TagLib
         $options= isset($tag['options']) ? $tag['options'] : [];
         $change = isset($tag['change']) ? ' onchange="'.$tag['change'].'"' : '';
         $default= isset($tag['default']) ? $tag['default'] : '';
+        $valid  = isset($tag['valid']) ? $this->formValid($tag['valid']) : '';
 
         $content = '<?php ';
 
@@ -373,13 +380,82 @@ class Form extends TagLib
         }
 
         $content.= 'if(is_array(' . $options . ') || ' . $options . ' instanceof \think\Collection): ';
+        $content.= '$_index = 0;';
         $content.= 'foreach ('. $options .' as $k => $v): ';
+        $content.= '$_valid = $_index == 0 ? "'.$valid.'" : ""; ';
         $content.= '$_checked = ($k == '.$value.' && '.$value.' != "") ? " checked" : ""; ?>';
         $content.= '<label class="am-radio-inline'.$class.'">';
-        $content.= '<input type="radio" name="'.$name.'" value="<?php echo $k; ?>"'.$change.'<?php echo $_checked;?>> <?php echo $v; ?>';
+        $content.= '<input type="radio" name="'.$name.'" value="<?php echo $k; ?>"<?php echo $_valid; ?>'.$change.'<?php echo $_checked;?>> <?php echo $v; ?>';
         $content.= '</label>';
-        $content.= '<?php endforeach; endif; ?>';
+        $content.= '<?php $_index++; endforeach; endif; ?>';
 
         return $this->tagLabel($tag, $content);
+    }
+
+    /**
+     * 生成表单验证
+     * @param $rules
+     * @return string
+     */
+    protected function formValid($rules)
+    {
+        $valid = [];
+
+        if (! empty($rules)) {
+            $rules = explode("|", $rules);
+
+            foreach ($rules as $rule) {
+                if ($rule == "required") {
+                    $valid[] = "required";
+                } elseif (strpos($rule, ":")) {
+                    $rule = explode(":", $rule);
+
+                    switch($rule[0]) {
+                        // 匹配其它字段
+                        case 'equal':
+                            $valid[] = 'data-equal-to="'.$rule[1].'"';
+                            break;
+                        // 正则
+                        case 'regex':
+                            $valid[] = 'pattern="'.$rule[1].'"';
+                            break;
+                        // 最小值
+                        case 'min':
+                            if (is_numeric($rule[1])) {
+                                $valid[] = 'min="'.$rule[1].'"';
+                            }
+                            break;
+                        // 最大值
+                        case 'max':
+                            if (is_numeric($rule[1])) {
+                                $valid[] = 'max="'.$rule[1].'"';
+                            }
+                            break;
+                        // 字符长度范围
+                        case 'length':
+                            list($min, $max) = explode(",", $rule[1]);
+                            if (is_numeric($min)) {
+                                $valid[] = 'minlength="'.$min.'"';
+                            }
+                            if (is_numeric($max)) {
+                                $valid[] = 'maxlength="'.$max.'"';
+                            }
+                            break;
+                        // 选择项数量范围
+                        case 'checked':
+                            list($min, $max) = explode(",", $rule[1]);
+                            if (is_numeric($min)) {
+                                $valid[] = 'minchecked="'.$min.'"';
+                            }
+                            if (is_numeric($max)) {
+                                $valid[] = 'maxchecked="'.$max.'"';
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
+        return $valid ? " " . implode(" ", $valid) : "";
     }
 }

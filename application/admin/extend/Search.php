@@ -84,7 +84,7 @@ class Search
     public function __construct(array $options = [])
     {
         $this->request  = Request::instance();
-        $this->values   = $this->request->get('', null, ['urldecode']);
+        $this->values   = $this->request->get();
         $this->options  = array_merge($this->options, $options);
     }
 

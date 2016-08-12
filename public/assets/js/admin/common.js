@@ -72,6 +72,7 @@ $(function(){
 
     // 核心事件
     $("body")
+        // 安全退出
         .on("click", ".safe-exit", function(){
             var _this = this;
             $.AMUI.message.confirm("您确认要退出登录吗?", "安全退出", function(ok){
@@ -81,6 +82,7 @@ $(function(){
             });
             return false;
         })
+        // 操作确认
         .on("click", "[data-confirm]", function(){
             var confirm = $(this).data('confirm') || '您确认要执行此操作吗?';
             $.AMUI.message.confirm(confirm, "提示", function(ok){
@@ -88,6 +90,13 @@ $(function(){
 
                 }
             });
+            return false;
+        })
+        // 提交表单
+        .on("submit", "[data-submit]", function(){
+
+
+
             return false;
         });
 
@@ -104,6 +113,11 @@ $(function(){
  */
 function apply_extend(container) {
     var $container = $(container);
+
+    // 启用表单验证
+    $container.find("[data-validator]").each(function(){
+        $(this).validator();
+    });
 
     // 初始化日期选择
     $container.find("[data-datetime]").each(function(){
@@ -150,6 +164,14 @@ function apply_extend(container) {
  */
 function destroy_extend(container) {
     var $container = $(container);
+
+    // 销毁表单验证
+    $container.find("[data-validator]").each(function(){
+        var valid = $(this).data("amui.validator");
+        if (typeof valid == "object") {
+            valid.destroy();
+        }
+    });
 
     // 销毁日期组件
     $container.find("[data-datetime]").each(function(){

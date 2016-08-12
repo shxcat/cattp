@@ -16,6 +16,8 @@ return [
     'app_trace'              => false,
     // 是否支持多模块
     'app_multi_module'       => true,
+    // 默认全局过滤方法, 多个以逗号分割
+    'default_filter'         => 'urldecode',
     // 扩展配置文件
     'extra_config_list'      => [
         'database',

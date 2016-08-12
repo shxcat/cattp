@@ -36,7 +36,7 @@ class Page extends TagLib
      */
     public function tagLocation($tag, $content)
     {
-        $tools = isset($tag['tools']) ? true : false;
+        $tools = isset($tag['tools']) ? (bool) $tag['tools'] : true;
 
         $parse = '<ol id="location" class="am-breadcrumb am-breadcrumb-slash">';
         $parse.= '<li><a href="'.url('admin/index/index').'" class="am-icon-home" data-pjax>首页</a></li>';
