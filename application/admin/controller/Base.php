@@ -9,6 +9,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
+use think\Loader;
 use think\Response;
 
 /**
@@ -18,9 +19,6 @@ use think\Response;
  */
 class Base extends Controller
 {
-    const SAVE_INSERT = 'insert';
-    const SAVE_UPDATE = 'update';
-
     /**
      * 用户ID
      * @access protected
@@ -79,10 +77,4 @@ class Base extends Controller
 
         return true;
     }
-
-    protected function _save($type)
-    {
-
-    }
-
 }

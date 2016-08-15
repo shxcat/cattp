@@ -10,6 +10,7 @@ namespace app\admin\controller;
 
 use app\admin\extend\Paging;
 use app\admin\extend\Search;
+use app\admin\extend\Save;
 
 /**
  * 管理员管理控制器
@@ -57,11 +58,51 @@ class Admins extends Auth
      */
     public function add()
     {
+        $this->save(Save::INSERT);
+
         $this->assign("gender", $this->adminGender);
         $this->assign("status", $this->adminStatus);
         return $this->fetch();
     }
 
+    /**
+     * 编辑管理员
+     * @return mixed
+     */
+    public function edit()
+    {
+        $this->save(Save::UPDATE);
+
+        return $this->fetch();
+    }
+
+    /**
+     * 保存管理员数据
+     * @param $type
+     */
+    protected function save($type)
+    {
+        if (! $this->request->isPost()) {
+            return;
+        }
+
+        $save = Save::instance();
+        $save->type = $type;
+        $save->name = "admins";
+
+        $result = $save->submit();
+
+        if ($result !== true) {
+            $this->error($result);
+        }
+
+        if ($type == Save::INSERT) {
+            $msg = '添加管理员成功';
+        } else {
+            $msg = '管理员信息更新成功';
+        }
 
 
+        $this->success($msg);
+    }
 }
