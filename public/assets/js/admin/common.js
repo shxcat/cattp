@@ -277,9 +277,9 @@ function page_search(){
 function validate() {
     //noinspection JSUnresolvedVariable
     if ($.AMUI && $.AMUI.validator) {
-        $.AMUI.validator.patterns.mobile = /^\s*1\d{10}\s*$/;
-        $.AMUI.validator.patterns.chinese = /[\u4e00-\u9fa5]/;
-        $.AMUI.validator.patterns.zipcode = /^\d{6}$/;
-        $.AMUI.validator.patterns.phone = /^(\d{3}-|\d{4}-)(\d{8}|\d{7})$/;
+        $.AMUI.validator.patterns.mobile = /^\s*1\d{10}\s*$/;                       // 手机号
+        $.AMUI.validator.patterns.chinese = /[\u4e00-\u9fa5]/;                      // 中文
+        $.AMUI.validator.patterns.zipcode = /^\d{6}$/;                              // 邮编
+        $.AMUI.validator.patterns.phone = /^(\d{3}-|\d{4}-)(\d{8}|\d{7})$/;         // 座机
     }
 }

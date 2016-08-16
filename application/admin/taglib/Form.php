@@ -568,10 +568,6 @@ class Form extends TagLib
                         case 'equal':
                             $valid['rule'][] = 'data-equal-to="'.$rule[1].'"';
                             break;
-                        // 正则
-                        case 'regex':
-                            $valid['rule'][] = 'pattern="'.$rule[1].'"';
-                            break;
                         // 最小值
                         case 'min':
                             if (is_numeric($rule[1])) {
