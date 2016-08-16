@@ -104,6 +104,11 @@ $(function(){
                 $this.removeClass('am-icon-eye-slash').addClass('am-icon-eye');
             }
         })
+        // 重置表单
+        .on("reset", "[data-validator]", function(){
+            $(this).validator('destroy');
+            $(this).validator();
+        })
         // 提交表单
         .on("submit", "[data-submit]", function(){
             var $form = $(this);
@@ -208,10 +213,7 @@ function destroy_extend(container) {
 
     // 销毁表单验证
     $container.find("[data-validator]").each(function(){
-        var valid = $(this).data("amui.validator");
-        if (typeof valid == "object") {
-            valid.destroy();
-        }
+        $(this).validator('destroy');
     });
 
     // 销毁日期组件

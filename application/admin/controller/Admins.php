@@ -62,7 +62,7 @@ class Admins extends Auth
 
         $this->assign("gender", $this->adminGender);
         $this->assign("status", $this->adminStatus);
-        return $this->fetch();
+        return $this->fetch('add');
     }
 
     /**
@@ -73,7 +73,7 @@ class Admins extends Auth
     {
         $this->request->isPost() && $this->save(self::SAVE_UPDATE);
 
-        return $this->fetch();
+        return $this->add();
     }
 
     /**
