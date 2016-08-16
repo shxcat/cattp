@@ -23,7 +23,7 @@ class Form extends TagLib
      *              标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
      */
     protected $tags = [
-        'form'      => ['attr' => 'submit,class,valid', 'expression' => true, 'level' => 0],
+        'form'      => ['attr' => 'id,submit,class,valid,goto,index,pk', 'expression' => true, 'level' => 0],
         'fieldset'  => ['attr' => 'class,title', 'expression' => true, 'level' => 0],
         'label'     => ['attr' => 'label,width,help'],
         'input'     => ['attr' => 'label,width,help,valid,default,id,name,type,value,class,tips,help,attr', 'close' => 0],
@@ -37,22 +37,29 @@ class Form extends TagLib
     /**
      * 创建表单
      * @param $tag
+     *      id          Form ID属性
      *      submit      表单提交URL, 支持变量和函数
      *      class       Class属性
      *      method      表单提交方式, 可选 post 或 get
      *      ajax        是否Ajax方式提交表单
      *      valid       是否开启表单验证
+     *      goto        跳转URL
+     *      index       编辑数据索引
+     *      pk          编辑数据索引键名, 默认id
      * @param $content
      * @return string
      */
     public function tagForm($tag, $content)
     {
+        $id     = isset($tag['id']) ? ' id="'.$tag['id'].'"' : '';
         $submit = isset($tag['submit']) ? $tag['submit'] : '';
         $class  = isset($tag['class']) ? $tag['class'] : '';
         $method = isset($tag['method']) ? $tag['method'] : 'post';
         $ajax   = isset($tag['ajax']) ? ' data-submit' : '';
         $valid  = isset($tag['valid']) ? ' data-validator' : '';
-
+        $index  = isset($tag['index']) ? $tag['index'] : '';
+        $pk     = isset($tag['pk']) ? $tag['pk'] : 'id';
+        $goto   = isset($tag['goto']) ? $tag['goto'] : '';
 
         if (empty($submit)) {
             $submit = url(Request::instance()->action());
@@ -64,10 +71,34 @@ class Form extends TagLib
             }
         }
 
-        $parse = '<form action="'.$submit.'" method="'.$method.'" class="am-form am-form-horizontal am-form-xs '.$class.'"'.$ajax.$valid.'>';
+        if (! empty($index)) {
+            $flag  = substr($index, 0, 1);
+            if (":" == $flag) {
+                $index = '<?php echo '.$this->autoBuildVar($index).'; ?>';
+            } else {
+                if ("$" != $flag) {
+                    $index = '$' . $index;
+                }
+                $index = $this->autoBuildVar($index);
+                $index = '<?php echo isset('.$index.') ? '.$index.' : \'\'; ?>';
+            }
+        }
+
+        if (! empty($goto)) {
+            $flag  = substr($goto, 0, 1);
+            if (":" == $flag || "$" == $flag) {
+                $goto = '<?php echo '.$this->autoBuildVar($goto).'; ?>';
+            } else {
+                $goto = url($goto);
+            }
+        }
+
+        $parse = '<form'.$id.' action="'.$submit.'" method="'.$method.'" class="am-form am-form-horizontal am-form-xs '.$class.'"'.$ajax.$valid.'>';
         $parse.= $content;
         $parse.= '<div class="am-form-group">';
         $parse.= '<div class="am-u-sm-8 am-u-md-10 am-u-sm-offset-4 am-u-md-offset-2">';
+        $parse.= '<input type="hidden" name="'.$pk.'" value="'.$index.'" />';
+        $parse.= '<input type="hidden" name="goto" value="'.$goto.'" />';
         $parse.= '<button type="submit" class="am-btn am-btn-primary"><i class="am-icon-save"></i> 保存数据</button>&nbsp;&nbsp;';
         $parse.= '<button type="reset" class="am-btn am-btn-default"><i class="am-icon-repeat"></i> 重置表单</button>';
         $parse.= '</div></div></form>';
@@ -177,7 +208,7 @@ class Form extends TagLib
             $value = '<?php echo '.$this->autoBuildVar($value).'; ?>';
         } elseif ("$" == $flag) {
             $value = $this->autoBuildVar($value);
-            $value = '<?php echo isset('.$value.') ? '.$value.': "'.$default.'";?>';
+            $value = '<?php echo isset('.$value.') ? '.$value.': \''.$default.'\';?>';
         }
 
         $content = '<input type="'.$type.'"'.$id.' name="'.$name.'" value="'.$value.'" class="am-form-field '.$class.$valid['class'].'" placeholder="'.$tips.'"'.$attr.$valid['rule'].' />';
@@ -203,7 +234,7 @@ class Form extends TagLib
             $value = '<?php echo '.$this->autoBuildVar($value).'; ?>';
         } elseif ("$" == $flag) {
             $value = $this->autoBuildVar($value);
-            $value = '<?php echo isset('.$value.') ? '.$value.': "'.$default.'";?>';
+            $value = '<?php echo isset('.$value.') ? '.$value.': \''.$default.'\';?>';
         }
 
         $content = '<input type="hidden"'.$id.' name="'.$name.'" value="'.$value.'" />';
@@ -246,7 +277,7 @@ class Form extends TagLib
             $value = '<?php echo '.$this->autoBuildVar($value).'; ?>';
         } elseif ("$" == $flag) {
             $value = $this->autoBuildVar($value);
-            $value = '<?php echo isset('.$value.') ? '.$value.': "'.$default.'";?>';
+            $value = '<?php echo isset('.$value.') ? '.$value.': \''.$default.'\';?>';
         }
 
         $content = '<textarea name="'.$name.'"'.$id.' class="am-form-field'.$class.$valid['class'].'" style="'.$height.'" placeholder="'.$tips.'"'.$attr.$valid['rule'].'>'.$value.'</textarea>';
@@ -388,7 +419,7 @@ class Form extends TagLib
             $value = $var;
         } elseif ("$" == $flag) {
             $value = $this->autoBuildVar($value);
-            $content .= $value . ' = isset(' . $value . ') ? ' . $value . ' : "'.$default.'"; ';
+            $content .= $value . ' = isset(' . $value . ') ? ' . $value . ' : \''.$default.'\'; ';
         } elseif ("[" == $flag) {
             $var = '$_' . uniqid();
             $content.= $var . '= '. $value .'; ';
@@ -458,7 +489,7 @@ class Form extends TagLib
             $value = $var;
         } elseif ("$" == $flag) {
             $value = $this->autoBuildVar($value);
-            $content.= $value . ' = isset('. $value .') ? '. $value. ' : "'.$default.'"; ';
+            $content.= $value . ' = isset('. $value .') ? '. $value. ' : \''.$default.'\'; ';
         } else {
             $var = '$_' . uniqid();
             $content.= $var . '= "' . $value . '"; ';

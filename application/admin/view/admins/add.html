@@ -8,7 +8,7 @@
     <a href="{:url('lists')}" class="am-btn am-btn-xs am-btn-default" data-pjax><i class="am-icon-backward"></i> 返回列表</a>
     {/page:header}
 
-    {form:form class="am-g-fixed" valid="true" ajax="true"}
+    {form:form class="am-g-fixed" valid="true" ajax="true" index="info['id']"}
     {form:fieldset title="登录信息"}
         {form:input type="text" label="用户名" name="username" value="$info['username']" tips="请输入登录用户名" help="必填，不可重复" valid="required" /}
         {form:input type="password" label="登录密码" name="password" value="" tips="请输入登录密码(留空不修改密码)" help="密码长度为6~16个字符" /}
@@ -18,7 +18,7 @@
     {/form:fieldset}
     {form:fieldset title="用户信息"}
         {form:label label="选择头像"}
-
+            <input type="search" data-datetime title=""/>
         {/form:label}
         {form:input label="真实姓名" type="text" name="realname" value="$info['realname']" tips="请填写真实姓名" help="" valid="required" /}
         {form:radio label="性别" options="$gender" name="gender" value="$info['gender']" default="0" help="" valid="required"/}

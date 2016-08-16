@@ -58,7 +58,7 @@ class Admins extends Auth
      */
     public function add()
     {
-        $this->save(Save::INSERT);
+        $this->request->isPost() && $this->save(self::SAVE_INSERT);
 
         $this->assign("gender", $this->adminGender);
         $this->assign("status", $this->adminStatus);
@@ -71,7 +71,7 @@ class Admins extends Auth
      */
     public function edit()
     {
-        $this->save(Save::UPDATE);
+        $this->request->isPost() && $this->save(self::SAVE_UPDATE);
 
         return $this->fetch();
     }
@@ -82,26 +82,14 @@ class Admins extends Auth
      */
     protected function save($type)
     {
-        if (! $this->request->isPost()) {
-            return;
-        }
 
-        $save = Save::instance();
-        $save->type = $type;
-        $save->name = "admins";
-
-        $result = $save->submit();
-
-        if ($result !== true) {
-            $this->error($result);
-        }
-
-        if ($type == Save::INSERT) {
+        if ($type == self::SAVE_INSERT) {
             $msg = '添加管理员成功';
         } else {
             $msg = '管理员信息更新成功';
         }
 
+        sleep(4);
 
         $this->success($msg);
     }

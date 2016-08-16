@@ -94,9 +94,37 @@ $(function(){
         })
         // 提交表单
         .on("submit", "[data-submit]", function(){
-
-
-
+            var $form = $(this);
+            var $submit = $form.find("[type=submit]");
+            var $button = $form.find(".am-btn:not([type=submit])");
+            $.ajax({
+                type: $form.attr("method") || "post",
+                url: $form.attr("action"),
+                data: $form.serialize(),
+                dataType: 'json',
+                beforeSend: function(){
+                    $submit
+                        .attr("data-am-loading", "{spinner: 'circle-o-notch', loadingText: '加载中...'}")
+                        .button("loading");
+                    $button.attr("disabled", true);
+                    $.AMUI.progress.start();
+                },
+                success: function(res){
+                    if (res.code == 1) {
+                        $.AMUI.message.tips(res.msg, 'success');
+                        if (res['url']) {
+                            $.AMUI.pjax.request(res['url']);
+                        }
+                    } else {
+                        $.AMUI.message.tips(res.msg, 'error');
+                    }
+                },
+                complete: function() {
+                    $submit.button("reset");
+                    $button.attr("disabled", false);
+                    $.AMUI.progress.done();
+                }
+            });
             return false;
         });
 
