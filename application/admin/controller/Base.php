@@ -80,22 +80,4 @@ class Base extends Controller
 
         return true;
     }
-
-    /**
-     * 提交数据验证
-     * @param array        $data
-     * @param array|string $validate
-     * @param array        $message
-     * @param bool         $batch
-     * @param null         $callback
-     */
-    protected function checkForm($data, $validate, $message = [], $batch = false, $callback = null)
-    {
-        $result = $this->validate($data, $validate, $message, $batch, $callback);
-        if ($result !== true) {
-            $this->error($result);
-        }
-    }
-
-
 }

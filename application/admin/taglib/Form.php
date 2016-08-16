@@ -141,13 +141,13 @@ class Form extends TagLib
     public function tagLabel($tag, $content)
     {
         // label,width,help
-        $width  = isset($tag['width']) ? intval($tag['width']) : 5;
+        $width  = isset($tag['width']) ? intval($tag['width']) : 4;
         $help   = isset($tag['help']) ? $tag['help'] : '';
 
         if ($width <= 0) {
-            $width = 5;
+            $width = 4;
         } elseif ($width > 10) {
-            $width = 5;
+            $width = 4;
         }
 
         if (empty($help) && $width < 10) {
@@ -211,7 +211,21 @@ class Form extends TagLib
             $value = '<?php echo isset('.$value.') ? '.$value.': \''.$default.'\';?>';
         }
 
-        $content = '<input type="'.$type.'"'.$id.' name="'.$name.'" value="'.$value.'" class="am-form-field '.$class.$valid['class'].'" placeholder="'.$tips.'"'.$attr.$valid['rule'].' />';
+        if ($type == "password2") {
+            $type = "password";
+            $password = true;
+        } else {
+            $password = false;
+        }
+
+        $input = '<input type="'.$type.'"'.$id.' name="'.$name.'" value="'.$value.'" class="am-form-field '.$class.$valid['class'].'" placeholder="'.$tips.'"'.$attr.$valid['rule'].' />';
+        if ($password) {
+            $content = '<div class="am-form-password">';
+            $content.= $input;
+            $content.= '<i class="am-password-icon am-icon-eye"></i></div>';
+        } else {
+            $content = $input;
+        }
 
         return $this->tagLabel($tag, $content);
     }

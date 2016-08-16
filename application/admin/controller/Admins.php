@@ -82,14 +82,20 @@ class Admins extends Auth
      */
     protected function save($type)
     {
+        $data   = $this->request->post();
+        $result = $this->validate($data, 'admins');
+
+        if ($result !== true) {
+            $this->error($result);
+        }
+
+
 
         if ($type == self::SAVE_INSERT) {
             $msg = '添加管理员成功';
         } else {
             $msg = '管理员信息更新成功';
         }
-
-        sleep(4);
 
         $this->success($msg);
     }

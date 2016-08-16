@@ -92,6 +92,18 @@ $(function(){
             });
             return false;
         })
+        // 密码输入框扩展
+        .on("click", ".am-form-password .am-password-icon", function(){
+            var $this = $(this);
+            var $password = $this.prev();
+            if ($password.is("[type=password]")) {
+                $password.attr("type", "text");
+                $this.removeClass('am-icon-eye').addClass('am-icon-eye-slash');
+            } else {
+                $password.attr("type", "password");
+                $this.removeClass('am-icon-eye-slash').addClass('am-icon-eye');
+            }
+        })
         // 提交表单
         .on("submit", "[data-submit]", function(){
             var $form = $(this);
@@ -128,10 +140,11 @@ $(function(){
             return false;
         });
 
+    validate();
+
     // 选中菜单
     select_menus();
     apply_extend('#layout-main');
-
 });
 
 
@@ -256,4 +269,17 @@ function page_redirect(){
 function page_search(){
     $.AMUI.pjax.request(build_url(location.href, $("#page-search").serialize()));
     return false;
+}
+
+/**
+ * 表单验证扩展
+ */
+function validate() {
+    //noinspection JSUnresolvedVariable
+    if ($.AMUI && $.AMUI.validator) {
+        $.AMUI.validator.patterns.mobile = /^\s*1\d{10}\s*$/;
+        $.AMUI.validator.patterns.chinese = /[\u4e00-\u9fa5]/;
+        $.AMUI.validator.patterns.zipcode = /^\d{6}$/;
+        $.AMUI.validator.patterns.phone = /^(\d{3}-|\d{4}-)(\d{8}|\d{7})$/;
+    }
 }
