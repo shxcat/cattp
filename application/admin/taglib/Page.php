@@ -8,6 +8,7 @@
  */
 namespace app\admin\taglib;
 
+use think\Url;
 use think\template\TagLib;
 
 /**
@@ -39,7 +40,7 @@ class Page extends TagLib
         $tools = isset($tag['tools']) ? (bool) $tag['tools'] : true;
 
         $parse = '<ol id="location" class="am-breadcrumb am-breadcrumb-slash">';
-        $parse.= '<li><a href="'.url('admin/index/index').'" class="am-icon-home" data-pjax>首页</a></li>';
+        $parse.= '<li><a href="'.Url::build('admin/index/index').'" class="am-icon-home" data-pjax>首页</a></li>';
         $parse.= $content;
 
         if ($tools) {
@@ -71,7 +72,7 @@ class Page extends TagLib
         }
 
         if ($link) {
-            $parse.= '<a href="'.url($link).'">'.$label.'</a>';
+            $parse.= '<a href="'.Url::build($link).'">'.$label.'</a>';
         } else {
             $parse.= $label;
         }

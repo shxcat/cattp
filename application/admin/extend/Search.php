@@ -8,6 +8,7 @@
  */
 namespace app\admin\extend;
 
+use think\Url;
 use think\Request;
 
 /**
@@ -163,7 +164,7 @@ class Search
             // 搜索按钮
             $form.= '<div class="am-btn-group'.($this->options['tiled'] ? ' am-fr' : '').'">';
             $form.= '<button type="submit" class="am-btn am-btn-success"><i class="am-icon-search"></i> 搜索</button>';
-            $form.= '<a href="'.url($this->request->action(), $params).'" class="am-btn am-btn-warning"><i class="am-icon-reply"></i> 撤销</a>';
+            $form.= '<a href="'.Url::build($this->request->action(), $params).'" class="am-btn am-btn-warning"><i class="am-icon-reply"></i> 撤销</a>';
             $form.= '</div>';
             $form.= '</form>';
         }

@@ -36,6 +36,21 @@ function build_map_time($begin_time = '', $end_time = '')
     return build_map_between($begin_time, $end_time);
 }
 
+/**
+ * 安全转换时间戳
+ * @param        $time
+ * @param string $format
+ * @return bool|string
+ */
+function f_date($time, $format = 'Y-m-d H:i:s')
+{
+    if (! is_numeric($time)) {
+        $time = strtotime($time);
+    }
+
+    return $time > 0 ? date($format, $time) : '';
+}
+
 
 if (! function_exists('get_client_ip')) {
     /**

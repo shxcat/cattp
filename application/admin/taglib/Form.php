@@ -8,6 +8,7 @@
  */
 namespace app\admin\taglib;
 
+use think\Url;
 use think\Request;
 use think\template\TagLib;
 
@@ -62,7 +63,7 @@ class Form extends TagLib
         $goto   = isset($tag['goto']) ? $tag['goto'] : '';
 
         if (empty($submit)) {
-            $submit = url(Request::instance()->action());
+            $submit = Url::build(Request::instance()->action());
         } else {
             // 支持用函数传数组
             $flag  = substr($submit, 0, 1);
@@ -89,7 +90,7 @@ class Form extends TagLib
             if (":" == $flag || "$" == $flag) {
                 $goto = '<?php echo '.$this->autoBuildVar($goto).'; ?>';
             } else {
-                $goto = url($goto);
+                $goto = Url::build($goto);
             }
         }
 
@@ -98,7 +99,9 @@ class Form extends TagLib
         $parse.= '<div class="am-form-group">';
         $parse.= '<div class="am-u-sm-8 am-u-md-10 am-u-sm-offset-4 am-u-md-offset-2">';
         $parse.= '<input type="hidden" name="'.$pk.'" value="'.$index.'" />';
-        $parse.= '<input type="hidden" name="goto" value="'.$goto.'" />';
+        if ($goto) {
+            $parse.= '<input type="hidden" name="goto" value="'.$goto.'" />';
+        }
         $parse.= '<button type="submit" class="am-btn am-btn-primary"><i class="am-icon-save"></i> 保存数据</button>&nbsp;&nbsp;';
         $parse.= '<button type="reset" class="am-btn am-btn-default"><i class="am-icon-repeat"></i> 重置表单</button>';
         $parse.= '</div></div></form>';

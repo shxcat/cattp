@@ -39,3 +39,36 @@ function build_menus()
 
     return $menus;
 }
+
+/**
+ * 生成随机字符串
+ * @param int    $length
+ * @param string $chars
+ * @return string
+ */
+function mt_salt($length = 6, $chars = '')
+{
+    $hash = '';
+    if (! $chars) {
+        $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
+    }
+
+    $max = strlen($chars) - 1;
+
+    for ($i = 0; $i < $length; $i++) {
+        $hash .= $chars[mt_rand(0, $max)];
+    }
+
+    return $hash;
+}
+
+/**
+ * 创建密码签名
+ * @param $password
+ * @param $salt
+ * @return string
+ */
+function gen_password($password, $salt)
+{
+    return md5(substr(md5($password), 0, -strlen($salt)) . $salt);
+}

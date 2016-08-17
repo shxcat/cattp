@@ -8,6 +8,7 @@
  */
 namespace app\admin\extend;
 
+use think\Url;
 use think\Request;
 
 /**
@@ -141,7 +142,7 @@ class Paging
             return urlencode($v);
         }, $params);
 
-        $url = url($request->action(), $params);
+        $url = Url::build($request->action(), $params);
         $paging = '<ul id="page-paging" class="am-pagination am-cf">';
 
         // 创建每页显示数量选择框

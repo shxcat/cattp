@@ -53,13 +53,6 @@ class Base extends Controller
         if (method_exists($this, '_exec')) {
             $this->_exec();
         }
-
-        if ($this->request->isPost()) {
-
-        }
-
-        $this->goto = $this->request->get('goto', '');
-        $this->assign('goto', urlencode($this->goto));
     }
 
     /**
@@ -79,5 +72,27 @@ class Base extends Controller
     {
 
         return true;
+    }
+
+    /**
+     * 获取表单数据并校验
+     * @param       $valid
+     * @param array $message
+     * @return mixed
+     */
+    protected function formData($valid, $message = [])
+    {
+        $data   = $this->request->post();
+        $result = $this->validate($data, $valid, $message);
+
+        if ($result !== true) {
+            $this->error($result);
+        }
+
+        if (isset($data['goto'])) {
+            $this->goto = $data['goto'];
+        }
+
+        return $data;
     }
 }

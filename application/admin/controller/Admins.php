@@ -10,7 +10,7 @@ namespace app\admin\controller;
 
 use app\admin\extend\Paging;
 use app\admin\extend\Search;
-use app\admin\extend\Save;
+use app\admin\model\Admins as AdminsModel;
 
 /**
  * 管理员管理控制器
@@ -89,14 +89,22 @@ class Admins extends Auth
             $this->error($result);
         }
 
-
-
         if ($type == self::SAVE_INSERT) {
-            $msg = '添加管理员成功';
-        } else {
-            $msg = '管理员信息更新成功';
-        }
+            // 创建密码
+            $data['salt']       = mt_salt();
+            $data['password']   = gen_password($data['password'], $data['salt']);
+            $data['add_time']   = time();
 
-        $this->success($msg);
+            $last_id = db("Admins")->insert($data);
+            if (! $last_id) {
+                $this->error("添加管理员失败");
+            }
+
+            $this->success('添加管理员成功');
+        } else {
+            db("Admins")->update($data);
+
+            $this->success('管理员信息更新成功');
+        }
     }
 }
