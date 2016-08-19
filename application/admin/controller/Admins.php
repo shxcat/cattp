@@ -77,7 +77,7 @@ class Admins extends Auth
             $this->error("没有找到相关数据");
         }
 
-        $this->assign("info", $info);
+        $this->assign("info", $info->getData());
         return $this->add();
     }
 

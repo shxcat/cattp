@@ -463,7 +463,7 @@ class Form extends TagLib
         $content.= 'foreach ('. $options .' as $k => $v): ';
         $content.= 'if ($_index === 0): $_valid_rule = "'.$valid['rule'].'"; $_valid_class = "'.$valid['class'].'"; ';
         $content.= 'else: $_valid_rule = ""; $_valid_class = ""; endif;';
-        $content.= '$_checked = (($k == '.$value.' && '.$value.' != "") || (is_array('.$value.') && in_array($k, '.$value.'))) ? " checked" : ""; ?>';
+        $content.= '$_checked = ($k == '.$value.' || (is_array('.$value.') && in_array($k, '.$value.'))) ? " checked" : ""; ?>';
         $content.= '<label class="am-checkbox-inline'.$class.'">';
         $content.= '<input type="checkbox" name="'.$name.'" class="<?php echo $_valid_class; ?>" value="<?php echo $k; ?>"<?php echo $_valid_rule; ?><?php echo $_checked;?> /> <?php echo $v; ?>';
         $content.= '</label>';
@@ -529,7 +529,7 @@ class Form extends TagLib
         $content.= 'foreach ('. $options .' as $k => $v): ';
         $content.= 'if ($_index === 0): $_valid_rule = "'.$valid['rule'].'"; $_valid_class = "'.$valid['class'].'"; ';
         $content.= 'else: $_valid_rule = ""; $_valid_class = ""; endif;';
-        $content.= '$_checked = ($k == '.$value.' && '.$value.' != "") ? " checked" : ""; ?>';
+        $content.= '$_checked = $k == '.$value.' ? " checked" : ""; ?>';
         $content.= '<label class="am-radio-inline'.$class.'">';
         $content.= '<input type="radio" name="'.$name.'" class="<?php echo $_valid_class; ?>"  value="<?php echo $k; ?>"<?php echo $_valid_rule; ?><?php echo $_checked;?> /> <?php echo $v; ?>';
         $content.= '</label>';
