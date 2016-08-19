@@ -32,7 +32,8 @@ class Form extends TagLib
         'text'      => ['attr' => 'label,width,help,valid,default,id,name,value,class,height,tips,attr', 'close' => 0],
         'checkbox'  => ['attr' => 'label,width,help,valid,default,name,options,value,class,attr', 'close' => 0],
         'radio'     => ['attr' => 'label,width,help,valid,default,name,options,value,class,attr', 'close' => 0],
-        'hidden'    => ['attr' => 'label,width,help,valid,default,id,name,value', 'close' => 0],
+        'hidden'    => ['attr' => 'default,id,name,value', 'close' => 0],
+        'token'     => ['attr' => 'name,type', 'expression' => true, 'close' => 0],
     ];
 
     /**
@@ -254,9 +255,9 @@ class Form extends TagLib
             $value = '<?php echo isset('.$value.') ? '.$value.': \''.$default.'\';?>';
         }
 
-        $content = '<input type="hidden"'.$id.' name="'.$name.'" value="'.$value.'" />';
+        $parse = '<input type="hidden"'.$id.' name="'.$name.'" value="'.$value.'" />';
 
-        return $this->tagLabel($tag, $content);
+        return $parse;
     }
 
     /**
@@ -489,7 +490,6 @@ class Form extends TagLib
         $value  = isset($tag['value']) ? $tag['value'] : '';
         $class  = isset($tag['class']) ? $tag['class'] : '';
         $options= isset($tag['options']) ? $tag['options'] : [];
-        $change = isset($tag['change']) ? ' onchange="'.$tag['change'].'"' : '';
         $default= isset($tag['default']) ? $tag['default'] : '';
 
         // 表单验证
@@ -536,6 +536,22 @@ class Form extends TagLib
         $content.= '<?php $_index++; endforeach; endif; ?>';
 
         return $this->tagLabel($tag, $content);
+    }
+
+    /**
+     * 创建表单令牌
+     * @param $tag
+     * @return string
+     */
+    protected function tagToken($tag)
+    {
+        $name = isset($tag['name']) ? $tag['name'] : '__token__';
+        $type = isset($tag['type']) ? $tag['type'] : 'md5';
+
+        $token = Request::instance()->token($name, $type);
+        $parse = '<input type="hidden" name="'.$name.'" value="'.$token.'" />';
+
+        return$parse;
     }
 
     /**

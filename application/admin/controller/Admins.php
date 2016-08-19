@@ -19,10 +19,6 @@ use app\admin\model\Admins as AdminsModel;
  */
 class Admins extends Auth
 {
-
-    protected $adminStatus = [1 => '正常', 0 => '锁定'];
-    protected $adminGender = ['保密', '男', '女'];
-
     /**
      * 管理员列表
      * @return mixed
@@ -38,17 +34,15 @@ class Admins extends Auth
             'mobile'    => '手机号码',
             'email'     => '邮箱地址',
         ]);
-        $search->control('gender', Search::TYPE_SELECT, '性别', ['options' => $this->adminGender]);
-        $search->control('status', Search::TYPE_SELECT, '状态', ['options' => $this->adminStatus]);
+        $search->control('gender', Search::TYPE_SELECT, '性别', ['options' => AdminsModel::$attr['gender']]);
+        $search->control('status', Search::TYPE_SELECT, '状态', ['options' => AdminsModel::$attr['status']]);
 
         // 创建查询条件
         $map    = $search->query();
-        $count  = db("admins")->where($map)->count();
-        $limit  = $paging->limit($count);
-        $lists  = db("admins")->field('password,salt', true)->where($map)->limit($limit)->select();
+        $count  = AdminsModel::where($map)->count();
+        $lists  = AdminsModel::where($map)->field('password,salt', true)->limit($paging->limit($count))->select();
 
         $this->assign("lists", $lists);
-        $this->assign("gender", $this->adminGender);
         return $this->fetch();
     }
 
@@ -60,19 +54,30 @@ class Admins extends Auth
     {
         $this->request->isPost() && $this->save(self::SAVE_INSERT);
 
-        $this->assign("gender", $this->adminGender);
-        $this->assign("status", $this->adminStatus);
+        $this->assign("gender", AdminsModel::$attr['gender']);
+        $this->assign("status", AdminsModel::$attr['status']);
         return $this->fetch('add');
     }
 
     /**
      * 编辑管理员
+     * @param string|int $id
      * @return mixed
      */
-    public function edit()
+    public function edit($id = '')
     {
         $this->request->isPost() && $this->save(self::SAVE_UPDATE);
 
+        if (! $id) {
+            $this->error("缺少ID");
+        }
+
+        $info = AdminsModel::get($id);
+        if ( ! $info) {
+            $this->error("没有找到相关数据");
+        }
+
+        $this->assign("info", $info);
         return $this->add();
     }
 
@@ -82,29 +87,30 @@ class Admins extends Auth
      */
     protected function save($type)
     {
-        $data   = $this->request->post();
-        $result = $this->validate($data, 'admins');
+        $model  = new AdminsModel;
 
-        if ($result !== true) {
-            $this->error($result);
-        }
-
-        if ($type == self::SAVE_INSERT) {
-            // 创建密码
-            $data['salt']       = mt_salt();
-            $data['password']   = gen_password($data['password'], $data['salt']);
-            $data['add_time']   = time();
-
-            $last_id = db("Admins")->insert($data);
-            if (! $last_id) {
-                $this->error("添加管理员失败");
+        AdminsModel::event("before_insert", function (AdminsModel $model) use ($type) {
+            if ($type == self::SAVE_INSERT) {
+                $model->salt = mt_salt();
+                $model->password = gen_password($model->password, $model->salt);
+            } else {
+                if (! empty($model->password)) {
+                    $model->salt = mt_salt();
+                    $model->password = gen_password($model->password, $model->salt);
+                } else {
+                    unset($model->password);
+                }
             }
+        });
 
-            $this->success('添加管理员成功');
-        } else {
-            db("Admins")->update($data);
+        $data   = $this->request->post();
+        $update = $type == self::SAVE_INSERT ? false : true;
+        $result = $model->validate(true)->allowField(true)->isUpdate($update)->save($data);
 
-            $this->success('管理员信息更新成功');
+        if ($result === false) {
+            $this->error($model->getError());
         }
+
+        $this->success('管理员信息保存成功');
     }
 }

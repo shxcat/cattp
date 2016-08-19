@@ -17,14 +17,42 @@ use think\Model;
  */
 class Admins extends Model
 {
+    // 新增数据自动完成
+    protected $insert = ['add_time'];
 
-    protected $auto = ['salt', 'password'];
-    protected $insert = ['add_time', 'login_time', 'last_time'];
+    public static $attr = [
+        'status'    => [1 => '正常', 0 => '锁定'],
+        'gender'    => ['保密', '男', '女'],
+    ];
 
-
-    protected function setSaltAttr($value, $data)
+    /**
+     * 设置添加时间
+     * @return int
+     */
+    public function setAddTimeAttr()
     {
-        return mt_salt();
+        return time();
     }
 
+    /**
+     * 获取状态文本
+     * @param $value
+     * @param $data
+     * @return mixed
+     */
+    public function getStatusTextAttr($value, $data)
+    {
+        return self::$attr['status'][$data['status']];
+    }
+
+    /**
+     * 获取性别文本
+     * @param $value
+     * @param $data
+     * @return mixed
+     */
+    public function getGenderTextAttr($value, $data)
+    {
+        return self::$attr['gender'][$data['gender']];
+    }
 }
