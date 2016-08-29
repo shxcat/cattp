@@ -37,8 +37,6 @@ abstract class Connection
 
     /** @var string 当前SQL指令 */
     protected $queryStr = '';
-    // 最后插入ID
-    protected $lastInsID;
     // 返回或者影响记录数
     protected $numRows = 0;
     // 事务指令数
@@ -353,7 +351,7 @@ abstract class Connection
             $result = $this->PDOStatement->execute();
             // 调试结束
             $this->debug(false);
-            $procedure = 0 === strpos(strtolower(substr(trim($sql), 0, 4)), 'call');
+            $procedure = in_array(strtolower(substr(trim($sql), 0, 4)), ['call', 'exec']);
             return $this->getResult($class, $procedure);
         } catch (\PDOException $e) {
             throw new PDOException($e, $this->config, $this->queryStr);
@@ -537,7 +535,7 @@ abstract class Connection
     /**
      * 启动事务
      * @access public
-     * @return bool|null
+     * @return void
      */
     public function startTrans()
     {
@@ -560,7 +558,7 @@ abstract class Connection
     /**
      * 用于非自动提交状态下面的查询提交
      * @access public
-     * @return boolean
+     * @return void
      * @throws PDOException
      */
     public function commit()
@@ -577,7 +575,7 @@ abstract class Connection
     /**
      * 事务回滚
      * @access public
-     * @return boolean
+     * @return void
      * @throws PDOException
      */
     public function rollback()
@@ -699,10 +697,7 @@ abstract class Connection
      */
     public function getLastInsID($sequence = null)
     {
-        if (is_null($this->lastInsID)) {
-            $this->lastInsID = $this->linkID->lastInsertId($sequence);
-        }
-        return $this->lastInsID;
+        return $this->linkID->lastInsertId($sequence);
     }
 
     /**
