@@ -5,7 +5,6 @@
 
     var $ = (typeof window !== "undefined" ? window['jQuery'] : typeof global !== "undefined" ? global['jQuery'] : null);
     var UI = (typeof window !== "undefined" ? window['AMUI'] : typeof global !== "undefined" ? global['AMUI'] : null);
-    var H = (typeof window !== "undefined" ? window['History'] : typeof global !== "undefined" ? global['History'] : null);
 
     var pjax = pjax || {};
 
@@ -26,11 +25,8 @@
 
     pjax.listen = function(options){
         pjax.defaults = $.extend({}, pjax.defaults, options);
-        H.Adapter.bind(window, 'statechange', function(){
-            var state = H.getState();
-            if( state.data ){
-                pjax.render(state.data.state);
-            }
+        $(window).on('popstate', function(){
+            pjax.render(window.history.state.html);
         });
         $("body").on("click", pjax.defaults.bind, function(){
             var $this = $(this);
@@ -62,18 +58,17 @@
                 pjax.defaults.error(type, xhr, url);
             },
             success: function(response) {
-                pjax.defaults.success(response, url, replace);
+                response = response || {};
+                response.url = url;
+                response.replace = replace;
+                pjax.defaults.success(response);
             }
         });
     };
 
     pjax.reload = function(){
-        var state = H.getState();
-        if( state.data && state.url ){
-            pjax.request(state.url, false);
-            return true;
-        }
-        return false;
+        var url = window.history.state.url || window.location.href;
+        pjax.request(url, false);
     };
 
     pjax.render = function(html){
@@ -92,16 +87,19 @@
         pjax.defaults.complete();
     };
 
-    pjax.display = function(html, url, replace){
-        if(replace === false) {
-            History.replaceState({state: html, rand: Math.random()}, document.title, url);
+    pjax.display = function(state){
+        state = state || {};
+        state['_rand'] = Math.random();
+        if(state.replace === false) {
+            window.history.replaceState(state, state.title || document.title, state.url);
         }else{
-            History.pushState({state: html, rand: Math.random()}, document.title, url);
+            window.history.pushState(state, state.title || document.title, state.url);
         }
+        pjax.render(state.html);
     };
 
     pjax.location = function() {
-        return History.getState().url;
+        return window.history.state.url;
     };
 
     module.exports = UI.pjax = pjax;
