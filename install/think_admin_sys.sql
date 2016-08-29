@@ -26,6 +26,7 @@ CREATE TABLE `tp_admins` (
   `salt` char(6) NOT NULL DEFAULT '',
   `realname` varchar(60) DEFAULT '' COMMENT '联系人',
   `avatar` varchar(200) DEFAULT '' COMMENT '头像',
+  `gender` tinyint(1) DEFAULT '0' COMMENT '性别, 0保密, 1男 2女',
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `email` varchar(200) DEFAULT '' COMMENT '邮件',
   `last_ip` varchar(15) DEFAULT '' COMMENT '最后登录IP',
@@ -40,6 +41,16 @@ CREATE TABLE `tp_admins` (
   KEY `ip` (`last_ip`,`login_ip`),
   KEY `time` (`add_time`,`last_time`,`login_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='管理员';
+
+LOCK TABLES `tp_admins` WRITE;
+/*!40000 ALTER TABLE `tp_admins` DISABLE KEYS */;
+
+INSERT INTO `tp_admins` (`id`, `username`, `password`, `salt`, `realname`, `avatar`, `gender`, `mobile`, `email`, `last_ip`, `login_ip`, `last_time`, `login_time`, `status`, `remark`, `add_time`)
+VALUES
+  (1,'admin','d45e845aa4bdf6e32aa39b70274d259c','kmPaTp','Admin','',0,'12345678901','cbwfree@163.com','','',0,0,1,'',1471428121);
+
+/*!40000 ALTER TABLE `tp_admins` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 

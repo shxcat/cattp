@@ -89,7 +89,7 @@ class Admins extends Auth
     {
         $model  = new AdminsModel;
 
-        AdminsModel::event("before_insert", function (AdminsModel $model) use ($type) {
+        AdminsModel::event("before_write", function (AdminsModel $model) use ($type) {
             if ($type == self::SAVE_INSERT) {
                 $model->salt = mt_salt();
                 $model->password = gen_password($model->password, $model->salt);

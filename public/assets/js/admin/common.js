@@ -115,7 +115,7 @@ $(function(){
             $(this).validator();
         })
         // 提交表单
-        .on("submit", "[data-submit]", function(){
+        .on("submit", "[data-ajax-submit]", function(){
             var $form = $(this);
             var $submit = $form.find("[type=submit]");
             var $button = $form.find(".am-btn:not([type=submit])");

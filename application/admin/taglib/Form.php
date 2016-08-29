@@ -24,7 +24,7 @@ class Form extends TagLib
      *              标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
      */
     protected $tags = [
-        'form'      => ['attr' => 'id,submit,class,valid,goto,index,pk', 'expression' => true, 'level' => 0],
+        'form'      => ['attr' => 'id,submit,class,method,valid,goto,index,pk', 'expression' => true, 'level' => 0],
         'fieldset'  => ['attr' => 'class,title', 'expression' => true, 'level' => 0],
         'label'     => ['attr' => 'label,width,help'],
         'input'     => ['attr' => 'label,width,help,valid,default,id,name,type,value,class,tips,help,attr', 'close' => 0],
@@ -57,11 +57,15 @@ class Form extends TagLib
         $submit = isset($tag['submit']) ? $tag['submit'] : '';
         $class  = isset($tag['class']) ? $tag['class'] : '';
         $method = isset($tag['method']) ? $tag['method'] : 'post';
-        $ajax   = isset($tag['ajax']) ? ' data-submit' : '';
+        $ajax   = isset($tag['ajax']) ? (bool) $tag['ajax'] : true;
         $valid  = isset($tag['valid']) ? ' data-validator' : '';
         $index  = isset($tag['index']) ? $tag['index'] : '';
         $pk     = isset($tag['pk']) ? $tag['pk'] : 'id';
         $goto   = isset($tag['goto']) ? $tag['goto'] : '';
+
+        if ($ajax) {
+            $ajax = ' data-ajax-submit';
+        }
 
         if (empty($submit)) {
             $submit = Url::build(Request::instance()->action());
