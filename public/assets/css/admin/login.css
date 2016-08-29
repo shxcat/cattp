@@ -1,0 +1,5 @@
+body { background: #eeeeee; }
+.container { display: none; margin: 200px auto 0; width: 460px;  }
+#login-container form { padding: 20px; background: #FFFFFF; border: 1px solid #ccc; border-radius: 6px; }
+#login-title { text-align: center; font-size: 20px; margin-bottom: 1.5rem; }
+#login-submit { width: 100%; letter-spacing: 10px; }

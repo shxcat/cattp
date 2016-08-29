@@ -8,6 +8,8 @@
  */
 namespace app\admin\controller;
 
+use app\admin\model\Admins as AdminsModel;
+
 /**
  * 登录控制器
  * Class Login
@@ -22,7 +24,7 @@ class Login extends Base
     public function index()
     {
         // 如果已登录, 则跳转至首页
-        if ($this->_isLogin()) {
+        if (! empty($this->admin)) {
             $this->redirect(url('admin/index/index'));
         }
 
@@ -48,6 +50,7 @@ class Login extends Base
         }
 
         // 获取用户信息
+        $admin = AdminsModel::where('username', $post['username'])->find();
         $user = db("admin")->where('username', $post['username'])->find();
         if( ! $user ){
             $this->error("管理员用户不存在");
@@ -68,7 +71,7 @@ class Login extends Base
         unset($user['salt']);
 
         // 更新管理员登录信息
-        $user['login_ip']   = get_client_ip();
+        $user['login_ip']   = $this->request->ip();
         $user['login_time'] = time();
         db("admin")->where('id', $user['id'])->update([
             "last_ip"       => $user['login_ip'],

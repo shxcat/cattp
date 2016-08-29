@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title> - 管理后台</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <!--<link rel="shortcut icon" href="/favicon.ico">-->
+    {/* 载入框架&插件CSS */}
+    {load href="__libs__/layer/skin/layer.css"/}
+    {load href="__libs__/amaze/css/amazeui.min.css"/}
+    {/* 载入框架&插件JS */}
+    {load href="__libs__/jquery/jquery.min.js"/}
+    {load href="__libs__/layer/layer.js"/}
+    {load href="__libs__/amaze/js/amazeui.min.js"/}
+    {/* 载入项目 CSS & JS */}
+    {load href="__style__/admin/login.css"/}
+    {load href="__style__/admin/reload.css"/}
+    {load href="__script__/admin/message.js"/}
+    {load href="__script__/admin/login.js"/}
+</head>
+<body>
+    <div id="login-container" class="container">
+        <div id="login-title">管理后台登录</div>
+        <form method="post" action="{:url('check')}" class="am-form" data-submit data-am-validator>
+            <div class="am-form-group am-form-icon">
+                <i class="am-icon-user"></i>
+                <input type="text" class="am-form-field" name="username" placeholder="用户名 (长度为5~20个字符)" minlength="5" maxlength="20" required/>
+            </div>
+            <div class="am-form-group am-form-icon">
+                <i class="am-icon-lock"></i>
+                <input type="password" class="am-form-field" name="password" placeholder="密码 (长度为6~16个字符)" minlength="6" maxlength="16" required />
+            </div>
+            <div class="am-form-group am-form-icon">
+                <i class="am-icon-key"></i>
+                <input type="text" class="am-form-field" name="captcha" placeholder="验证码" minlength="6" maxlength="6" required />
+                <img src="{:captcha_src($captcha)}" id="login-captcha"/>
+            </div>
+            <div class="am-form-group am-margin-bottom-0">
+                <button type="submit" class="am-btn am-btn-success" id="login-submit">
+                    <i class="am-icon-sign-in"></i> 登录
+                </button>
+            </div>
+        </form>
+    </div>
+    <div id="browser-container" class="container">
+    您的浏览器版本过低
+    </div>
+</body>
+</html>

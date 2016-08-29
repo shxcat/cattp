@@ -23,7 +23,7 @@ class Auth extends Base
     public function _init()
     {
         // 未登录
-        if (! $this->_isLogin()) {
+        if (empty($this->admin)) {
             // 如果为 Ajax (包含Pjax) 请求则返回JSON消息
             if ($this->request->isAjax()) {
                 $this->result(url('admin/login/index'), 100, '您的登录已失效, 请重新登录 ...');

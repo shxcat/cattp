@@ -11,6 +11,7 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Loader;
 use think\Response;
+use think\Session;
 
 /**
  * Admin 模块 基础控制器
@@ -30,9 +31,9 @@ class Base extends Controller
     protected $aid = 0;
 
     /**
-     * @var null|array  用户信息
+     * @var null|array  管理员信息
      */
-    protected $user = null;
+    protected $admin = null;
 
     /**
      * @var string 跳转地址
@@ -44,6 +45,8 @@ class Base extends Controller
      */
     protected function _initialize()
     {
+        $this->_initAdmin();
+
         // 二级控制器初始化
         if (method_exists($this, '_init')) {
             $this->_init();
@@ -65,13 +68,15 @@ class Base extends Controller
     }
 
     /**
-     * 检查是否登录
-     * @return bool
+     * 初始化用户信息
      */
-    protected function _isLogin()
+    protected function _initAdmin()
     {
-
-        return true;
+        $this->admin = Session::get('_LOGIN_ADMIN_INFO_');
+        if ($this->admin) {
+            $this->aid = $this->admin['id'];
+            $this->assign('admin', $this->admin);
+        }
     }
 
     /**
