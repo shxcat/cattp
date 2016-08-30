@@ -35,6 +35,20 @@ $(function(){
         return false;
     });
 
+    $("body")
+        // 密码输入框扩展
+        .on("click", ".am-form-password .am-password-icon", function(){
+            var $this = $(this);
+            var $password = $this.prev();
+            if ($password.is("[type=password]")) {
+                $password.attr("type", "text");
+                $this.removeClass('am-icon-eye').addClass('am-icon-eye-slash');
+            } else {
+                $password.attr("type", "password");
+                $this.removeClass('am-icon-eye-slash').addClass('am-icon-eye');
+            }
+        });
+
     // 验证码切换
     $("#login-captcha").on("click", function(){
         this.src = $(this).data('captcha') + '?_r=' + Math.random();
@@ -55,8 +69,8 @@ $(function(){
 function show_container() {
     var $container = $("#" + container + "-container");
     var top = parseInt(($(window).height() - $container.height()) / 2);
-    if (top > 200) {
-        top = 200;
+    if (top > 100) {
+        top = 100;
     }
     $container.css("margin-top", top);
     $container.show();
