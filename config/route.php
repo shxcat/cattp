@@ -12,7 +12,5 @@ return [
     'admin/dashboard'   => 'admin/index/dashboard',     // 仪表盘
     'admin/signin'      => 'admin/login/index',         // 登录页面
     'admin/signout'     => 'admin/login/logout',        // 登出页面
-    'admin/profile'     => 'admin/profile/info',        // 个人信息
-
 
 ];
