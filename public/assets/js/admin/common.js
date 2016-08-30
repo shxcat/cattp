@@ -26,9 +26,10 @@ $(function(){
             if (response.code == 1) {
                 $.AMUI.pjax.display({
                     url: response.url,
-                    title: response.msg,
+                    title: '',
                     html: parse_html(response.data),
-                    replace: response.replace
+                    replace: response.replace,
+                    node: $("#layout-menus-lists .menu-item.am-active > a").attr("href") || response.url
                 });
             } else if (response.code == 100) {
                 $.AMUI.message.warning(response.msg, '登录失效', function(){
@@ -47,7 +48,13 @@ $(function(){
             html.push('<li class="am-fr"><a href="javascript:;" onclick="window.open($.AMUI.pjax.location());" title="新窗口打开"><i class="am-icon-external-link"></i>新窗口打开</a></li>');
             html.push('</ol>');
             html.push('<iframe id="container" name="container" style="padding:0;width:100%;"></iframe>');
-            $.AMUI.pjax.display(html.join(''), url, false);
+            $.AMUI.pjax.display({
+                url: url,
+                title: '',
+                html: html.join(''),
+                replace: false,
+                node: $("#layout-menus-lists .menu-item.am-active > a").attr("href") || url
+            });
             container.document.write(xhr.responseText);
         },
         before: function(){
@@ -268,7 +275,8 @@ function destroy_extend(container) {
  * @returns {boolean}
  */
 function select_menus() {
-    var pathinfo = parse_url(location.href).path;
+    var url = history.state['node'] || location.href;
+    var pathinfo = parse_url(url).path;
     if( ! pathinfo || pathinfo == "/" ){
         return false;
     }
