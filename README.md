@@ -6,6 +6,8 @@
 ## Demo
 
 本项目Demo地址: [https://demo.54cbw.com](https://demo.54cbw.com)
+初始管理员帐号: `admin`
+初始登录密码: `123456`
 
 个人网站: [https://54cbw.com](https://54cbw.com) 正在努力建设中... :)
 
