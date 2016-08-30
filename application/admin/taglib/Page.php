@@ -105,19 +105,23 @@ class Page extends TagLib
             $title = '<?php echo '.$this->autoBuildVar($title).'; ?>';
         }
 
-        // page变量
-        if ($page) {
-            $flag = substr($page, 0, 1);
-            if (":" == $flag || "$" == $flag) {
-                $page = $this->autoBuildVar($title);
+        if (! empty($group)) {
+            // page变量
+            if ($page) {
+                $flag = substr($page, 0, 1);
+                if (":" == $flag || "$" == $flag) {
+                    $page = $this->autoBuildVar($title);
+                } else {
+                    $page = '\'' . $page . '\'';
+                }
             } else {
-                $page = '\''.$page.'\'';
+                $page = '\think\Request::instance()->action()';
             }
-        } else {
-            $page = '\think\Request::instance()->action()';
-        }
 
-        $parse.= '<a href="<?php echo \think\Url::build('.$page.'); ?>" data-pjax>'.$title.'</a>';
+            $parse.= '<a href="<?php echo \think\Url::build(' . $page . '); ?>" data-pjax>' . $title . '</a>';
+        } else {
+            $parse.= $title;
+        }
 
         // 小标题
         if ($small) {
