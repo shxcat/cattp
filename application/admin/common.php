@@ -15,7 +15,7 @@
         if (is_string($data) || ! isset($data['code'])) {
             $data = [
                 'code' => 1,
-                'msg'  => 'success',
+                'msg'  => '',
                 'time' => $_SERVER['REQUEST_TIME'],
                 'data' => $data,
             ];

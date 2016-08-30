@@ -87,12 +87,36 @@ $(function(){
             });
             return false;
         })
+        // Ajax请求
+        .on("click", "[data-request]", function(){
+            var $this = $(this);
+            var url = $this.attr("href") || $this.data('url');
+            $.get(url, function(response){
+                var type = 'error';
+                if (response.code == 1) {
+                    type = 'success';
+                    if ($this.data('reload')) {
+                        $.AMUI.pjax.reload();
+                    }
+                }
+                $.AMUI.message.tips(response.msg, type);
+            });
+        })
         // 操作确认
         .on("click", "[data-confirm]", function(){
-            var confirm = $(this).data('confirm') || '您确认要执行此操作吗?';
+            var $this = $(this);
+            var confirm = $this.data('confirm') || '您确认要执行此操作吗?';
             $.AMUI.message.confirm(confirm, "提示", function(ok){
                 if (ok) {
-
+                    var url = $this.attr("href") || $this.data('url');
+                    $.get(url, function(response){
+                        var type = 'error';
+                        if (response.code == 1) {
+                            type = 'success';
+                            $.AMUI.pjax.reload();
+                        }
+                        $.AMUI.message.tips(response.msg, type);
+                    });
                 }
             });
             return false;

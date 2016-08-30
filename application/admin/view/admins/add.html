@@ -8,7 +8,7 @@
     <a href="{:url('lists')}" class="am-btn am-btn-xs am-btn-default" data-pjax><i class="am-icon-backward"></i> 返回列表</a>
     {/page:header}
 
-    {form:form class="am-g-fixed" valid="true" index="info['id']"}
+    {form:form submit=":url($Request.action)" class="am-g-fixed" valid="true" index="info['id']"}
     {form:fieldset title="登录信息"}
         {form:input type="text" label="用户名" name="username" value="$info['username']" tips="请输入登录用户名" help="必填，只能输入字母\数字\下划线，长度为5~20个字符" valid="required|length:5,20" /}
         {form:input type="password2" label="登录密码" name="password" value="" tips="请输入登录密码(留空不修改密码)" help="密码长度为6~16个字符" /}

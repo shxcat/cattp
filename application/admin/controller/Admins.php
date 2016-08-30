@@ -39,10 +39,17 @@ class Admins extends Auth
 
         // 创建查询条件
         $map    = $search->query();
+        if ($this->request->get('group') == 'recycle') {
+            $map['del_time'] = ['exp', 'is not null'];
+        }
+
         $count  = AdminsModel::where($map)->count();
         $lists  = AdminsModel::where($map)->field('password,salt', true)->limit($paging->limit($count))->select();
 
         $this->assign("lists", $lists);
+        $this->assign("group", [
+            'recycle'   => '回收站',
+        ]);
         return $this->fetch();
     }
 
@@ -71,6 +78,10 @@ class Admins extends Auth
         if (! $id) {
             $this->error("缺少ID");
         }
+        if ($id == 1 && $id != $this->aid) {
+            $this->error("超级管理员只有其自身可以修改");
+        }
+
 
         $info = AdminsModel::get($id);
         if ( ! $info) {
@@ -87,23 +98,24 @@ class Admins extends Auth
      */
     protected function save($type)
     {
-        $model  = new AdminsModel;
+        $data   = $this->request->post();
 
+        // 超管检查
+        if ($type == self::SAVE_UPDATE && $data['id'] == 1 && $this->aid != $data['id']) {
+            $this->error("您没有权限进行此操作!");
+        }
+
+        // 注册事件, 在写入数据库之前执行操作
         AdminsModel::event("before_write", function (AdminsModel $model) use ($type) {
-            if ($type == self::SAVE_INSERT) {
+            if ($type == self::SAVE_INSERT || ! empty($model->password)) {
                 $model->salt = mt_salt();
                 $model->password = gen_password($model->password, $model->salt);
             } else {
-                if (! empty($model->password)) {
-                    $model->salt = mt_salt();
-                    $model->password = gen_password($model->password, $model->salt);
-                } else {
-                    unset($model->password);
-                }
+                unset($model->password);
             }
         });
 
-        $data   = $this->request->post();
+        $model  = new AdminsModel;
         $update = $type == self::SAVE_INSERT ? false : true;
         $result = $model->validate(true)->allowField(true)->isUpdate($update)->save($data);
 
@@ -112,5 +124,80 @@ class Admins extends Auth
         }
 
         $this->success('管理员信息保存成功');
+    }
+
+    /**
+     * 移动管理员到回收站
+     * @param string $id
+     */
+    public function recycle($id = '')
+    {
+        if (! $id) {
+            $this->error("缺少ID");
+        }
+
+        if ($id == 1) {
+            $this->error("超级管理员不允许此操作");
+        }
+
+        $info = AdminsModel::get($id);
+        if ( ! $info) {
+            $this->error("没有找到相关数据");
+        }
+
+        // 删除数据
+        $info->delete();
+
+        $this->success("管理员帐号成功移到回收站");
+    }
+
+    /**
+     * 删除管理员
+     * @param string $id
+     * @param int    $force
+     */
+    public function delete($id = '', $force = 0)
+    {
+        if (! $id) {
+            $this->error("缺少ID");
+        }
+
+        if ($id == 1) {
+            $this->error("超级管理员不允许此操作");
+        }
+
+        $info = AdminsModel::onlyTrashed()->find($id);
+        if ( ! $info) {
+            $this->error("没有找到相关数据");
+        }
+
+        // 删除数据
+        $info->delete(true);
+
+        $this->success("管理员永久删除成功");
+    }
+
+    /**
+     * 恢复被软删除的数据
+     * @param string $id
+     */
+    public function restore($id = '')
+    {
+        if (! $id) {
+            $this->error("缺少ID");
+        }
+
+        if ($id == 1) {
+            $this->error("超级管理员不允许此操作");
+        }
+
+        $info = AdminsModel::onlyTrashed()->find($id);
+        if ( ! $info) {
+            $this->error("没有找到相关数据");
+        }
+
+        $info->restore();
+
+        $this->success("管理员信息恢复成功");
     }
 }

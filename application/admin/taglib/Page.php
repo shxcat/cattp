@@ -8,6 +8,7 @@
  */
 namespace app\admin\taglib;
 
+use think\Request;
 use think\Url;
 use think\template\TagLib;
 
@@ -25,7 +26,7 @@ class Page extends TagLib
     protected $tags = [
         'location'  => ['attr' => 'tools', 'expression' => true],
         'pos'       => ['attr' => 'label,link', 'close' => 0, 'alias' => 'position'],
-        'header'    => ['attr' => 'title'],
+        'header'    => ['attr' => 'title,small,group,page,field'],
         'paging'    => ['attr' => 'name', 'close' => 0, 'expression' => true],
         'search'    => ['attr' => 'name', 'close' => 0, 'expression' => true],
     ];
@@ -91,33 +92,67 @@ class Page extends TagLib
     public function tagHeader($tag, $content)
     {
         $title = empty($tag['title']) ? '' : $tag['title'];
-        $if = (!isset($tag['if']) || empty($tag['if'])) ? '' : $tag['if'];
-        $else = (!isset($tag['else']) || empty($tag['else'])) ? '' : $tag['else'];
+        $small = isset($tag['small']) ? $tag['small'] : '';
+        $group = isset($tag['group']) ? $tag['group'] : '';
+        $page  = isset($tag['page']) ? $tag['page'] : '';
 
         $parse = '<div id="page-header" class="am-cf">';
-        $parse .= '<h1 class="title"><i class="am-icon-bookmark"></i>&nbsp;';
+        $parse.= '<h1 class="title"><i class="am-icon-bookmark"></i>&nbsp;';
 
         // 支持用函数传数组
-        if (strpos($title, ":") === 0) {
-            $var = '$_' . uniqid();
-            $title = '<?php ' . $var . '=' . $this->autoBuildVar($title) . '; echo '.$var.'; ?>';
-        } elseif (strpos($title, "$") === 0) {
+        $flag = substr($title, 0, 1);
+        if (":" == $flag || "$" == $flag) {
             $title = '<?php echo '.$this->autoBuildVar($title).'; ?>';
         }
 
-        if ($if) {
-            $parse .= '<?php if( ' . $if . ' ): ?>';
-            $parse .= $title;
-            $parse .= '<?php else: ?>';
-            $parse .= $else;
-            $parse .= '<?php endif; ?>';
+        // page变量
+        if ($page) {
+            $flag = substr($page, 0, 1);
+            if (":" == $flag || "$" == $flag) {
+                $page = $this->autoBuildVar($title);
+            } else {
+                $page = '\''.$page.'\'';
+            }
         } else {
-            $parse .= $title;
+            $page = '\think\Request::instance()->action()';
         }
 
-        $parse .= '</h1><div class="button">';
-        $parse .= $content;
-        $parse .= '</div></div>';
+        $parse.= '<a href="<?php echo \think\Url::build('.$page.'); ?>" data-pjax>'.$title.'</a>';
+
+        // 小标题
+        if ($small) {
+            $flag = substr($small, 0, 1);
+            if (":" == $flag || "$" == $flag) {
+                $small = '<?php echo '.$this->autoBuildVar($small).'; ?>';
+            }
+
+            $parse.= '<small>'.$small.'</small>';
+        }
+
+        $parse.= '</h1>';
+
+        if (! empty($group)) {
+            $field = isset($tag['field']) ? $tag['field'] : 'group';
+
+            // 列表分组处理
+            $flag = substr($tag['group'], 0, 1);
+            if (":" == $flag) {
+                $var = '$_' . uniqid();
+                $parse.= '<?php ' . $var . '=' . $this->autoBuildVar($group) . '; ?>';
+                $group = $var;
+            }
+
+            $parse.= '<div class="badge">';
+            $parse.= '<?php $_group_value = \think\Request::instance()->get(\''.$field.'\');';
+            $parse.= 'foreach('.$group.' as $k => $v): ';
+            $parse.= '$_active = ($_group_value != "" && $_group_value == $k ? " am-badge-success" : ""); ?>';
+            $parse.= '<a href="<?php echo \think\Url::build('.$page.', [\''.$field.'\' => $k]); ?>" class="am-badge<?php echo $_active; ?>" data-pjax>';
+            $parse.= '<?php echo $v; ?></a>&nbsp;<?php endforeach; ?></div>';
+        }
+
+        $parse.= '<div class="button">';
+        $parse.= $content;
+        $parse.= '</div></div>';
         return $parse;
     }
 

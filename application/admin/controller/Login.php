@@ -88,8 +88,8 @@ class Login extends Base
         $login['login_time']    = time();
 
         $admin->save([
-            'login_ip'      => $login['login_ip'],
-            'login_time'    => $login['login_time']
+            'last_ip'      => $login['login_ip'],
+            'last_time'    => $login['login_time']
         ]);
 
         // 记录登录信息

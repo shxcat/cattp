@@ -9,6 +9,7 @@
 namespace app\admin\model;
 
 use think\Model;
+use traits\model\SoftDelete;
 
 /**
  * Admins 数据模型
@@ -17,6 +18,11 @@ use think\Model;
  */
 class Admins extends Model
 {
+    use SoftDelete;
+
+    // 软删除字段
+    protected static $deleteTime = 'del_time';
+
     // 新增数据自动完成
     protected $insert = ['add_time'];
 

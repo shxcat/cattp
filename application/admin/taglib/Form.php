@@ -67,14 +67,10 @@ class Form extends TagLib
             $ajax = ' data-ajax-submit';
         }
 
-        if (empty($submit)) {
-            $submit = Url::build(Request::instance()->action());
-        } else {
-            // 支持用函数传数组
-            $flag  = substr($submit, 0, 1);
-            if (":" == $flag || "$" == $flag) {
-                $submit = '<?php echo '.$this->autoBuildVar($submit).'; ?>';
-            }
+        // 支持用函数传数组
+        $flag  = substr($submit, 0, 1);
+        if (":" == $flag || "$" == $flag) {
+            $submit = '<?php echo '.$this->autoBuildVar($submit).'; ?>';
         }
 
         if (! empty($index)) {

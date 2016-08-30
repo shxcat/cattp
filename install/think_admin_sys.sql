@@ -30,24 +30,24 @@ CREATE TABLE `tp_admins` (
   `mobile` varchar(20) DEFAULT '' COMMENT '手机',
   `email` varchar(200) DEFAULT '' COMMENT '邮件',
   `last_ip` varchar(15) DEFAULT '' COMMENT '最后登录IP',
-  `login_ip` varchar(15) DEFAULT '' COMMENT '登录IP',
   `last_time` int(10) DEFAULT '0' COMMENT '最后登录时间',
-  `login_time` int(10) DEFAULT '0' COMMENT '登录时间',
   `status` tinyint(1) DEFAULT '0' COMMENT '状态, 0 锁定, 1 正常',
   `remark` varchar(400) DEFAULT '' COMMENT '锁定说明',
   `add_time` int(10) NOT NULL COMMENT '添加时间',
+  `del_time` int(10) COMMENT '删除时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
-  KEY `ip` (`last_ip`,`login_ip`),
-  KEY `time` (`add_time`,`last_time`,`login_time`)
+  KEY `ip` (`last_ip`),
+  KEY `time` (`add_time`,`last_time`),
+  KEY `del` (`del_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='管理员';
 
 LOCK TABLES `tp_admins` WRITE;
 /*!40000 ALTER TABLE `tp_admins` DISABLE KEYS */;
 
-INSERT INTO `tp_admins` (`id`, `username`, `password`, `salt`, `realname`, `avatar`, `gender`, `mobile`, `email`, `last_ip`, `login_ip`, `last_time`, `login_time`, `status`, `remark`, `add_time`)
+INSERT INTO `tp_admins` (`id`, `username`, `password`, `salt`, `realname`, `avatar`, `gender`, `mobile`, `email`, `last_ip`, `last_time`, `status`, `remark`, `add_time`, `del_time`)
 VALUES
-  (1,'admin','d45e845aa4bdf6e32aa39b70274d259c','kmPaTp','Admin','',0,'12345678901','cbwfree@163.com','','',0,0,1,'',1471428121);
+  (1,'admin','d45e845aa4bdf6e32aa39b70274d259c','kmPaTp','Admin','',0,'12345678901','cbwfree@163.com','',0,1,'',1471428121,null);
 
 /*!40000 ALTER TABLE `tp_admins` ENABLE KEYS */;
 UNLOCK TABLES;

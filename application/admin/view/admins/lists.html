@@ -4,7 +4,7 @@
 {page:pos label="管理员列表"}
 {/page:location}
 <div id="container">
-    {page:header title="管理员列表"}
+    {page:header title="管理员列表" group="$group"}
     <a href="{:url('add')}" class="am-btn am-btn-xs am-btn-primary" data-pjax><i class="am-icon-plus"></i> 添加管理员</a>
     {/page:header}
 
@@ -19,8 +19,8 @@
             <th>性别</th>
             <th>手机号</th>
             <th>E-mail</th>
-            <th>登录IP</th>
-            <th>登录时间</th>
+            <th>最后登录IP</th>
+            <th>最后登录时间</th>
             <th>状态</th>
             <th>操作</th>
         </tr>
@@ -34,11 +34,29 @@
             <td>{$row:gender_text}</td>
             <td>{$row:mobile}</td>
             <td>{$row:email}</td>
-            <td>{$row:login_ip}</td>
-            <td>{$row:login_time|f_date=###}</td>
+            <td>{$row:last_ip}</td>
+            <td>{$row:last_time|f_date=###}</td>
             <td><span class="am-text-{$row:status==1?'success':'warning'}">{$row:status_text}</span></td>
             <td>
-                <a href="{:url('edit', ['id' => $row->id])}" data-pjax><i class="am-icon-edit"></i> 编辑</a>
+                {if $Request.get.group == 'recycle'}
+                <a href="{:url('restore', ['id' => $row->id])}" class="am-badge am-badge-danger" data-confirm="您确认要恢复 [{$row:realname}] 管理员吗?">
+                    <i class="am-icon-repeat"></i> 还原
+                </a>
+                <a href="{:url('delete', ['id' => $row->id])}" class="am-badge am-badge-danger" data-confirm="您确认要彻底删除 [{$row:realname}] 管理员吗?">
+                    <i class="am-icon-remove"></i> 彻底删除
+                </a>
+                {else/}
+                {if $row->id != 1 || $admin['id'] == $row->id}
+                <a href="{:url('edit', ['id' => $row->id])}" class="am-badge am-badge-primary" data-pjax>
+                    <i class="am-icon-edit"></i> 编辑
+                </a>
+                {/if}
+                {if $row->id != 1 && $admin['id'] != $row->id}
+                <a href="{:url('recycle', ['id' => $row->id])}" class="am-badge am-badge-danger" data-confirm="您确认要将管理员 [{$row:realname}] 移到回收站吗?">
+                    <i class="am-icon-recycle"></i> 删除
+                </a>
+                {/if}
+                {/if}
             </td>
         </tr>
         {/foreach}
