@@ -269,7 +269,7 @@ function destroy_extend(container) {
  * @returns {boolean}
  */
 function select_menus() {
-    var url = history.state['node'] || location.href;
+    var url = (history.state && history.state['node']) || location.href;
     var pathinfo = parse_url(url).path;
     if( ! pathinfo || pathinfo == "/" ){
         return false;

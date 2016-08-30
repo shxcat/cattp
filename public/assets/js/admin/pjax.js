@@ -26,7 +26,7 @@
     pjax.listen = function(options){
         pjax.defaults = $.extend({}, pjax.defaults, options);
         $(window).on('popstate', function(){
-            pjax.render(window.history.state.html);
+            pjax.render(history.state.html);
         });
         $("body").on("click", pjax.defaults.bind, function(){
             pjax.request($(this).data('pjax') || $(this).attr('href'), false);
@@ -65,7 +65,7 @@
     };
 
     pjax.reload = function(){
-        pjax.request(window.history.state['url'] || window.location.href, true);
+        pjax.request(history.state['url'] || location.href, true);
     };
 
     pjax.render = function(html){
@@ -88,15 +88,15 @@
         state = state || {};
         state['_rand'] = Math.random();
         if(replace === true) {
-            window.history.replaceState(state, state.title || document.title, state.url);
+            history.replaceState(state, state.title || document.title, state.url);
         }else{
-            window.history.pushState(state, state.title || document.title, state.url);
+            history.pushState(state, state.title || document.title, state.url);
         }
         pjax.render(state.html);
     };
 
     pjax.location = function() {
-        return window.history.state.url || window.location.href;
+        return (history.state && history.state['node']) || location.href;
     };
 
     pjax.redirect = function(url, refresh) {
