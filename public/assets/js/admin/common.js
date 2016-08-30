@@ -22,15 +22,14 @@ $(function(){
 
     // 监听Pjax请求
     $.AMUI.pjax.listen({
-        success: function(response) {
+        success: function(response, replace) {
             if (response.code == 1) {
                 $.AMUI.pjax.display({
                     url: response.url,
                     title: '',
                     html: parse_html(response.data),
-                    replace: response.replace,
                     node: $("#layout-menus-lists .menu-item.am-active > a").attr("href") || response.url
-                });
+                }, replace);
             } else if (response.code == 100) {
                 $.AMUI.message.warning(response.msg, '登录失效', function(){
                     location.href = response.data;
@@ -52,9 +51,8 @@ $(function(){
                 url: url,
                 title: '',
                 html: html.join(''),
-                replace: false,
                 node: $("#layout-menus-lists .menu-item.am-active > a").attr("href") || url
-            });
+            }, true);
             container.document.write(xhr.responseText);
         },
         before: function(){

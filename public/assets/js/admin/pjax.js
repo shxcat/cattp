@@ -18,7 +18,7 @@
             'am-animation-slide-top'        // 顶部划入
         ],
         error: function(xhr){},
-        success: function(response, url, replace){},
+        success: function(response, replace){},
         before: function(html){},
         complete: function(){}
     };
@@ -29,8 +29,7 @@
             pjax.render(window.history.state.html);
         });
         $("body").on("click", pjax.defaults.bind, function(){
-            var $this = $(this);
-            pjax.request($this.data('pjax') || $this.attr('href'));
+            pjax.request($(this).data('pjax') || $(this).attr('href'), false);
             return false;
         });
         //F5刷新当前Tab & 操作快捷键
@@ -60,15 +59,13 @@
             success: function(response) {
                 response = response || {};
                 response.url = url;
-                response.replace = replace;
-                pjax.defaults.success(response);
+                pjax.defaults.success(response, typeof replace == 'undefined' ? false : replace);
             }
         });
     };
 
     pjax.reload = function(){
-        var url = window.history.state.url || window.location.href;
-        pjax.request(url, false);
+        pjax.request(window.history.state['url'] || window.location.href, true);
     };
 
     pjax.render = function(html){
@@ -87,10 +84,10 @@
         pjax.defaults.complete();
     };
 
-    pjax.display = function(state){
+    pjax.display = function(state, replace){
         state = state || {};
         state['_rand'] = Math.random();
-        if(state.replace === false) {
+        if(replace === true) {
             window.history.replaceState(state, state.title || document.title, state.url);
         }else{
             window.history.pushState(state, state.title || document.title, state.url);
