@@ -9,6 +9,8 @@
 namespace app\admin\controller;
 
 use app\admin\model\Admins as AdminsModel;
+use think\captcha\Captcha;
+use think\Config;
 
 /**
  * 登录控制器
@@ -31,8 +33,17 @@ class Login extends Base
         $goto = $this->request->get('goto', '');
 
         $this->assign('goto', $goto);
-        $this->assign('captcha', 'admin_login');
         return $this->fetch();
+    }
+
+    /**
+     * 验证码
+     * @return \think\Response
+     */
+    public function captcha()
+    {
+        $captcha = new Captcha(Config::get('captcha'));
+        return $captcha->entry('admin_login');
     }
 
     /**
@@ -51,35 +62,38 @@ class Login extends Base
 
         // 获取用户信息
         $admin = AdminsModel::where('username', $post['username'])->find();
-        $user = db("admin")->where('username', $post['username'])->find();
-        if( ! $user ){
-            $this->error("管理员用户不存在");
+        if( ! $admin ){
+            $this->error("用户不存在");
         }
 
         // 密码检查
-        if ($user['password']) {
-            $this->error("登录密码错误");
+        $password = gen_password($post['password'], $admin->salt);
+        if ($password !== $admin->password) {
+            $this->error('登录密码错误');
         }
 
-        // 状态检查
-        if (! $user['status']) {
-            $this->error("账户已被锁定" . $user['remark'] ? ': '.$user['remark'] : '');
+        // 帐号状态检查
+        if (! $admin->status) {
+            $this->error("账户已被锁定: " . $admin->remark);
         }
 
+        // 获取登录用户数据
+        $login = $admin->getData();
         // 删掉登录用户的敏感信息
-        unset($user['password']);
-        unset($user['salt']);
+        unset($login['password']);
+        unset($login['salt']);
 
-        // 更新管理员登录信息
-        $user['login_ip']   = $this->request->ip();
-        $user['login_time'] = time();
-        db("admin")->where('id', $user['id'])->update([
-            "last_ip"       => $user['login_ip'],
-            "last_login"    => $user['login_time'],
+        // 登录信息
+        $login['login_ip']      = $this->request->ip();
+        $login['login_time']    = time();
+
+        $admin->save([
+            'login_ip'      => $login['login_ip'],
+            'login_time'    => $login['login_time']
         ]);
 
         // 记录登录信息
-        session('admin_login_info', $user);
+        session(LOGIN_ADMIN, $login);
 
         $this->success('登录成功', url('admin/index/index'));
     }
@@ -89,7 +103,7 @@ class Login extends Base
      */
     public function logout()
     {
-        session('admin_login_info', null);
+        session(LOGIN_ADMIN, null);
         $this->redirect(url('admin/login/index'));
     }
 }

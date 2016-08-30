@@ -72,7 +72,7 @@ class Base extends Controller
      */
     protected function _initAdmin()
     {
-        $this->admin = Session::get('_LOGIN_ADMIN_INFO_');
+        $this->admin = Session::get(LOGIN_ADMIN);
         if ($this->admin) {
             $this->aid = $this->admin['id'];
             $this->assign('admin', $this->admin);

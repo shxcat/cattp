@@ -25,7 +25,7 @@ class Login extends Validate
     protected $rule = [
         'username'      => 'require|length:4,20',
         'password'      => 'require|length:4,16',
-        'captcha'       => 'require|captcha',
+        'captcha'       => 'require|length:4|captcha:admin_login',
     ];
 
     /**

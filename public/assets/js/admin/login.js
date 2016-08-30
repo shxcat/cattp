@@ -21,6 +21,8 @@ $(function(){
                         $.AMUI.message.tips(res.msg, 'success');
                         location.href = res.url;
                     } else {
+                        $("#login-captcha").click();
+                        $form.find('[name=captcha]').val("");
                         $.AMUI.message.tips(res.msg, 'error');
                     }
                 },
@@ -31,6 +33,11 @@ $(function(){
             });
         }
         return false;
+    });
+
+    // 验证码切换
+    $("#login-captcha").on("click", function(){
+        this.src = $(this).data('captcha') + '?_r=' + Math.random();
     });
 
     // 显示登录容器

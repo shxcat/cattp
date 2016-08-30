@@ -34,8 +34,8 @@
             </div>
             <div class="am-form-group am-form-icon">
                 <i class="am-icon-key"></i>
-                <input type="text" class="am-form-field" name="captcha" placeholder="验证码" minlength="6" maxlength="6" required />
-                <img src="{:captcha_src($captcha)}" id="login-captcha"/>
+                <input type="text" class="am-form-field" name="captcha" placeholder="验证码" minlength="4" maxlength="4" required />
+                <img src="{:url('captcha')}" data-captcha="{:url('captcha')}" id="login-captcha" title="不清楚? 点击换一个"/>
             </div>
             <div class="am-form-group am-margin-bottom-0">
                 <button type="submit" class="am-btn am-btn-success" id="login-submit">
