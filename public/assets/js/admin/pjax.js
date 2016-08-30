@@ -96,7 +96,16 @@
     };
 
     pjax.location = function() {
-        return window.history.state.url;
+        return window.history.state.url || window.location.href;
+    };
+
+    pjax.redirect = function(url, refresh) {
+        refresh = refresh || true;
+        if (url && typeof url == "string" && url.indexOf('javascript:') != 0) {
+            pjax.request(url, false);
+        } else if (refresh) {
+            pjax.reload();
+        }
     };
 
     module.exports = UI.pjax = pjax;

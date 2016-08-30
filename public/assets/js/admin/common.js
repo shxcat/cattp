@@ -100,9 +100,7 @@ $(function(){
                 var type = 'error';
                 if (response.code == 1) {
                     type = 'success';
-                    if ($this.data('reload')) {
-                        $.AMUI.pjax.reload();
-                    }
+                    $.AMUI.pjax.redirect(response['url'], $this.data('reload') || false);
                 }
                 $.AMUI.message.tips(response.msg, type);
             });
@@ -118,7 +116,7 @@ $(function(){
                         var type = 'error';
                         if (response.code == 1) {
                             type = 'success';
-                            $.AMUI.pjax.reload();
+                            $.AMUI.pjax.redirect(response['url'], $this.data('reload') || false);
                         }
                         $.AMUI.message.tips(response.msg, type);
                     });
@@ -163,9 +161,7 @@ $(function(){
                 success: function(res){
                     if (res.code == 1) {
                         $.AMUI.message.tips(res.msg, 'success');
-                        if (res['url']) {
-                            $.AMUI.pjax.request(res['url']);
-                        }
+                        $.AMUI.pjax.redirect(res['url']);
                     } else {
                         $.AMUI.message.tips(res.msg, 'error');
                     }

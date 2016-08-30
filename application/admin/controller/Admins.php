@@ -38,13 +38,15 @@ class Admins extends Auth
         $search->control('status', Search::TYPE_SELECT, '状态', ['options' => AdminsModel::$attr['status']]);
 
         // 创建查询条件
+        $order  = 'id desc';
         $map    = $search->query();
         if ($this->request->get('group') == 'recycle') {
             $map['del_time'] = ['exp', 'is not null'];
+            $order = "del_time desc,id asc";
         }
 
         $count  = AdminsModel::where($map)->count();
-        $lists  = AdminsModel::where($map)->field('password,salt', true)->limit($paging->limit($count))->select();
+        $lists  = AdminsModel::where($map)->field('password,salt', true)->limit($paging->limit($count))->order($order)->select();
 
         $this->assign("lists", $lists);
         $this->assign("group", [
@@ -123,7 +125,7 @@ class Admins extends Auth
             $this->error($model->getError());
         }
 
-        $this->success('管理员信息保存成功');
+        $this->success('管理员信息保存成功', url('lists'));
     }
 
     /**
