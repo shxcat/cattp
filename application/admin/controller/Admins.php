@@ -50,7 +50,7 @@ class Admins extends Auth
 
         $this->assign("lists", $lists);
         $this->assign("group", [
-            'recycle'   => '回收站',
+            'recycle'   => '<i class="am-icon-recycle"></i> 回收站',
         ]);
         return $this->fetch();
     }
