@@ -20,13 +20,16 @@ input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: searchfi
 #layout-tools > li.am-active > a { background-color: rgba(120, 120,120, 0.1); }
 #layout-tools > li > a.safe-exit { color: #F37B1D; }
 /* 菜单部分 */
-#layout-menus-info { width: 160px; margin: 20px 0 20px 9px; }
+#layout-menus-info { width: 100%; padding: 7px 8px; border-bottom: 1px solid #6888a1; }
 #layout-menus-info > a { position: relative; display: block; padding: 5px; }
 #layout-menus-info .avatar { width: 50px; height: 50px; }
 #layout-menus-info .profile,
 #layout-menus-info .handle { position: absolute; display: inline-block; font-weight: 600; color: #FFFFFF; }
-#layout-menus-info .profile { top: 10px; left: 67px; }
-#layout-menus-info .handle { top: 32px; left: 67px; }
+#layout-menus-info .profile { top: 10px; left: 70px; }
+#layout-menus-info .handle { top: 30px; left: 70px; width: 80px; }
+#layout-menus-info > .am-dropdown-content { left: 8px; top: 65px; }
+#layout-menus-info > .am-dropdown-content:before,
+#layout-menus-info > .am-dropdown-content:after { left: 20px; }
 #layout-menus-lists { margin: 0; }
 #layout-menus-lists a { padding: 8px 15px; color: #a7b1c2; font-weight: 600; }
 #layout-menus-lists a:hover { color: #ffffff; }
