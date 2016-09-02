@@ -36,7 +36,8 @@
         $(document).keydown(function(e){
             var key = e.keyCode || e.which;
             if( key == 116 ){
-                return ! pjax.reload();
+                pjax.reload();
+                return false;
             }
         });
     };

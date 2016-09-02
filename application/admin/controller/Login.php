@@ -30,9 +30,13 @@ class Login extends Base
             $this->redirect(url('admin/index/index'));
         }
 
+        $params = [];
         $goto = $this->request->get('goto', '');
+        if ($goto) {
+            $params['goto'] = urlencode($goto);
+        }
 
-        $this->assign('goto', $goto);
+        $this->assign('submit', url('check', $params));
         return $this->fetch();
     }
 
@@ -95,7 +99,12 @@ class Login extends Base
         // 记录登录信息
         session(LOGIN_ADMIN, $login);
 
-        $this->success('登录成功', url('admin/index/index'));
+        $goto = $this->request->get('goto', '');
+        if (empty($goto)) {
+            $goto = url('admin/index/index');
+        }
+
+        $this->success('登录成功', $goto);
     }
 
     /**

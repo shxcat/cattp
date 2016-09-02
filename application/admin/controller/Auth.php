@@ -25,11 +25,12 @@ class Auth extends Base
         // 未登录
         if (empty($this->admin)) {
             // 如果为 Ajax (包含Pjax) 请求则返回JSON消息
+            $url = url('admin/login/index', ['goto' => urlencode($this->request->url())]);
             if ($this->request->isAjax()) {
-                $this->result(url('admin/login/index'), 100, '您的登录已失效, 请重新登录 ...');
+                $this->result($url, 100, '您的登录已失效, 请重新登录 ...');
             } else {
                 // 否则直接跳转登录页面
-                $this->redirect(url('admin/login/index'));
+                $this->redirect($url);
             }
         }
     }
